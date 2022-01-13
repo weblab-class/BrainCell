@@ -11,6 +11,8 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const course = require("./models/course.js");
+const Assignment = require("./models/assignment.js");
 
 // import authentication library
 const auth = require("./auth");
@@ -41,6 +43,25 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+router.get("/course", (req, res) =>{
+  course.find({$or: [{student : req.body.mitId}, {professor: req.body.mitId}]}).then((classes) => res.send(classes))
+});
+
+router.post("/course", (req,res) =>{
+  const newCourse = new course ({
+    courseNumber : req.body.courseNumber,
+    name : req.body.courseName,
+    professor : req.body.professor,
+    students : req.body.students,
+  });
+  newCourse.save().then(res.send({}))
+})
+
+// When deleting a class, use courseNumber to find class (class must exist, will add the other case later)
+router.delete("/course", (req,res) =>{
+  course.deleteOne({courseNumber : req.body.courseNumber}).then(console.log("Deleted"))
+})
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
