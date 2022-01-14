@@ -10,9 +10,9 @@
 const express = require("express");
 
 // import models so we can interact with the database
-const User = require("./models/user");
+const user = require("./models/user");
 const course = require("./models/course.js");
-const Assignment = require("./models/assignment.js");
+const assignment = require("./models/assignment.js");
 
 // import authentication library
 const auth = require("./auth");
@@ -44,8 +44,12 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+router.get("/user", (req, res) =>{
+  user.find({_id : req.body.id}).then((userFound) => res.send(userFound))
+});
+
 router.get("/course", (req, res) =>{
-  course.find({$or: [{student : req.body.mitId}, {professor: req.body.mitId}]}).then((classes) => res.send(classes))
+  course.find({courseNumber : req.body.courseNumber}).then((classes) => res.send(classes))
 });
 
 router.post("/course", (req,res) =>{
@@ -53,14 +57,38 @@ router.post("/course", (req,res) =>{
     courseNumber : req.body.courseNumber,
     name : req.body.courseName,
     professor : req.body.professor,
-    students : req.body.students,
+    students : [],
   });
   newCourse.save().then(res.send({}))
 })
 
 // When deleting a class, use courseNumber to find class (class must exist, will add the other case later)
 router.delete("/course", (req,res) =>{
-  course.deleteOne({courseNumber : req.body.courseNumber}).then(console.log("Deleted"))
+  course.deleteOne({courseNumber : req.body.courseNumber}).then(res.send({}))
+})
+
+
+router.get("/assignment", (req, res) =>{
+  assignment.find({$or: [{courseNumber : req.body.courseNumber}, {dueDate : req.body.dueDate}, {name : req.body.name}]}).then((assignments) => res.send(assignments))
+});
+
+router.post("/assignment", (req,res) =>{
+  const newAssignment = new assignment ({
+    courseNumber : req.body.courseNumber,
+    name : req.body.name,
+    instructions : req.body.instructions,
+    dueDate : req.body.dueDate,
+  });
+  newAssignment.save().then(res.send({}))
+})
+
+// When deleting an assignemnt, use courseNumber to find it (it must exist, will add the other case later)
+router.delete("/assignment", (req,res) =>{
+  assignment.deleteOne({courseNumber : req.body.courseNumber}).then(res.send({}))
+})
+
+router.get("/test", (req,res) =>{
+  res.send({})
 })
 
 // anything else falls to this "not found" case

@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
   name: String,
-  mitId: Number,
   googleid: String,
+  course: [Number,],
 });
 
 // compile model from schema

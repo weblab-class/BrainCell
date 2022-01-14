@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 const courseSchema = new mongoose.Schema({
     courseNumber : Number,
     name : String,
-    professor : [Number],
-    students : [Number],
+    professor : [Number,],
+    students : [Number,],
 });
 
 module.exports = mongoose.model("course", courseSchema);
