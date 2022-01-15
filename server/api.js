@@ -40,16 +40,10 @@ router.post("/initsocket", (req, res) => {
   res.send({});
 });
 
-// |------------------------------|
-// | write your API methods below!|
-// |------------------------------|
-
-router.get("/user", (req, res) =>{
-  user.find({_id : req.body.id}).then((userFound) => res.send(userFound))
-});
+// Course and User API methods ---------------------------------------------------------------------|
 
 router.get("/course", (req, res) =>{
-  course.find({courseNumber : req.body.courseNumber}).then((classes) => res.send(classes))
+  course.find({_id : req.body.id}).then((classes) => res.send(classes))
 });
 
 router.post("/course", (req,res) =>{
@@ -59,34 +53,59 @@ router.post("/course", (req,res) =>{
     professor : req.body.professor,
     students : [],
   });
-  newCourse.save().then(res.send({}))
+  newCourse.save().then(() => {res.send({})})
 })
 
-// When deleting a class, use courseNumber to find class (class must exist, will add the other case later)
 router.delete("/course", (req,res) =>{
-  course.deleteOne({courseNumber : req.body.courseNumber}).then(res.send({}))
+  course.findById(req.body.id).then((courseObj) => {
+    students = courseObj.students;
+    students.forEach((student)=>{
+      user.updateOne(
+        {_id :student},
+        {$pull : {_id : req.body.id}}
+        )
+    })
+  })
+  course.deleteOne({_id:req.body.id}).then(() => res.send({}))
 })
 
+router.get("/user", (req, res) =>{
+  user.find({_id : req.body.id}).then((userFound) => res.send(userFound))
+});
+
+//assumes input is array
+router.post("/students", (req,res) => {
+  course.updateOne(
+    {courseNumber : req.body.courseNumber},
+    {$push : {students : {$each: req.body.students}}}
+    ).then(() => {res.send({})})
+})
+
+router.delete("/students", (req,res) => {
+  course.updateOne(
+    {courseNumber :req.body.courseNumber},
+    {$pull : {students : {$each: req.body.students}}}
+    ).then(() => {res.send({})})
+})
+
+// add to course schema
 
 router.get("/assignment", (req, res) =>{
-  assignment.find({$or: [{courseNumber : req.body.courseNumber}, {dueDate : req.body.dueDate}, {name : req.body.name}]}).then((assignments) => res.send(assignments))
+  //TODO: get assignment from course
+  res.send({})
 });
 
 router.post("/assignment", (req,res) =>{
-  const newAssignment = new assignment ({
-    courseNumber : req.body.courseNumber,
-    name : req.body.name,
-    instructions : req.body.instructions,
-    dueDate : req.body.dueDate,
-  });
-  newAssignment.save().then(res.send({}))
+  //TODO: post assignment to course
+  res.send({})
 })
 
-// When deleting an assignemnt, use courseNumber to find it (it must exist, will add the other case later)
 router.delete("/assignment", (req,res) =>{
-  assignment.deleteOne({courseNumber : req.body.courseNumber}).then(res.send({}))
+  // TODO: delete assignment
+  res.send({})
 })
 
+// Ignore
 router.get("/test", (req,res) =>{
   res.send({})
 })
