@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
+import NavBar from './NavBar.js'
+import Overview from './Overview.js'
+import Calendar from "./Calendar.js";
+import LiveClass from './LiveClass.js'
 
 import "../utilities.css";
+import './pages/Skeleton.css'
 
 import { socket } from "../client-socket.js";
 
@@ -40,8 +45,11 @@ const App = () => {
 
   return (
     <>
+      <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
       <Router>
-        <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
+        <Overview path='/' />
+        <Calendar path='/calendar' />
+        <LiveClass path='/liveclass' />
         <NotFound default />
       </Router>
     </>
