@@ -1,0 +1,13 @@
+.body {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* .grades {
+    justify-self: left;
+}
+
+.staff {
+    justify-self: right;
+} */
+
