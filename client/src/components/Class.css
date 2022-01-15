@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
 .upper-half {
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
@@ -5,7 +7,9 @@
 }
 
 .class-name {
-  color: white;
+    display: flex;
+    color: white;
+    justify-content: space-between;
 }
 
 .bottom-half {
@@ -17,4 +21,9 @@
 
 .class-container {
   padding: var(--m) var(--m);
+}
+
+.head {
+    font-weight: 600;
+    font-size: var(--m)
 }
