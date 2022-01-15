@@ -9,21 +9,23 @@ const GOOGLE_CLIENT_ID = "40738148267-lmp4m2pr4rbedjcvu0au6qqhvva01g7p.apps.goog
 const Skeleton = ({ userId, handleLogin, handleLogout }) => {
   return (
     <>
-      {userId ? (
-        <GoogleLogout
-          clientId={GOOGLE_CLIENT_ID}
-          buttonText="Logout"
-          onLogoutSuccess={handleLogout}
-          onFailure={(err) => console.log(err)}
-        />
-      ) : (
-        <GoogleLogin
-          clientId={GOOGLE_CLIENT_ID}
-          buttonText="Login"
-          onSuccess={handleLogin}
-          onFailure={(err) => console.log(err)}
-        />
-      )}
+      <div className="loginButton">
+        {userId ? (
+          <GoogleLogout
+            clientId={GOOGLE_CLIENT_ID}
+            buttonText="Logout"
+            onLogoutSuccess={handleLogout}
+            onFailure={(err) => console.log(err)}
+          />
+        ) : (
+          <GoogleLogin
+            clientId={GOOGLE_CLIENT_ID}
+            buttonText="Login"
+            onSuccess={handleLogin}
+            onFailure={(err) => console.log(err)}
+          />
+        )}
+      </div>
       <h1>Good luck on your project :)</h1>
       <h2> What you need to change in this skeleton</h2>
       <ul>

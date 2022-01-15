@@ -1,0 +1,37 @@
+.NavBar-container {
+    padding: var(--s) var(--m) var(--m);
+    background-color: #2b2b57;
+    /* display: flex; */
+}
+
+.NavBar-logo {
+    text-align: start;
+}
+
+.NavBar-loginButtonContainer {
+    display: flex;
+    /* justify-content: end; */
+    align-items: center;
+}
+
+/* .NavBar-loginButtonContainer .NavBar-loginButton {
+    align-self: center;
+} */
+
+.NavBar-linkContainer {
+    text-align: center 
+}
+
+.NavBar-link, .NavBar-link:visited {
+    color: var(--white);
+    font-size: 25px;
+    text-decoration: none
+}
+
+.NavBar-link:hover {
+    opacity: 0.8;
+}
+
+.NavBar-link + .NavBar-link {
+    margin-left: var(--l);
+}
