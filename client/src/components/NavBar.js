@@ -10,7 +10,7 @@ const NavBar = ({ userId, handleLogin, handleLogout }) => {
     return (
         <nav className='NavBar-container'>
             <h1 className='NavBar-logo'>LOGO</h1>
-            {/* <div className='NavBar-linkContainer'>
+            <div className='NavBar-linkContainer'>
                 <Link to='/' className='NavBar-link u-bold'>
                     Overview
                 </Link>
@@ -20,25 +20,23 @@ const NavBar = ({ userId, handleLogin, handleLogout }) => {
                 <Link to='/liveclass' className='NavBar-link u-bold'>
                     Live Class
                 </Link>
-            </div> */}
-            <div className='NavBar-loginButtonContainer'>
-                <div className='NavBar-loginButton'>
-                    {userId ? (
-                        <GoogleLogout
-                            clientId={GOOGLE_CLIENT_ID}
-                            buttonText="Logout"
-                            onLogoutSuccess={handleLogout}
-                            onFailure={(err) => console.log(err)}
-                        />
-                        ) : (
-                        <GoogleLogin
-                            clientId={GOOGLE_CLIENT_ID}
-                            buttonText="Login"
-                            onSuccess={handleLogin}
-                            onFailure={(err) => console.log(err)}
-                        />
-                    )}
-                </div>
+            </div>
+            <div className='NavBar-loginButton'>
+                {userId ? (
+                    <GoogleLogout
+                        clientId={GOOGLE_CLIENT_ID}
+                        buttonText="Logout"
+                        onLogoutSuccess={handleLogout}
+                        onFailure={(err) => console.log(err)}
+                    />
+                    ) : (
+                    <GoogleLogin
+                        clientId={GOOGLE_CLIENT_ID}
+                        buttonText="Login"
+                        onSuccess={handleLogin}
+                        onFailure={(err) => console.log(err)}
+                    />
+                )}
             </div>
         </nav>
     )

@@ -1,31 +1,27 @@
 .NavBar-container {
     padding: var(--s) var(--m) var(--m);
     background-color: #2b2b57;
-    /* display: flex; */
+    display: flex;
+    justify-content: space-between;
 }
 
 .NavBar-logo {
     text-align: start;
+    color: red
 }
 
-.NavBar-loginButtonContainer {
-    display: flex;
-    /* justify-content: end; */
-    align-items: center;
-}
-
-/* .NavBar-loginButtonContainer .NavBar-loginButton {
+.NavBar-loginButton {
     align-self: center;
-} */
+}
 
 .NavBar-linkContainer {
-    text-align: center 
+    align-self: center 
 }
 
 .NavBar-link, .NavBar-link:visited {
     color: var(--white);
     font-size: 25px;
-    text-decoration: none
+    text-decoration: none;
 }
 
 .NavBar-link:hover {
