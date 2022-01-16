@@ -4,6 +4,7 @@ import ClassStaff from './ClassStaff.js'
 import ClassSchedule from './ClassSchedule.js'
 
 import './Class.css'
+import './ClassDetails.css'
 
 const ClassDetails = (props) => {
     let grades = [
@@ -44,9 +45,11 @@ const ClassDetails = (props) => {
                     {props.name} <span style={{color: 'white'}} onClick={props.onClick}>X</span>
                 </h1>
             </div>
-            <div className='bottom-half body' style={{borderColor: props.color}}>
-                <ClassGrades grades={grades} />
-                <ClassStaff staff={staff}/>
+            <div className='bottom-half' style={{borderColor: props.color}}>
+                <div className='body'>
+                    <ClassGrades className='grades' grades={grades} />
+                    <ClassStaff staff={staff} /> 
+                </div>
                 <ClassSchedule schedule={schedule} />
             </div>
         </div>

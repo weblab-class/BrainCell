@@ -43,17 +43,29 @@ const App = () => {
     post("/api/logout");
   };
 
-  return (
-    <>
-      <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
-      <Router>
-        <Overview path='/' />
-        <Calendar path='/calendar' />
-        <LiveClass path='/liveclass' />
-        <NotFound default />
-      </Router>
-    </>
-  );
+  if (userId){
+    return (
+      <>
+
+        <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
+        <Router>
+          <Overview path='/' />
+          <Calendar path='/calendar' />
+          <LiveClass path='/liveclass' />
+          <NotFound default />
+        </Router>
+      </>
+    )}
+  else{
+    return (
+      <div>
+        <div className="">
+          LOGO
+        </div>
+      </div>
+    )
+  }
+
 };
 
 export default App;
