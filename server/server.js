@@ -49,6 +49,9 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log(`Error connecting to MongoDB: ${err}`));
 
+// TODO: Due to depreciated code (so far issues with MongoDB)
+mongoose.set('useFindAndModify', false);
+
 // create a new express server
 const app = express();
 app.use(validator.checkRoutes);

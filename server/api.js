@@ -12,7 +12,6 @@ const express = require("express");
 // import models so we can interact with the database
 const user = require("./models/user");
 const course = require("./models/course.js");
-const assignment = require("./models/assignment.js");
 
 // import authentication library
 const auth = require("./auth");
@@ -50,8 +49,11 @@ router.post("/course", (req,res) =>{
   const newCourse = new course ({
     courseNumber : req.body.courseNumber,
     name : req.body.courseName,
-    professor : req.body.professor,
+    staff : req.body.staff,
     students : [],
+    assignments : [],
+    schedule : req.body.schedule,
+    color : req.body.color,
   });
   newCourse.save().then(() => {res.send({})})
 })
@@ -59,11 +61,16 @@ router.post("/course", (req,res) =>{
 router.delete("/course", (req,res) =>{
   course.findById(req.body.id).then((courseObj) => {
     students = courseObj.students;
+    staff = courseObj.staff;
     students.forEach((student)=>{
-      user.updateOne(
-        {_id :student},
-        {$pull : {_id : req.body.id}}
+      user.findByIdAndUpdate(student,
+        {$pull : {course : req.body.id}}
         )
+    })
+    staff.forEach((staffMem)=>{
+      user.findByIdAndUpdate(staffMem,
+        {$pull : {course : req.body.id}}
+      )
     })
   })
   course.deleteOne({_id:req.body.id}).then(() => res.send({}))
@@ -75,34 +82,79 @@ router.get("/user", (req, res) =>{
 
 //assumes input is array
 router.post("/students", (req,res) => {
-  course.updateOne(
-    {courseNumber : req.body.courseNumber},
+  course.findByIdAndUpdate(req.body.courseId,
     {$push : {students : {$each: req.body.students}}}
     ).then(() => {res.send({})})
 })
 
 router.delete("/students", (req,res) => {
-  course.updateOne(
-    {courseNumber :req.body.courseNumber},
+  course.findByIdAndUpdate(req.body.courseId,
     {$pull : {students : {$each: req.body.students}}}
     ).then(() => {res.send({})})
 })
 
-// add to course schema
+router.post("/staff", (req,res) => {
+  course.findByIdAndUpdate(req.body.courseId,
+    {$push : {staff : {$each: req.body.staff}}}
+    ).then(() => {res.send({})})
+})
 
-router.get("/assignment", (req, res) =>{
-  //TODO: get assignment from course
-  res.send({})
+router.delete("/staff", (req,res) => {
+  course.findByIdAndUpdate(req.body.courseId,
+    {$pull : {staff : {$each: req.body.staff}}}
+    ).then(() => {res.send({})})
+})
+
+router.get("/allAssignments", (req, res) =>{
+  course.findById(newreq.body.id).then((courseObj) => {
+    res.send(courseObj.assignments)
+  })
+});
+
+router.get("/oneAssignment", (req, res) =>{
+  course.findById(req.body.courseId).then((courseObj) => {
+    courseObj.assignments.id(req.body.assignmentId).then((assigned) => res.send(assigned))
+  })
 });
 
 router.post("/assignment", (req,res) =>{
-  //TODO: post assignment to course
-  res.send({})
+  temp = new Object (
+    {name : req.body.name,
+    instructions : req.body.instructions,
+    dueDate : req.body.dueDate,}
+  )
+  course.findByIdAndUpdate(req.body.id,
+    {$push: {assignments : temp}}
+  ).then(() => res.send({}))
 })
 
 router.delete("/assignment", (req,res) =>{
-  // TODO: delete assignment
-  res.send({})
+  course.findById(req.body.contentId).then((courseObj) => {
+    courseObj.assignments.id(req.body.assignmentId).remove()
+    courseObj.save()
+  }).then(() => res.send({}))
+})
+
+router.get("/grades", (req,res) => {
+  // TODO: post grades
+  user.findById(req.body.userId).then((userObj) => {
+    userObj.grades.find({courseId : req.body.courseId}).then((gradeArray) => res.send(gradeArray))
+  })
+})
+
+router.post("/grades", (req, res) => {
+  // TODO: post grades quickly for one assignment
+  course.findById(req.body.courseId).then((courseObj) => {
+    students = courseObj.students
+    students.forEach((studentIndv) => {
+      studentIndv.grades.create(
+        {courseId : req.body.courseId},
+        {assignmentId : req.body.assignmentId},
+        {assignmentName : req.body.assignmentName},
+        {grade : req.body.grade}
+      )
+    })
+  }).then(() => res.send({}))
 })
 
 // Ignore
