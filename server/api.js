@@ -12,6 +12,7 @@ const express = require("express");
 // import models so we can interact with the database
 const user = require("./models/user");
 const course = require("./models/course.js");
+const message = require("./models/message.js")
 
 // import authentication library
 const auth = require("./auth");
@@ -135,26 +136,58 @@ router.delete("/assignment", (req,res) =>{
   }).then(() => res.send({}))
 })
 
-router.get("/grades", (req,res) => {
-  // TODO: post grades
+router.get("/allGrades", (req,res) => {
+  // TODO: get grades
   user.findById(req.body.userId).then((userObj) => {
     userObj.grades.find({courseId : req.body.courseId}).then((gradeArray) => res.send(gradeArray))
   })
 })
 
+router.get("/oneGrade", (req,res) => {
+  // TODO: get one grade
+  user.findById(req.body.userId).then((userObj) => {
+    res.send(userObj.grades.id("61e5f0c2f5078b07d817b780"))
+  })
+})
+
 router.post("/grades", (req, res) => {
-  // TODO: post grades quickly for one assignment
-  course.findById(req.body.courseId).then((courseObj) => {
-    students = courseObj.students
-    students.forEach((studentIndv) => {
-      studentIndv.grades.create(
-        {courseId : req.body.courseId},
-        {assignmentId : req.body.assignmentId},
-        {assignmentName : req.body.assignmentName},
-        {grade : req.body.grade}
-      )
+  temp = req.body.content
+  async function addGrades(t){
+    t.forEach((student) => {
+      console.log(student)
+      user.findByIdAndUpdate(student.studentId,
+        {$push : {grades: new Object(
+          {courseId : student.courseId,
+          assignmentId : student.assignmentId,
+          grade : student.grade})}}
+      ).then()
     })
-  }).then(() => res.send({}))
+  }
+  addGrades(temp).then(() => res.send({}))
+})
+
+// message API methods ----------------------------------------------------------------------------|
+
+router.post("/question", (req,res) => {
+  const newMessage = new message(
+    {content: req.body.content,}
+  )
+  newMessage.save().then((newMess) => res.send(newMess))
+  socketManager.getIo().emit("question", newMessage);
+})
+
+router.post("/answer", auth.ensureLoggedIn, (req,res) => {
+  const newMessage = new message(
+    {content: req.body.content,
+    answerTo: req.body.answerTo,}
+  )
+  newMessage.save();
+
+  socketManager.getIo().emit("answer", newMessage);
+})
+
+router.get("/messages", (req,res) => {
+  message.find().then((messagesFound) => res.send(messagesFound));
 })
 
 // Ignore
