@@ -10,19 +10,20 @@ const GOOGLE_CLIENT_ID = "40738148267-lth98utc4vhae0oqu44dtntfu5ldhk82.apps.goog
 const LoginPage = (props) => {
 
     return (
-    <div>
-        <div className="logo">
-            LOGO
-        </div>
+    <div style={{backgroundImage: `url(${img})`, height: window.innerHeight, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <div>
-            <GoogleLogin
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Login"
-            onSuccess={props.login}
-            onFailure={(err) => console.log(err)}
-            />
+            <div className="logo">
+                LOGO
+            </div>
+            <div>
+                <GoogleLogin
+                clientId={GOOGLE_CLIENT_ID}
+                buttonText="Login"
+                onSuccess={props.login}
+                onFailure={(err) => console.log(err)}
+                />
+            </div>
         </div>
-        <img src={img} />
     </div>
     )
 }
