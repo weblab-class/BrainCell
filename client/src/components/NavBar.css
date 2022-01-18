@@ -29,5 +29,17 @@
 }
 
 .NavBar-link + .NavBar-link {
-    margin-left: var(--l);
+    margin-left: 60px;
+}
+
+.NavBar-profile {
+    background-color: #009ddc;
+    padding: 10px;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+}
+
+.NavBar-profile:hover {
+    opacity: 0.8;
 }

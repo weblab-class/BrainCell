@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
-import Skeleton from "./pages/Skeleton.js";
+// import Skeleton from "./pages/Skeleton.js";
 import NavBar from './NavBar.js'
 import Overview from './Overview.js'
 import Calendar from "./Calendar.js";
 import LiveClass from './LiveClass.js'
+import LoginPage from './LoginPage.js'
+import Profile from './Profile.js'
+
+// import GoogleLogin from "react-google-login";
+// const GOOGLE_CLIENT_ID = "40738148267-lmp4m2pr4rbedjcvu0au6qqhvva01g7p.apps.googleusercontent.com";
 
 import "../utilities.css";
 import './pages/Skeleton.css'
+import './App.css'
 
 import { socket } from "../client-socket.js";
 
@@ -18,7 +24,24 @@ import { get, post } from "../utilities";
  * Define the "App" component
  */
 const App = () => {
+
   const [userId, setUserId] = useState(undefined);
+  const [profileVisible, setProfileVisible] = useState(false)
+
+  const viewProfile = () => {
+
+    profileVisible ? (
+      setProfileVisible(false)
+    ) : (
+      setProfileVisible(true)
+    )
+  }
+
+  const hideProfile = () => {
+    if(profileVisible){
+      setProfileVisible(false)
+    }
+  }
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
@@ -45,27 +68,36 @@ const App = () => {
 
   if (userId){
     return (
-      <>
+      <div onClick={hideProfile}>
+        <NavBar viewProfile={viewProfile} />
 
-        <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
+        {profileVisible ? (
+          <div className="profile-container">
+            <div className="profile">
+              <Profile logout={handleLogout} />
+            </div>
+          </div>
+        ) : (null)}
+
         <Router>
           <Overview path='/' />
           <Calendar path='/calendar' />
           <LiveClass path='/liveclass' />
           <NotFound default />
         </Router>
-      </>
+        {/* <Router>
+          <Overview path='/' profileVisible={profileVisible} profile={<Profile logout={handleLogout}/>} />
+          <Calendar path='/calendar' profileVisible={profileVisible} profile={<Profile logout={handleLogout}/>} />
+          <LiveClass path='/liveclass' profileVisible={profileVisible} profile={<Profile logout={handleLogout}/>} />
+          <NotFound default />
+        </Router> */}
+      </div>
     )}
   else{
     return (
-      <div>
-        <div className="">
-          LOGO
-        </div>
-      </div>
+      <LoginPage login={handleLogin}/>
     )
   }
-
 };
 
 export default App;

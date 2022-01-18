@@ -1,0 +1,9 @@
+.logout {
+    background-color: red;
+    padding: 15px;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    font-size: large;
+}
