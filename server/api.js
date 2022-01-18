@@ -59,14 +59,6 @@ router.post("/course", (req,res) =>{
 router.delete("/course", (req,res) =>{
   course.findById(req.body.id).then((courseObj) => {
     students = courseObj.students;
-<<<<<<< HEAD
-    students.forEach((student)=>{
-      user.updateOne(
-        {_id :student},
-        {$pull : {_id : req.body.id}}
-        )
-    })
-=======
     staff = courseObj.staff;
     students.forEach((student)=>{
       user.findByIdAndUpdate(student,
@@ -78,7 +70,6 @@ router.delete("/course", (req,res) =>{
         {$pull : {course : req.body.id}}
       )
     })
->>>>>>> parent of 62b4cce (Merge branch 'backend-setup' of https://github.com/weblab-class/xydelta04-maxzetina into backend-setup)
   })
   course.deleteOne({_id:req.body.id}).then(() => res.send({}))
 })
@@ -89,44 +80,17 @@ router.get("/user", (req, res) =>{
 
 //assumes input is array
 router.post("/students", (req,res) => {
-<<<<<<< HEAD
-  course.updateOne(
-    {courseNumber : req.body.courseNumber},
-=======
   course.findByIdAndUpdate(req.body.courseId,
->>>>>>> parent of 62b4cce (Merge branch 'backend-setup' of https://github.com/weblab-class/xydelta04-maxzetina into backend-setup)
     {$push : {students : {$each: req.body.students}}}
     ).then(() => {res.send({})})
 })
 
 router.delete("/students", (req,res) => {
-<<<<<<< HEAD
-  course.updateOne(
-    {courseNumber :req.body.courseNumber},
-=======
   course.findByIdAndUpdate(req.body.courseId,
->>>>>>> parent of 62b4cce (Merge branch 'backend-setup' of https://github.com/weblab-class/xydelta04-maxzetina into backend-setup)
     {$pull : {students : {$each: req.body.students}}}
     ).then(() => {res.send({})})
 })
 
-<<<<<<< HEAD
-// add to course schema
-
-router.get("/assignment", (req, res) =>{
-  //TODO: get assignment from course
-  res.send({})
-});
-
-router.post("/assignment", (req,res) =>{
-  //TODO: post assignment to course
-  res.send({})
-})
-
-router.delete("/assignment", (req,res) =>{
-  // TODO: delete assignment
-  res.send({})
-=======
 router.post("/staff", (req,res) => {
   course.findByIdAndUpdate(req.body.courseId,
     {$push : {staff : {$each: req.body.staff}}}
@@ -221,7 +185,6 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
 
 router.get("/messages", (req,res) => {
   message.find().then((messagesFound) => res.send(messagesFound));
->>>>>>> parent of 62b4cce (Merge branch 'backend-setup' of https://github.com/weblab-class/xydelta04-maxzetina into backend-setup)
 })
 
 // Ignore
