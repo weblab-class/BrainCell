@@ -1,0 +1,16 @@
+.grades-container {
+    display: flex
+}
+
+hr {
+    margin-left: 0;
+    justify-self: left;
+}
+
+.assignment-names {
+    justify-self: left;
+}
+
+.assignment-grades {
+    justify-self: right;
+}
