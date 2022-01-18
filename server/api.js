@@ -62,6 +62,7 @@ router.post("/course", (req,res) =>{
 router.delete("/course", (req,res) =>{
   course.findById(req.body.id).then((courseObj) => {
     students = courseObj.students;
+<<<<<<< HEAD
     staff = courseObj.staff;
     students.forEach((student)=>{
       user.findByIdAndUpdate(student,
@@ -73,6 +74,14 @@ router.delete("/course", (req,res) =>{
         {$pull : {course : req.body.id}}
       )
     })
+=======
+    students.forEach((student)=>{
+      user.updateOne(
+        {_id :student},
+        {$pull : {_id : req.body.id}}
+        )
+    })
+>>>>>>> 7870bc6853f3302cea01b1ba23082f9a8516a350
   })
   course.deleteOne({_id:req.body.id}).then(() => res.send({}))
 })
@@ -80,6 +89,7 @@ router.delete("/course", (req,res) =>{
 router.get("/user", (req, res) =>{
   user.find({_id : req.body.id}).then((userFound) => res.send(userFound))
 });
+<<<<<<< HEAD
 
 //assumes input is array
 router.post("/students", (req,res) => {
@@ -190,6 +200,41 @@ router.get("/messages", (req,res) => {
   message.find().then((messagesFound) => res.send(messagesFound));
 })
 
+=======
+
+//assumes input is array
+router.post("/students", (req,res) => {
+  course.updateOne(
+    {courseNumber : req.body.courseNumber},
+    {$push : {students : {$each: req.body.students}}}
+    ).then(() => {res.send({})})
+})
+
+router.delete("/students", (req,res) => {
+  course.updateOne(
+    {courseNumber :req.body.courseNumber},
+    {$pull : {students : {$each: req.body.students}}}
+    ).then(() => {res.send({})})
+})
+
+// add to course schema
+
+router.get("/assignment", (req, res) =>{
+  //TODO: get assignment from course
+  res.send({})
+});
+
+router.post("/assignment", (req,res) =>{
+  //TODO: post assignment to course
+  res.send({})
+})
+
+router.delete("/assignment", (req,res) =>{
+  // TODO: delete assignment
+  res.send({})
+})
+
+>>>>>>> 7870bc6853f3302cea01b1ba23082f9a8516a350
 // Ignore
 router.get("/test", (req,res) =>{
   res.send({})
