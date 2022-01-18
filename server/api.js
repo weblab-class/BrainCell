@@ -12,7 +12,7 @@ const express = require("express");
 // import models so we can interact with the database
 const user = require("./models/user");
 const course = require("./models/course.js");
-const message = require("./models/message.js")
+const assignment = require("./models/assignment.js");
 
 // import authentication library
 const auth = require("./auth");
@@ -50,11 +50,8 @@ router.post("/course", (req,res) =>{
   const newCourse = new course ({
     courseNumber : req.body.courseNumber,
     name : req.body.courseName,
-    staff : req.body.staff,
+    professor : req.body.professor,
     students : [],
-    assignments : [],
-    schedule : req.body.schedule,
-    color : req.body.color,
   });
   newCourse.save().then(() => {res.send({})})
 })
@@ -62,26 +59,12 @@ router.post("/course", (req,res) =>{
 router.delete("/course", (req,res) =>{
   course.findById(req.body.id).then((courseObj) => {
     students = courseObj.students;
-<<<<<<< HEAD
-    staff = courseObj.staff;
-    students.forEach((student)=>{
-      user.findByIdAndUpdate(student,
-        {$pull : {course : req.body.id}}
-        )
-    })
-    staff.forEach((staffMem)=>{
-      user.findByIdAndUpdate(staffMem,
-        {$pull : {course : req.body.id}}
-      )
-    })
-=======
     students.forEach((student)=>{
       user.updateOne(
         {_id :student},
         {$pull : {_id : req.body.id}}
         )
     })
->>>>>>> 7870bc6853f3302cea01b1ba23082f9a8516a350
   })
   course.deleteOne({_id:req.body.id}).then(() => res.send({}))
 })
@@ -89,118 +72,6 @@ router.delete("/course", (req,res) =>{
 router.get("/user", (req, res) =>{
   user.find({_id : req.body.id}).then((userFound) => res.send(userFound))
 });
-<<<<<<< HEAD
-
-//assumes input is array
-router.post("/students", (req,res) => {
-  course.findByIdAndUpdate(req.body.courseId,
-    {$push : {students : {$each: req.body.students}}}
-    ).then(() => {res.send({})})
-})
-
-router.delete("/students", (req,res) => {
-  course.findByIdAndUpdate(req.body.courseId,
-    {$pull : {students : {$each: req.body.students}}}
-    ).then(() => {res.send({})})
-})
-
-router.post("/staff", (req,res) => {
-  course.findByIdAndUpdate(req.body.courseId,
-    {$push : {staff : {$each: req.body.staff}}}
-    ).then(() => {res.send({})})
-})
-
-router.delete("/staff", (req,res) => {
-  course.findByIdAndUpdate(req.body.courseId,
-    {$pull : {staff : {$each: req.body.staff}}}
-    ).then(() => {res.send({})})
-})
-
-router.get("/allAssignments", (req, res) =>{
-  course.findById(newreq.body.id).then((courseObj) => {
-    res.send(courseObj.assignments)
-  })
-});
-
-router.get("/oneAssignment", (req, res) =>{
-  course.findById(req.body.courseId).then((courseObj) => {
-    courseObj.assignments.id(req.body.assignmentId).then((assigned) => res.send(assigned))
-  })
-});
-
-router.post("/assignment", (req,res) =>{
-  temp = new Object (
-    {name : req.body.name,
-    instructions : req.body.instructions,
-    dueDate : req.body.dueDate,}
-  )
-  course.findByIdAndUpdate(req.body.id,
-    {$push: {assignments : temp}}
-  ).then(() => res.send({}))
-})
-
-router.delete("/assignment", (req,res) =>{
-  course.findById(req.body.contentId).then((courseObj) => {
-    courseObj.assignments.id(req.body.assignmentId).remove()
-    courseObj.save()
-  }).then(() => res.send({}))
-})
-
-router.get("/allGrades", (req,res) => {
-  // TODO: get grades
-  user.findById(req.body.userId).then((userObj) => {
-    userObj.grades.find({courseId : req.body.courseId}).then((gradeArray) => res.send(gradeArray))
-  })
-})
-
-router.get("/oneGrade", (req,res) => {
-  // TODO: get one grade
-  user.findById(req.body.userId).then((userObj) => {
-    res.send(userObj.grades.id("61e5f0c2f5078b07d817b780"))
-  })
-})
-
-router.post("/grades", (req, res) => {
-  temp = req.body.content
-  async function addGrades(t){
-    t.forEach((student) => {
-      console.log(student)
-      user.findByIdAndUpdate(student.studentId,
-        {$push : {grades: new Object(
-          {courseId : student.courseId,
-          assignmentId : student.assignmentId,
-          grade : student.grade})}}
-      ).then()
-    })
-  }
-  addGrades(temp).then(() => res.send({}))
-})
-
-// message API methods ----------------------------------------------------------------------------|
-
-router.post("/question", (req,res) => {
-  const newMessage = new message(
-    {content: req.body.content,}
-  )
-  newMessage.save().then((newMess) => res.send(newMess))
-  socketManager.getIo().emit("question", newMessage);
-})
-
-router.post("/answer", auth.ensureLoggedIn, (req,res) => {
-  const newMessage = new message(
-    {content: req.body.content,
-    answerTo: req.body.answerTo,}
-  )
-  newMessage.save();
-
-  socketManager.getIo().emit("answer", newMessage);
-})
-
-router.get("/messages", (req,res) => {
-  message.find().then((messagesFound) => res.send(messagesFound));
-})
-
-=======
 
 //assumes input is array
 router.post("/students", (req,res) => {
@@ -234,7 +105,6 @@ router.delete("/assignment", (req,res) =>{
   res.send({})
 })
 
->>>>>>> 7870bc6853f3302cea01b1ba23082f9a8516a350
 // Ignore
 router.get("/test", (req,res) =>{
   res.send({})

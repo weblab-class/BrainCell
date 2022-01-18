@@ -13,10 +13,6 @@
 | - Actually starts the webserver
 */
 
-// dotenv
-require("dotenv").config();
-
-
 // validator runs some basic checks to make sure you've set everything up correctly
 // this is a tool provided by staff, so you don't need to worry about it
 const validator = require("./validator");
@@ -36,7 +32,7 @@ const auth = require("./auth");
 const socketManager = require("./server-socket");
 
 // Server configuration below
-const mongoConnectionURL = process.env.ATLAS_SRV;
+const mongoConnectionURL = "mongodb+srv://admin:ReqiSLxsyjGDcGCK@database.3vtx4.mongodb.net/Database?retryWrites=true&w=majority";
 const databaseName = "Database";
 
 // connect to mongodb
@@ -49,9 +45,6 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log(`Error connecting to MongoDB: ${err}`));
 
-// TODO: Due to depreciated code (so far issues with MongoDB)
-mongoose.set('useFindAndModify', false);
-
 // create a new express server
 const app = express();
 app.use(validator.checkRoutes);
@@ -62,7 +55,7 @@ app.use(express.json());
 // set up a session, which will persist login data across requests
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: "session-secret",
     resave: false,
     saveUninitialized: false,
   })
@@ -100,7 +93,7 @@ app.use((err, req, res, next) => {
 });
 
 // hardcode port to 3000 for now
-const port = process.env.PORT || 3000;
+const port = 3000;
 const server = http.Server(app);
 socketManager.init(server);
 
