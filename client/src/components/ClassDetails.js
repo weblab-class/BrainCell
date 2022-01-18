@@ -47,10 +47,16 @@ const ClassDetails = (props) => {
             </div>
             <div className='bottom-half' style={{borderColor: props.color}}>
                 <div className='body'>
-                    <ClassGrades className='grades' grades={grades} />
-                    <ClassStaff staff={staff} /> 
+                    <div style={{width: '16%'}}>
+                        <ClassGrades grades={grades} />
+                    </div>
+                    <div style={{width: '30%'}}>
+                        <ClassStaff staff={staff}/>
+                    </div> 
                 </div>
-                <ClassSchedule schedule={schedule} />
+                <div style={{display: 'flex', justifyContent: 'left'}}>
+                    <ClassSchedule schedule={schedule} />
+                </div>
             </div>
         </div>
     )
