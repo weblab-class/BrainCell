@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 
+const gradesSchema = new mongoose.Schema({
+  courseId : String,
+  assignmentId : String,
+  grade : Number,
+})
+
 const UserSchema = new mongoose.Schema({
   name: String,
   googleid: String,
