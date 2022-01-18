@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from '@reach/router'
+
 // import Profile from './Profile.js'
+import logo from '../public/images/logo.png';
+
 
 import './NavBar.css'
 
@@ -13,7 +16,11 @@ const NavBar = (props) => {
 
     return (
         <nav className='NavBar-container'>
-            <h1 className='NavBar-logo'>LOGO</h1>
+            <div className='NavBar-link' style={{padding: '8px 0px 0px'}}>
+                <Link to='/'>
+                    <img src={logo} style={{width: '100px', borderRadius: '15px'}}/>
+                </Link>
+            </div>
             <div className='NavBar-linkContainer'>
                 <Link to='/' className='NavBar-link u-bold'>
                     Overview

@@ -2,7 +2,8 @@ import React from 'react'
 
 import './LoginPage.css'
 
-import img from '../public/images/MIT_img.jpg';
+import bckgImg from '../public/images/MIT_img.jpg';
+import logo from '../public/images/logo.png';
 
 import GoogleLogin from "react-google-login";
 const GOOGLE_CLIENT_ID = "40738148267-lth98utc4vhae0oqu44dtntfu5ldhk82.apps.googleusercontent.com";
@@ -10,11 +11,9 @@ const GOOGLE_CLIENT_ID = "40738148267-lth98utc4vhae0oqu44dtntfu5ldhk82.apps.goog
 const LoginPage = (props) => {
 
     return (
-    <div className='bckg' style={{backgroundImage: `url(${img})`}}>
+    <div className='bckg' style={{backgroundImage: `url(${bckgImg})`}}>
         <div className='login-box'>
-            <div className="logo">
-                LOGO
-            </div>
+            <img src={logo} style={{width: '200px', borderRadius: '15px'}}/>
             <div>
                 <GoogleLogin
                 clientId={GOOGLE_CLIENT_ID}

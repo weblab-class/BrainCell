@@ -16,7 +16,7 @@
     height: 250px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     border-radius: 15px;
     padding: 10px;
