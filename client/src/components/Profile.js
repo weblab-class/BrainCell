@@ -16,7 +16,7 @@ const Profile = (props) => {
 
     return (
         <div>
-            <ProfileName />
+            <ProfileName name={props.name} description={props.description}/>
             {/* <ProfileLogout logout={handleLogout}/> */}
             <div style={{textAlign: 'center'}}>
                 <GoogleLogout 
