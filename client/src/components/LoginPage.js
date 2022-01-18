@@ -10,8 +10,8 @@ const GOOGLE_CLIENT_ID = "40738148267-lth98utc4vhae0oqu44dtntfu5ldhk82.apps.goog
 const LoginPage = (props) => {
 
     return (
-    <div style={{backgroundImage: `url(${img})`, height: window.innerHeight, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundSize: 'cover'}}>
-        <div>
+    <div className='bckg' style={{backgroundImage: `url(${img})`}}>
+        <div className='login-box'>
             <div className="logo">
                 LOGO
             </div>
