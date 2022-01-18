@@ -43,7 +43,8 @@ router.post("/initsocket", (req, res) => {
 // Course and User API methods ---------------------------------------------------------------------|
 
 router.get("/course", (req, res) =>{
-  course.find({_id : req.body.id}).then((classes) => res.send(classes))
+  query = {$or: {$each: req.body.id}}
+  course.find({_id : query}).then((classes) => res.send(classes))
 });
 
 router.post("/course", (req,res) =>{
@@ -79,6 +80,7 @@ router.get("/user", (req, res) =>{
 });
 
 //assumes input is array
+// TODO: fix cross-check on students/staff
 router.post("/students", (req,res) => {
   course.findByIdAndUpdate(req.body.courseId,
     {$push : {students : {$each: req.body.students}}}
