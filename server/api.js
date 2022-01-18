@@ -81,24 +81,48 @@ router.get("/user", (req, res) =>{
 //assumes input is array
 // TODO: fix cross-check on students/staff
 router.post("/students", (req,res) => {
+
+  temp = req.body.students
+  temp.forEach((student) => user.findByIdAndUpdate((student),
+  {$push: {course : req.body.id}}
+  ))
+
   course.findByIdAndUpdate(req.body.courseId,
     {$push : {students : {$each: req.body.students}}}
     ).then(() => {res.send({})})
 })
 
 router.delete("/students", (req,res) => {
+
+  temp = req.body.students
+  temp.forEach((student) => user.findByIdAndUpdate((student),
+  {$pull: {course : req.body.id}}
+  ))
+
   course.findByIdAndUpdate(req.body.courseId,
     {$pull : {students : {$each: req.body.students}}}
     ).then(() => {res.send({})})
 })
 
 router.post("/staff", (req,res) => {
+
+  temp = req.body.staff
+  temp.forEach((staffMem) => user.findByIdAndUpdate((staffMem),
+  {$push: {course : req.body.id}}
+  ))
+
   course.findByIdAndUpdate(req.body.courseId,
     {$push : {staff : {$each: req.body.staff}}}
     ).then(() => {res.send({})})
 })
 
 router.delete("/staff", (req,res) => {
+
+  temp = req.body.staff
+  temp.forEach((staffMem) => user.findByIdAndUpdate((staffMem),
+  {$pull: {course : req.body.id}}
+  ))
+
   course.findByIdAndUpdate(req.body.courseId,
     {$pull : {staff : {$each: req.body.staff}}}
     ).then(() => {res.send({})})

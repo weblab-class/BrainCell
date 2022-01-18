@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const assignemntSchema = new mongoose.Schema({
     name : String,
     instructions : String,
-    dueDate : String,
+    dueDate : Date,
 });
 
 const staffSchema = new mongoose.Schema({
