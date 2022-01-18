@@ -5,7 +5,7 @@ import './LiveClassQuestions.css'
 const ClassQuestions = () => {
     return (
         <div className='live-questions-container'>
-            <div style={{border: 'solid', borderRadius: '20px'}}>
+            <div>
                 Class Questions
             </div>
         </div>
