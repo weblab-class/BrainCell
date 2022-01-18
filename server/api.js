@@ -43,9 +43,8 @@ router.post("/initsocket", (req, res) => {
 // Course and User API methods ---------------------------------------------------------------------|
 
 router.get("/course", (req, res) =>{
-  query = {$or: {$each: req.body.id}}
-  course.find({_id : query}).then((classes) => res.send(classes))
-});
+  query = req.body.id
+  course.find({_id : query}).then((classes) => res.send(classes))});
 
 router.post("/course", (req,res) =>{
   const newCourse = new course ({
@@ -191,7 +190,8 @@ router.get("/messages", (req,res) => {
 
 // Ignore
 router.get("/test", (req,res) =>{
-  res.send({})
+  query = ["61e71802efa660767857267a", "61e717c94aed7563e0d20922"]
+  course.find({_id : query}).then((classes) => res.send(classes))
 })
 
 // anything else falls to this "not found" case
