@@ -2,11 +2,6 @@
     display: flex
 }
 
-hr {
-    margin-left: 0;
-    justify-self: left;
-}
-
 .assignment-names {
     justify-self: left;
 }

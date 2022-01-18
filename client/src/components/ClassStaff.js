@@ -7,7 +7,7 @@ const ClassStaff = (props) => {
                 Staff
             </h1>
             <hr></hr>
-            {props.staff.map((person) => <li>{person.name} <span>{person.email}</span></li>)}
+            {props.staff.map((person) => <li style={{display: 'flex', justifyContent: 'space-between'}}>{person.name} <span>{person.email}</span></li>)}
         </div>
     )
 }
