@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ClassDetails from './ClassDetails.js'
 
 import './Class.css'
@@ -7,6 +7,11 @@ const Class = (props) => {
     let style = [{backgroundColor: props.color}, {borderColor: props.color}]
 
     const [details, setDetails] = useState(false)
+    // const [classStaff, setClassStaff] = useState([])
+
+    // useEffect(() => {
+    //     get('/api/staff', {})
+    // })
 
     const handleClick = () => {
         details ? (
