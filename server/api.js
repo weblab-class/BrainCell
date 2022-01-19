@@ -43,8 +43,7 @@ router.post("/initsocket", (req, res) => {
 // Course and User API methods ---------------------------------------------------------------------|
 
 router.get("/course", (req, res) =>{
-  query = req.query.id
-  course.find({_id : query}).then((classes) => res.send(classes))});
+  user.findById(req.query.id).then((userFound) => {course.find({_id : userFound.course}).then((classes) => res.send(classes))})})
 
 router.post("/course", (req,res) =>{
   const newCourse = new course ({

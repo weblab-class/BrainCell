@@ -5,9 +5,10 @@ import './LiveClassQuestions.css'
 const ClassQuestions = () => {
     return (
         <div className='live-questions-container'>
-            <div>
+            <div className='title'>
                 Class Questions
             </div>
+
         </div>
     )
 }

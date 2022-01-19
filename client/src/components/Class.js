@@ -27,8 +27,14 @@ const Class = (props) => {
                     </h1>
                 </div>
                 <div className="bottom-half" style={style[1]}>
-                    <p> <span className="head">Due: </span> {props.assignment.dueDate.toString()}: {props.assignment.name}</p>
-                    <p> <span className="head">Grade: </span> {props.grade}</p>
+                    {props.assignments.map((assignment) => {
+                        return (
+                            <div>
+                                <p> <span className="head">Due: </span> {assignment.dueDate.toString()}: {assignment.name}</p>
+                                <p> <span className="head">Grade: </span> {props.grade}</p>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
             )

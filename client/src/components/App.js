@@ -73,6 +73,8 @@ const App = () => {
   if (userId){
     return (
       <div onClick={hideProfile}>
+        {/* {console.log({user})} */}
+
         <NavBar viewProfile={viewProfile} />
 
         {profileVisible ? (
@@ -84,17 +86,11 @@ const App = () => {
         ) : (null)}
 
         <Router>
-          <Overview path='/' />
+          <Overview path='/' userId={userId}/>
           <Calendar path='/calendar' />
           <LiveClass path='/liveclass' />
           <NotFound default />
         </Router>
-        {/* <Router>
-          <Overview path='/' profileVisible={profileVisible} profile={<Profile logout={handleLogout}/>} />
-          <Calendar path='/calendar' profileVisible={profileVisible} profile={<Profile logout={handleLogout}/>} />
-          <LiveClass path='/liveclass' profileVisible={profileVisible} profile={<Profile logout={handleLogout}/>} />
-          <NotFound default />
-        </Router> */}
       </div>
     )}
   else{
