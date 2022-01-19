@@ -80,8 +80,13 @@ router.post("/course", (req,res) =>{
       courseCode: newCode
     });
 
-    newCourse.save().then(() => {res.send({})}).catch((err) => res.send(err))
+    newCourse.save().then((savedCourse) => {
+      user.findByIdAndUpdate(req.user,
+        {$push: {course: savedCourse._id}})
+      res.send({})}).catch((err) => res.send(err))
   })
+
+
 })
 
 router.delete("/course", (req,res) =>{
