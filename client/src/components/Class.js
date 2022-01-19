@@ -31,10 +31,10 @@ const Class = (props) => {
                         return (
                             <div>
                                 <p> <span className="head">Due: </span> {assignment.dueDate.toString()}: {assignment.name}</p>
-                                <p> <span className="head">Grade: </span> {props.grade}</p>
                             </div>
                         )
                     })}
+                    <p> <span className="head">Grade: </span> {props.grade}</p>
                 </div>
             </div>
             )
