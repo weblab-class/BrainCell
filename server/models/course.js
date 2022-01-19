@@ -20,6 +20,7 @@ const daySchema = new mongoose.Schema({
 //defines a class schema
 const courseSchema = new mongoose.Schema({
     courseNumber : String,
+    courseCode : String,
     name : String,
     staff : [staffSchema],
     students : [String],

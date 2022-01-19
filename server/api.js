@@ -45,15 +45,43 @@ router.post("/initsocket", (req, res) => {
 router.get("/course", (req, res) =>{
   user.findById(req.query.id).then((userFound) => {course.find({_id : userFound.course}).then((classes) => res.send(classes))})})
 
+router.get("/courseCode", (req, res) =>{
+  course.findOneAndUpdate({courseCode: req.query.courseCode},
+    {$push: {students:req.user}}).then((classFound) => {user.findByIdAndUpdate(req.user,
+      {$push: {course: classFound._id}})}).then(() => res.send({})).catch((err) => res.send(err))
+})
+  
 router.post("/course", (req,res) =>{
-  const newCourse = new course ({
-    courseNumber : req.query.courseNumber,
-    name : req.query.courseName,
-    professor : req.query.professor,
-    students : [],
-    color: req.query.color,
-  });
-  newCourse.save().then(() => {res.send({})})
+  let themeColor = [[122, 156, 198], [70, 70, 85], [126, 132, 107], [244, 91, 105], [95, 187, 151], [22, 152, 115], [221, 127, 62]]
+  ranColor = themeColor[Math.floor(Math.random()*themeColor.lenght)];
+
+  async function checkCode() {
+    let alphaNumericCode = Math.random().toString(36).slice(-6);
+    let isUnique = false;
+
+    while (isUnique){
+      temp = course.find({courseCode : alphaNumericCode})
+      if (temp!==alphaNumericCode) {
+        isUnique = true
+      } else {
+        alphaNumericCode = Math.random().toString(36).slice(-6);
+      }
+    }
+    return alphaNumericCode
+  }
+
+  checkCode().then((newCode) => {
+    const newCourse = new course ({
+      courseNumber : req.query.courseNumber,
+      name : req.query.courseName,
+      professor : req.user._id,
+      students : [],
+      color: ranColor,
+      courseCode: newCode
+    });
+    
+    newCourse.save().then(() => {res.send({})}).catch((err) => res.send(err))
+  })
 })
 
 router.delete("/course", (req,res) =>{
