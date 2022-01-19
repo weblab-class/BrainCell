@@ -51,6 +51,7 @@ router.post("/course", (req,res) =>{
     name : req.query.courseName,
     professor : req.query.professor,
     students : [],
+    color: req.query.color,
   });
   newCourse.save().then(() => {res.send({})})
 })

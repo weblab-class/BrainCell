@@ -8,6 +8,7 @@ const gradesSchema = new mongoose.Schema({
 
 const UserSchema = new mongoose.Schema({
   name: String,
+  email: String,
   googleid: String,
   description: String,
   course: [String],
