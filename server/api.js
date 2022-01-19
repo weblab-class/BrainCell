@@ -40,55 +40,179 @@ router.post("/initsocket", (req, res) => {
   res.send({});
 });
 
-// |------------------------------|
-// | write your API methods below!|
-// |------------------------------|
-
-router.get("/user", (req, res) =>{
-  user.find({_id : req.body.id}).then((userFound) => res.send(userFound))
-});
+// Course and User API methods ---------------------------------------------------------------------|
 
 router.get("/course", (req, res) =>{
-  course.find({courseNumber : req.body.courseNumber}).then((classes) => res.send(classes))
-});
+  user.findById(req.query.id).then((userFound) => {course.find({_id : userFound.course}).then((classes) => res.send(classes))})})
 
 router.post("/course", (req,res) =>{
   const newCourse = new course ({
-    courseNumber : req.body.courseNumber,
-    name : req.body.courseName,
-    professor : req.body.professor,
+    courseNumber : req.query.courseNumber,
+    name : req.query.courseName,
+    professor : req.query.professor,
     students : [],
+    color: req.query.color,
   });
-  newCourse.save().then(res.send({}))
+  newCourse.save().then(() => {res.send({})})
 })
 
-// When deleting a class, use courseNumber to find class (class must exist, will add the other case later)
 router.delete("/course", (req,res) =>{
-  course.deleteOne({courseNumber : req.body.courseNumber}).then(res.send({}))
+  course.findById(req.query.id).then((courseObj) => {
+    students = courseObj.students;
+    staff = courseObj.staff;
+    students.forEach((student)=>{
+      user.findByIdAndUpdate(student,
+        {$pull : {course : req.query.id}}
+        )
+    })
+    staff.forEach((staffMem)=>{
+      user.findByIdAndUpdate(staffMem,
+        {$pull : {course : req.query.id}}
+      )
+    })
+  })
+  course.deleteOne({_id:req.query.id}).then(() => res.send({}))
 })
 
+router.get("/user", (req, res) =>{
+  user.find({_id : req.query.id}).then((userFound) => res.send(userFound))
+});
 
-router.get("/assignment", (req, res) =>{
-  assignment.find({$or: [{courseNumber : req.body.courseNumber}, {dueDate : req.body.dueDate}, {name : req.body.name}]}).then((assignments) => res.send(assignments))
+//assumes input is array
+// TODO: fix cross-check on students/staff
+router.post("/students", (req,res) => {
+
+  temp = req.query.students
+  temp.forEach((student) => user.findByIdAndUpdate((student),
+  {$push: {course : req.query.id}}
+  ))
+
+  course.findByIdAndUpdate(req.query.courseId,
+    {$push : {students : {$each: req.query.students}}}
+    ).then(() => {res.send({})})
+})
+
+router.delete("/students", (req,res) => {
+  temp = req.query.students
+  temp.forEach((student) => user.findByIdAndUpdate((student),
+  {$pull: {course : req.query.id}}
+  ))
+
+  course.findByIdAndUpdate(req.query.courseId,
+    {$pull : {students : {$each: req.query.students}}}
+    ).then(() => {res.send({})})
+})
+
+router.post("/staff", (req,res) => {
+  temp = req.query.staff
+  temp.forEach((staffMem) => user.findByIdAndUpdate((staffMem),
+  {$push: {course : req.query.id}}
+  ))
+
+  course.findByIdAndUpdate(req.query.courseId,
+    {$push : {staff : {$each: req.query.staff}}}
+    ).then(() => {res.send({})})
+})
+
+router.delete("/staff", (req,res) => {
+  temp = req.query.staff
+  temp.forEach((staffMem) => user.findByIdAndUpdate((staffMem),
+  {$pull: {course : req.query.id}}
+  ))
+
+  course.findByIdAndUpdate(req.query.courseId,
+    {$pull : {staff : {$each: req.query.staff}}}
+    ).then(() => {res.send({})})
+})
+
+router.get("/allAssignments", (req, res) =>{
+  course.findById(newreq.query.id).then((courseObj) => {
+    res.send(courseObj.assignments)
+  })
+});
+
+router.get("/oneAssignment", (req, res) =>{
+  course.findById(req.query.courseId).then((courseObj) => {
+    courseObj.assignments.id(req.query.assignmentId).then((assigned) => res.send(assigned))
+  })
 });
 
 router.post("/assignment", (req,res) =>{
-  const newAssignment = new assignment ({
-    courseNumber : req.body.courseNumber,
-    name : req.body.name,
-    instructions : req.body.instructions,
-    dueDate : req.body.dueDate,
-  });
-  newAssignment.save().then(res.send({}))
+  temp = new Object (
+    {name : req.query.name,
+    instructions : req.query.instructions,
+    dueDate : req.query.dueDate,}
+  )
+  course.findByIdAndUpdate(req.query.id,
+    {$push: {assignments : temp}}
+  ).then(() => res.send({}))
 })
 
-// When deleting an assignemnt, use courseNumber to find it (it must exist, will add the other case later)
 router.delete("/assignment", (req,res) =>{
-  assignment.deleteOne({courseNumber : req.body.courseNumber}).then(res.send({}))
+  course.findById(req.query.contentId).then((courseObj) => {
+    courseObj.assignments.id(req.query.assignmentId).remove()
+    courseObj.save()
+  }).then(() => res.send({}))
 })
 
+router.get("/allGrades", (req,res) => {
+  // TODO: get grades
+  user.findById(req.query.userId).then((userObj) => {
+    userObj.grades.find({courseId : req.query.courseId}).then((gradeArray) => res.send(gradeArray))
+  })
+})
+
+router.get("/oneGrade", (req,res) => {
+  // TODO: get one grade
+  user.findById(req.query.userId).then((userObj) => {
+    res.send(userObj.grades.id(req.query.gradeId))
+  })
+})
+
+router.post("/grades", (req, res) => {
+  temp = req.body.content
+  async function addGrades(t){
+    t.forEach((student) => {
+      console.log(student)
+      user.findByIdAndUpdate(student.studentId,
+        {$push : {grades: new Object(
+          {courseId : student.courseId,
+          assignmentId : student.assignmentId,
+          grade : student.grade})}}
+      ).then()
+    })
+  }
+  addGrades(temp).then(() => res.send({}))
+})
+
+// message API methods ----------------------------------------------------------------------------|
+
+router.post("/question", (req,res) => {
+  const newMessage = new message(
+    {content: req.body.content,}
+  )
+  newMessage.save().then((newMess) => res.send(newMess))
+  socketManager.getIo().emit("question", newMessage);
+})
+
+router.post("/answer", auth.ensureLoggedIn, (req,res) => {
+  const newMessage = new message(
+    {content: req.body.content,
+    answerTo: req.query.answerTo,}
+  )
+  newMessage.save();
+
+  socketManager.getIo().emit("answer", newMessage);
+})
+
+router.get("/messages", (req,res) => {
+  message.find().then((messagesFound) => res.send(messagesFound));
+})
+
+// Ignore
 router.get("/test", (req,res) =>{
-  res.send({})
+  query = ["61e71802efa660767857267a", "61e717c94aed7563e0d20922"]
+  course.find({_id : query}).then((classes) => res.send(classes))
 })
 
 // anything else falls to this "not found" case

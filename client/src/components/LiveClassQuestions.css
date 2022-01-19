@@ -1,0 +1,22 @@
+.live-questions-container {
+    border: solid;
+    border-color: blue;
+    width: 25%;
+    height: 500px;
+    margin: 30px;
+    display: flex;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: red;
+    color: white;
+    font-weight: 600;
+    font-size: 25px;
+    width: 100%;
+    height: 10%;
+}

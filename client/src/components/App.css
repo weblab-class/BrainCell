@@ -1,0 +1,12 @@
+.profile-container {
+    display: flex;
+    justify-content: right;
+}
+
+.profile {
+    display: flex;
+    background-color: #002A32;
+    width: 15%;
+    justify-content: center;
+    padding: 10px 0px;
+}
