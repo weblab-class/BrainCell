@@ -43,132 +43,129 @@ router.post("/initsocket", (req, res) => {
 // Course and User API methods ---------------------------------------------------------------------|
 
 router.get("/course", (req, res) =>{
-  query = req.body.id
+  query = req.query.id
   course.find({_id : query}).then((classes) => res.send(classes))});
 
 router.post("/course", (req,res) =>{
   const newCourse = new course ({
-    courseNumber : req.body.courseNumber,
-    name : req.body.courseName,
-    professor : req.body.professor,
+    courseNumber : req.query.courseNumber,
+    name : req.query.courseName,
+    professor : req.query.professor,
     students : [],
   });
   newCourse.save().then(() => {res.send({})})
 })
 
 router.delete("/course", (req,res) =>{
-  course.findById(req.body.id).then((courseObj) => {
+  course.findById(req.query.id).then((courseObj) => {
     students = courseObj.students;
     staff = courseObj.staff;
     students.forEach((student)=>{
       user.findByIdAndUpdate(student,
-        {$pull : {course : req.body.id}}
+        {$pull : {course : req.query.id}}
         )
     })
     staff.forEach((staffMem)=>{
       user.findByIdAndUpdate(staffMem,
-        {$pull : {course : req.body.id}}
+        {$pull : {course : req.query.id}}
       )
     })
   })
-  course.deleteOne({_id:req.body.id}).then(() => res.send({}))
+  course.deleteOne({_id:req.query.id}).then(() => res.send({}))
 })
 
 router.get("/user", (req, res) =>{
-  user.find({_id : req.body.id}).then((userFound) => res.send(userFound))
+  user.find({_id : req.query.id}).then((userFound) => res.send(userFound))
 });
 
 //assumes input is array
 // TODO: fix cross-check on students/staff
 router.post("/students", (req,res) => {
 
-  temp = req.body.students
+  temp = req.query.students
   temp.forEach((student) => user.findByIdAndUpdate((student),
-  {$push: {course : req.body.id}}
+  {$push: {course : req.query.id}}
   ))
 
-  course.findByIdAndUpdate(req.body.courseId,
-    {$push : {students : {$each: req.body.students}}}
+  course.findByIdAndUpdate(req.query.courseId,
+    {$push : {students : {$each: req.query.students}}}
     ).then(() => {res.send({})})
 })
 
 router.delete("/students", (req,res) => {
-
-  temp = req.body.students
+  temp = req.query.students
   temp.forEach((student) => user.findByIdAndUpdate((student),
-  {$pull: {course : req.body.id}}
+  {$pull: {course : req.query.id}}
   ))
 
-  course.findByIdAndUpdate(req.body.courseId,
-    {$pull : {students : {$each: req.body.students}}}
+  course.findByIdAndUpdate(req.query.courseId,
+    {$pull : {students : {$each: req.query.students}}}
     ).then(() => {res.send({})})
 })
 
 router.post("/staff", (req,res) => {
-
-  temp = req.body.staff
+  temp = req.query.staff
   temp.forEach((staffMem) => user.findByIdAndUpdate((staffMem),
-  {$push: {course : req.body.id}}
+  {$push: {course : req.query.id}}
   ))
 
-  course.findByIdAndUpdate(req.body.courseId,
-    {$push : {staff : {$each: req.body.staff}}}
+  course.findByIdAndUpdate(req.query.courseId,
+    {$push : {staff : {$each: req.query.staff}}}
     ).then(() => {res.send({})})
 })
 
 router.delete("/staff", (req,res) => {
-
-  temp = req.body.staff
+  temp = req.query.staff
   temp.forEach((staffMem) => user.findByIdAndUpdate((staffMem),
-  {$pull: {course : req.body.id}}
+  {$pull: {course : req.query.id}}
   ))
 
-  course.findByIdAndUpdate(req.body.courseId,
-    {$pull : {staff : {$each: req.body.staff}}}
+  course.findByIdAndUpdate(req.query.courseId,
+    {$pull : {staff : {$each: req.query.staff}}}
     ).then(() => {res.send({})})
 })
 
 router.get("/allAssignments", (req, res) =>{
-  course.findById(newreq.body.id).then((courseObj) => {
+  course.findById(newreq.query.id).then((courseObj) => {
     res.send(courseObj.assignments)
   })
 });
 
 router.get("/oneAssignment", (req, res) =>{
-  course.findById(req.body.courseId).then((courseObj) => {
-    courseObj.assignments.id(req.body.assignmentId).then((assigned) => res.send(assigned))
+  course.findById(req.query.courseId).then((courseObj) => {
+    courseObj.assignments.id(req.query.assignmentId).then((assigned) => res.send(assigned))
   })
 });
 
 router.post("/assignment", (req,res) =>{
   temp = new Object (
-    {name : req.body.name,
-    instructions : req.body.instructions,
-    dueDate : req.body.dueDate,}
+    {name : req.query.name,
+    instructions : req.query.instructions,
+    dueDate : req.query.dueDate,}
   )
-  course.findByIdAndUpdate(req.body.id,
+  course.findByIdAndUpdate(req.query.id,
     {$push: {assignments : temp}}
   ).then(() => res.send({}))
 })
 
 router.delete("/assignment", (req,res) =>{
-  course.findById(req.body.contentId).then((courseObj) => {
-    courseObj.assignments.id(req.body.assignmentId).remove()
+  course.findById(req.query.contentId).then((courseObj) => {
+    courseObj.assignments.id(req.query.assignmentId).remove()
     courseObj.save()
   }).then(() => res.send({}))
 })
 
 router.get("/allGrades", (req,res) => {
   // TODO: get grades
-  user.findById(req.body.userId).then((userObj) => {
-    userObj.grades.find({courseId : req.body.courseId}).then((gradeArray) => res.send(gradeArray))
+  user.findById(req.query.userId).then((userObj) => {
+    userObj.grades.find({courseId : req.query.courseId}).then((gradeArray) => res.send(gradeArray))
   })
 })
 
 router.get("/oneGrade", (req,res) => {
   // TODO: get one grade
-  user.findById(req.body.userId).then((userObj) => {
-    res.send(userObj.grades.id("61e5f0c2f5078b07d817b780"))
+  user.findById(req.query.userId).then((userObj) => {
+    res.send(userObj.grades.id(req.query.gradeId))
   })
 })
 
@@ -201,7 +198,7 @@ router.post("/question", (req,res) => {
 router.post("/answer", auth.ensureLoggedIn, (req,res) => {
   const newMessage = new message(
     {content: req.body.content,
-    answerTo: req.body.answerTo,}
+    answerTo: req.query.answerTo,}
   )
   newMessage.save();
 
