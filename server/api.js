@@ -45,10 +45,13 @@ router.post("/initsocket", (req, res) => {
 router.get("/course", (req, res) =>{
   user.findById(req.query.id).then((userFound) => {course.find({_id : userFound.course}).then((classes) => res.send(classes))})})
 
-router.get("/courseCode", (req, res) =>{
-  course.findOneAndUpdate({courseCode: req.query.courseCode},
-    {$push: {students:req.user}}).then((classFound) => {user.findByIdAndUpdate(req.user,
-      {$push: {course: classFound._id}})}).then(() => res.send({})).catch((err) => res.send(err))
+router.post("/courseCode", (req, res) =>{
+  course.findOneAndUpdate({courseCode: req.body.courseCode},
+    {$push: {students: req.user}}).then((classFound) => {
+      // console.log(classFound._id)
+      // console.log(req.user)
+      user.findByIdAndUpdate(req.user,
+      {$push: {course: classFound._id}}).then(() => res.send({}))})
 })
   
 router.post("/course", (req,res) =>{

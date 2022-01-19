@@ -39,9 +39,10 @@ const MakeJoinClass = (props) => {
     }
 
     const handleSubmitMakeClass = () => {
-        post('/api/course', {courseNumber: courseNumber, courseName: courseName, user: props.userId})
-        setCourseNumber('')
-        setCourseName('')
+        post('/api/course', {courseNumber: courseNumber, courseName: courseName, user: props.userId}).then(() => {
+            setCourseNumber('')
+            setCourseName('')
+        })
     }
 
     const classCodeChange = (event) => {
@@ -49,7 +50,7 @@ const MakeJoinClass = (props) => {
     }
 
     const handleSubmitJoinClass = () => {
-        post('/api/')
+        post('/api/courseCode', {courseCode: classCode})
         setClassCode('')
     }
 
