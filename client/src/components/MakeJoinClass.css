@@ -1,0 +1,36 @@
+.button-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.make-class {
+    background-color: #7a9cc6;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    border-radius: 20px; 
+}
+
+.join-class {
+    background-color: #dd7f3e;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.make-join-class-card-container {
+    display: flex;
+    justify-content: center;
+}
+
+.make-join-class-card {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: beige;
+    width: 50%;
+    height: 200px;
+    padding: 8px;
+}

@@ -53,7 +53,7 @@ router.get("/courseCode", (req, res) =>{
   
 router.post("/course", (req,res) =>{
   let themeColor = [[122, 156, 198], [70, 70, 85], [126, 132, 107], [244, 91, 105], [95, 187, 151], [22, 152, 115], [221, 127, 62]]
-  ranColor = themeColor[Math.floor(Math.random()*themeColor.lenght)];
+  // ranColor = themeColor[Math.floor(Math.random()*themeColor.lenght)];
 
   async function checkCode() {
     let alphaNumericCode = Math.random().toString(36).slice(-6);
@@ -72,14 +72,14 @@ router.post("/course", (req,res) =>{
 
   checkCode().then((newCode) => {
     const newCourse = new course ({
-      courseNumber : req.query.courseNumber,
-      name : req.query.courseName,
-      professor : req.user._id,
+      courseNumber : req.body.courseNumber,
+      name : req.body.courseName,
+      staff : req.user,
       students : [],
-      color: ranColor,
+      // color: req.body.color,
       courseCode: newCode
     });
-    
+
     newCourse.save().then(() => {res.send({})}).catch((err) => res.send(err))
   })
 })

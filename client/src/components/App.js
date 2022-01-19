@@ -73,8 +73,6 @@ const App = () => {
   if (userId){
     return (
       <div onClick={hideProfile}>
-        {/* {console.log({user})} */}
-
         <NavBar viewProfile={viewProfile} />
 
         {profileVisible ? (

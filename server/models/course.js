@@ -22,11 +22,11 @@ const courseSchema = new mongoose.Schema({
     courseNumber : String,
     courseCode : String,
     name : String,
-    staff : [staffSchema],
+    staff : [String],
     students : [String],
     assignments : [assignemntSchema],
     schedule : [daySchema],
-    color : String,
+    // color : String,
 });
 
 module.exports = mongoose.model("course", courseSchema);
