@@ -10,9 +10,6 @@ import MakeJoinClass from "./MakeJoinClass.js";
 
 const Overview = (props) => {
     const [classes, setClasses] = useState([])
-    // const [classColor, setClassColor] = 
-    // let color = ['red', 'blue', 'green', 'orange']
-    // let randColor = color[Math.floor(Math.random()*color.length)]
 
     useEffect(() => {
         get('/api/course', {id: props.userId}).then((courses) => {

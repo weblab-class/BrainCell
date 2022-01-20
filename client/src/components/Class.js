@@ -28,16 +28,14 @@ const Class = (props) => {
     }
 
     return (
-        deleted ? (null) : (
-            professorMode ? (
-                <ClassProfessor name={props.name} color={props.color} numStudents='120'
-                classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
-                deleteClass={deleteClass}/> 
-            ) : (
-                <ClassStudent name={props.name} assignments={props.assignments} grade={props.grade} color={props.color}
-                staff={props.staff}/> 
-            )
-            )
+        professorMode ? (
+            <ClassProfessor name={props.name} color={props.color} numStudents='120'
+            classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
+            deleteClass={deleteClass}/> 
+        ) : (
+            <ClassStudent name={props.name} assignments={props.assignments} grade={props.grade} color={props.color}
+            staff={props.staff}/> 
+        )
     )
 }
 
