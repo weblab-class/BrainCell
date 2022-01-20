@@ -22,7 +22,7 @@ const courseSchema = new mongoose.Schema({
     courseNumber : String,
     courseCode : String,
     name : String,
-    staff : [String],
+    staff : [staffSchema], //CHANGE TO SCHEMA
     students : [String],
     assignments : [assignemntSchema],
     schedule : [daySchema],

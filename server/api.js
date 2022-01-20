@@ -71,10 +71,15 @@ router.post("/course", (req,res) =>{
   }
 
   checkCode().then((newCode) => {
+    const newStaff = new Object ({
+      staffId : req.user._id,
+      name : req.user.name,
+      email : req.user.email,
+    })
     const newCourse = new course ({
       courseNumber : req.body.courseNumber,
       name : req.body.courseName,
-      staff : req.user,
+      staff : [newStaff],
       students : [],
       color: req.body.color,
       courseCode: newCode
@@ -88,22 +93,15 @@ router.post("/course", (req,res) =>{
 
 })
 
-router.delete("/course", (req,res) =>{
-  course.find({_id: req.query.id}).then((courseObj) => {
-    students = courseObj.students;
-    staff = courseObj.staff;
-    students.forEach((student)=>{
-      user.findByIdAndUpdate(student,
-        {$pull : {course : req.query.id}}
-        )
-    })
-    staff.forEach((staffMem)=>{
-      user.findByIdAndUpdate(staffMem,
-        {$pull : {course : req.query.id}}
-      )
-    })
-  })
-  course.deleteOne({_id:req.query.id}).then(() => res.send({}))
+router.delete("/course", (req,res) => {
+  // TODO: fix, and 
+  course.findById(req.query.id).then((courseObj) => {
+    students = courseObj.students
+    staff = courseObj.staff
+
+    console.log(students)
+    console.log(staff)
+  }).then(()=> res.send({}))
 })
 
 router.get("/user", (req, res) =>{
@@ -243,8 +241,20 @@ router.get("/messages", (req,res) => {
 
 // Ignore
 router.get("/test", (req,res) =>{
-  query = ["61e71802efa660767857267a", "61e717c94aed7563e0d20922"]
-  course.find({_id : query}).then((classes) => res.send(classes))
+  temp= "61e989a1e2abe619a8371696"
+  course.findById(temp).then((courseObj) => {
+    allMembers = courseObj.students.concat(courseObj.staff)
+    console.log(allMembers)
+
+    async function memberRemove (aMem, cObj) {
+      aMem.forEach((member) =>{
+        console.log(member)
+        user.findByIdAndUpdate(member,
+          {$pull : {course: cObj._id}})
+      })
+    }
+    memberRemove(allMembers, courseObj).then(()=>res.send({}))
+  })
 })
 
 // anything else falls to this "not found" case

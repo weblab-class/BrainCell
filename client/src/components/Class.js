@@ -11,7 +11,7 @@ const Class = (props) => {
 
     let profMode = false    
     for (let i = 0; i < props.staff.length; i++){
-        if (props.staff[i] === props.userId){
+        if (props.staff[i].staffId === props.userId){
             profMode = true
             break;
         }
