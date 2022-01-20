@@ -5,7 +5,7 @@ const ProfileName = (props) => {
     return (
         <div style={styles}>
             <p>{props.name}</p>
-            <p>{props.description}</p>
+            <p>{props.email}</p>
         </div>
     )
 }
