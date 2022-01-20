@@ -21,7 +21,7 @@ const Overview = (props) => {
             color={course.color} staff={course.staff} grade='A'>
             </Class>))
         })
-    }, [])
+    }, [classes])
 
     const switchToProf = () => {
         setProfessorMode(true)
@@ -36,9 +36,9 @@ const Overview = (props) => {
         return (
             <div>
                 <MakeJoinClass height='100px' fontSize='25px' userId={props.userId}/>
-                {classes}
-                {/* <ClassProfessor name='6.009 Fundamentals of Programming' color='blue' numStudents='120'
-                classCode='9a6t8b'/> */}
+                {/* {classes} */}
+                <ClassProfessor name='6.009 Fundamentals of Programming' color='blue' numStudents='120'
+                classCode='9a6t8b'/>
             </div>
         )
     }
