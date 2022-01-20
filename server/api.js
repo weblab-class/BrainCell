@@ -89,7 +89,7 @@ router.post("/course", (req,res) =>{
 })
 
 router.delete("/course", (req,res) =>{
-  course.findById(req.query.id).then((courseObj) => {
+  course.find({_id: req.query.id}).then((courseObj) => {
     students = courseObj.students;
     staff = courseObj.staff;
     students.forEach((student)=>{

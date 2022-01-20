@@ -8,12 +8,12 @@ import ProfessorClassDetails from './ProfessorClassDetails.js'
 
 const ClassProfessor = (props) => {
     let style = [{backgroundColor: props.color}, {borderColor: props.color}]
-    let staff = [
-        {name: 'Adam Hartz',
-         email: 'ahartz@mit.edu'},
-        {name: 'John Goodman',
-         email: 'jgoodmann@mit.edu'}
-    ]
+    // let staff = [
+    //     {name: 'Adam Hartz',
+    //      email: 'ahartz@mit.edu'},
+    //     {name: 'John Goodman',
+    //      email: 'jgoodmann@mit.edu'}
+    // ]
 
     const [details, setDetails] = useState(false)
 
@@ -39,10 +39,10 @@ const ClassProfessor = (props) => {
                 <div className='bottom-half' style={{borderColor: props.color}}>
                     <div className='body'>
                         <div style={{width: '16%'}}>
-                            <NumStudents />
+                            <NumStudents numStudents={props.numStudents}/>
                         </div>
                         <div style={{width: '30%'}}>
-                            <ProfStaff staff={staff}/>
+                            <ProfStaff staff={props.staff}/>
                         </div> 
                     </div>
                     <div className='body'>

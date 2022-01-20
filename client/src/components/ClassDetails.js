@@ -16,14 +16,14 @@ const ClassDetails = (props) => {
          grade: 69}
     ]
 
-    let staff = [
-        {name: 'Prof. Guth',
-         email: 'lguth@mit.edu'},
-        {name: 'Brian Chen',
-         email: 'bchen@mit.edu'},
-        {name: 'Max 1',
-         email: 'realm1@mit.edu'},
-    ]
+    // let staff = [
+    //     {name: 'Prof. Guth',
+    //      email: 'lguth@mit.edu'},
+    //     {name: 'Brian Chen',
+    //      email: 'bchen@mit.edu'},
+    //     {name: 'Max 1',
+    //      email: 'realm1@mit.edu'},
+    // ]
 
     let schedule = [
         {day: 'Monday',
@@ -51,7 +51,7 @@ const ClassDetails = (props) => {
                         <ClassGrades grades={grades} />
                     </div>
                     <div style={{width: '30%'}}>
-                        <ClassStaff staff={staff}/>
+                        <ClassStaff staff={props.staff}/>
                     </div> 
                 </div>
                 <div style={{display: 'flex', justifyContent: 'left'}}>

@@ -19,7 +19,8 @@ const Overview = (props) => {
             setClasses(courses.map((course) => 
             <Class 
             name={`${course.courseNumber}: ${course.name}`} assignments={course.assignments} 
-            color={course.color} staff={course.staff} grade='A' userId={props.userId} courseCode = {course.courseCode}>
+            color={course.color} staff={course.staff} grade='A' userId={props.userId} courseCode = {course.courseCode}
+            numStudents={course.students.length} courseId={course._id}>
             </Class>))
         })
     }, [classes])
