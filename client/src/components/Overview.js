@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import Class from './Class.js'
-import ClassProfessor from './ClassProfessor.js'
 
 import { get, post } from "../utilities";
 import MakeJoinClass from "./MakeJoinClass.js";
@@ -11,21 +10,20 @@ import MakeJoinClass from "./MakeJoinClass.js";
 
 const Overview = (props) => {
     const [classes, setClasses] = useState([])
-    const [professorMode, setProfessorMode] = useState(false)
+    // const [classColor, setClassColor] = 
+    // let color = ['red', 'blue', 'green', 'orange']
+    // let randColor = color[Math.floor(Math.random()*color.length)]
 
     useEffect(() => {
         get('/api/course', {id: props.userId}).then((courses) => {
             setClasses(courses.map((course) => 
             <Class 
             name={`${course.courseNumber}: ${course.name}`} assignments={course.assignments} 
-            color={course.color} staff={course.staff} grade='A'>
+            color={course.color} staff={course.staff} grade='A' userId={props.userId} courseCode = {course.courseCode}>
             </Class>))
         })
     }, [classes])
 
-    const switchToProf = () => {
-        setProfessorMode(true)
-    }
 
     if (classes.length === 0){
         return (
@@ -36,9 +34,7 @@ const Overview = (props) => {
         return (
             <div>
                 <MakeJoinClass height='100px' fontSize='25px' userId={props.userId}/>
-                {/* {classes} */}
-                <ClassProfessor name='6.009 Fundamentals of Programming' color='blue' numStudents='120'
-                classCode='9a6t8b'/>
+                {classes}
             </div>
         )
     }

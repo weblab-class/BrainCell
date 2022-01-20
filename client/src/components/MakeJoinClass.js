@@ -10,6 +10,9 @@ const MakeJoinClass = (props) => {
     const [courseName, setCourseName] = useState('')
     const [classCode, setClassCode] = useState('')
 
+    let color = ['red', 'blue', 'green', 'orange']
+    let randColor = color[Math.floor(Math.random()*color.length)]
+
     const createClass = () => {
         if (joinClass) {
             setJoinClass(false)
@@ -39,7 +42,7 @@ const MakeJoinClass = (props) => {
     }
 
     const handleSubmitMakeClass = () => {
-        post('/api/course', {courseNumber: courseNumber, courseName: courseName, user: props.userId}).then(() => {
+        post('/api/course', {courseNumber: courseNumber, courseName: courseName, user: props.userId, color: randColor}).then(() => {
             setCourseNumber('')
             setCourseName('')
         })

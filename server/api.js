@@ -76,7 +76,7 @@ router.post("/course", (req,res) =>{
       name : req.body.courseName,
       staff : req.user,
       students : [],
-      // color: req.body.color,
+      color: req.body.color,
       courseCode: newCode
     });
 

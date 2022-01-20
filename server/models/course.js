@@ -26,7 +26,7 @@ const courseSchema = new mongoose.Schema({
     students : [String],
     assignments : [assignemntSchema],
     schedule : [daySchema],
-    // color : String,
+    color : String,
 });
 
 module.exports = mongoose.model("course", courseSchema);

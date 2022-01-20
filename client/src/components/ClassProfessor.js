@@ -47,7 +47,7 @@ const ClassProfessor = (props) => {
                     </div>
                     <div className='body'>
                         <div style={{display: 'flex', justifyContent: 'left'}}>
-                            <ClassCode classCode={'9at8gb'} />
+                            <ClassCode classCode={props.classCode} />
                         </div>
                         <div className='deleteButton' onClick={props.deleteClass}>
                             DELETE CLASS
