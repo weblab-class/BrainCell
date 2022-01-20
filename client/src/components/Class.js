@@ -6,6 +6,7 @@ import './Class.css'
 
 const Class = (props) => {
     const [professorMode, setProfessorMode] = useState(undefined)
+    const [studentMode, setStudentMode] = useState(undefined)
     const [deleted, setDeleted] = useState(false)
 
     let profMode = false    
@@ -18,6 +19,7 @@ const Class = (props) => {
 
     useEffect(() => {
         setProfessorMode(profMode)
+        setStudentMode(!profMode)
     }, [])
 
     const deleteClass = () => {
@@ -27,16 +29,24 @@ const Class = (props) => {
         setDeleted(true)
     }
 
-    return (
-        professorMode ? (
-            <ClassProfessor name={props.name} color={props.color} numStudents='120'
-            classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
-            deleteClass={deleteClass}/> 
-        ) : (
+    if(studentMode) {
+        return (
             <ClassStudent name={props.name} assignments={props.assignments} grade={props.grade} color={props.color}
             staff={props.staff}/> 
         )
-    )
+    }
+
+    if(professorMode) {
+        if(!deleted){
+            return (
+                <ClassProfessor name={props.name} color={props.color}
+                classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
+                deleteClass={deleteClass}/> 
+            )
+        }
+    }
+
+    return null
 }
 
 export default Class

@@ -16,7 +16,7 @@ const ClassStudent = (props) => {
     return (
         details ? (
             <div>
-                <ClassDetails name={props.name} color={props.color} onClick={handleClick} />
+                <ClassDetails name={props.name} staff={props.staff} color={props.color} onClick={handleClick} />
             </div> 
             ) : (
             <div className="class-container">
