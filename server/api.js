@@ -55,9 +55,6 @@ router.post("/courseCode", (req, res) =>{
 })
   
 router.post("/course", (req,res) =>{
-  let themeColor = [[122, 156, 198], [70, 70, 85], [126, 132, 107], [244, 91, 105], [95, 187, 151], [22, 152, 115], [221, 127, 62]]
-  // ranColor = themeColor[Math.floor(Math.random()*themeColor.lenght)];
-
   async function checkCode() {
     let alphaNumericCode = Math.random().toString(36).slice(-6);
     let isUnique = false;
@@ -85,8 +82,7 @@ router.post("/course", (req,res) =>{
 
     newCourse.save().then((savedCourse) => {
       user.findByIdAndUpdate(req.user,
-        {$push: {course: savedCourse._id}})
-      res.send({})}).catch((err) => res.send(err))
+        {$push: {course: savedCourse._id}}).then(() => res.send({}))})
   })
 
 
