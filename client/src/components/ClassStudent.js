@@ -16,7 +16,8 @@ const ClassStudent = (props) => {
     return (
         details ? (
             <div>
-                <ClassDetails name={props.name} staff={props.staff} color={props.color} onClick={handleClick} schedule={props.schedule}/>
+                <ClassDetails name={props.name} staff={props.staff} color={props.color} onClick={handleClick} 
+                schedule={props.schedule} assignments={props.assignments} courseId={props.courseId} userId={props.userId}/>
             </div> 
             ) : (
             <div className="class-container">

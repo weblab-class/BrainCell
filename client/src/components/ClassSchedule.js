@@ -1,7 +1,6 @@
 import React from 'react'
 
 const ClassSchedule = (props) => {
-    console.log(props.schedule)
     return (
         <div style={{width: '20%'}}>
             <h1>

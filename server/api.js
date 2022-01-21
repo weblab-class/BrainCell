@@ -208,13 +208,19 @@ router.get("/allGrades", (req,res) => {
   course.findById(req.query.courseId).then((courseObj) => {
     resultAssignmnets = courseObj.assignments
     resultGrades = []
+    // console.log(req.query.userId)
 
+    //TODO: get grades
     resultAssignmnets.forEach((job) => {
-      temp = job.filter((isGrade) => isGrade===req.user._id)
-      resultGrades.push(temp)
+      job.grades.forEach((assign)=>{
+        temp = assign.filter((isGrade) => isGrade!=req.query.userId)
+        resultGrades.push(temp)
+      })
+      // console.log(temp)
     })
+    console.log(resultGrades)
     return (resultGrades)
-  }).then((graded) => res.send({gradeds}))
+  }).then((graded) => res.send({graded}))
 })
 
 router.post("/grades", (req, res) => {
