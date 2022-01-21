@@ -146,26 +146,29 @@ router.delete("/students", (req,res) => {
 })
 
 router.post("/staff", (req,res) => {
-  temp = req.query.staff
-  temp.forEach((staffMem) => user.findByIdAndUpdate((staffMem),
-  {$push: {course : req.query.id}}
-  ))
+  user.findOneAndUpdate({email: req.body.email},
+    {$push: {course: req.query.courseId}}).then((userFound) => {
+    const newStaff = new Object ({
+      staffId : userFound._id,
+      name : userFound.name,
+      email : userFound.email,
+    })
 
-  course.findByIdAndUpdate(req.query.courseId,
-    {$push : {staff : {$each: req.query.staff}}}
-    ).then(() => {res.send({})})
+    course.findByIdAndUpdate(req.query.courseId,
+      {$push : {staff : newStaff}}).then(() => {res.send({})})
+  })
+
 })
 
-router.delete("/staff", (req,res) => {
-  temp = req.query.staff
-  temp.forEach((staffMem) => user.findByIdAndUpdate((staffMem),
-  {$pull: {course : req.query.id}}
-  ))
-
-  course.findByIdAndUpdate(req.query.courseId,
-    {$pull : {staff : {$each: req.query.staff}}}
-    ).then(() => {res.send({})})
+router.post("/deleteStaff", (req,res) => {
+  course.findById(req.query.courseId).then((courseObj) => {
+    courseObj.staff.find({email: req.body.email}).remove()
+  }).then(() => {
+    user.findOneAndUpdate({email: req.body.email},
+      {$pull: req.query.courseId}).save().then(()=> res.send({}))
+  })
 })
+
 
 router.get("/allAssignments", (req, res) =>{
   course.findById(newreq.query.id).then((courseObj) => {
@@ -253,24 +256,8 @@ router.get("/messages", (req,res) => {
 
 // Ignore
 router.get("/test", (req,res) =>{
-  course.findByIdAndDelete("61e9bc8d42ed39d24929cc94").then((courseObj) => {
-    students=courseObj.students
-    staff=courseObj.staff
-
-    students.forEach((student) => {
-      console.log(student)
-      user.findByIdAndUpdate(student,
-        {$pull: {course: courseObj._id}}  
-      ).then((tempStudent) => tempStudent.save())
-    })
-
-    staff.forEach((staffMem) => {
-      console.log(staffMem)
-      user.findByIdAndUpdate(staffMem.staffId,
-        {$pull: {course: courseObj._id}}  
-      ).then((tempStaff) => tempStaff.save())
-    })
-  }).then(() => res.send({}))})
+  res.send({})
+})
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
