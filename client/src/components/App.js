@@ -73,14 +73,12 @@ const App = () => {
   if (userId){
     return (
       <div onClick={hideProfile}>
-        {/* {console.log({user})} */}
-
         <NavBar viewProfile={viewProfile} />
 
         {profileVisible ? (
           <div className="profile-container">
             <div className="profile">
-              <Profile logout={handleLogout} name={user.name} description={user.description}/>
+              <Profile logout={handleLogout} name={user.name} email={user.email}/>
             </div>
           </div>
         ) : (null)}

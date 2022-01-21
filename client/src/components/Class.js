@@ -1,44 +1,43 @@
-import React, { useState } from "react";
-import ClassDetails from './ClassDetails.js'
+import React, { useEffect, useState } from "react";
+import ClassProfessor from './ClassProfessor.js'
+import ClassStudent from './ClassStudent.js'
+import { post } from '../utilities'
 
 import './Class.css'
 
 const Class = (props) => {
-    let style = [{backgroundColor: props.color}, {borderColor: props.color}]
+    const [professorMode, setProfessorMode] = useState(undefined)
 
-    const [details, setDetails] = useState(false)
-
-    const handleClick = () => {
-        details ? (
-            setDetails(false) 
-        ) : (setDetails(true))
+    let profMode = false    
+    for (let i = 0; i < props.staff.length; i++){
+        if (props.staff[i].userId === props.userId){
+            profMode = true
+            break;
+        }
     }
 
-    return (
-        details ? (
-            <div>
-                <ClassDetails name={props.name} color={props.color} onClick={handleClick} />
-            </div> 
-            ) : (
-            <div className="class-container">
-                <div className="upper-half" style={style[0]}>
-                    <h1 className="class-name">
-                        {props.name} <span style={{color: 'white'}} onClick={handleClick}>+</span>
-                    </h1>
-                </div>
-                <div className="bottom-half" style={style[1]}>
-                    {props.assignments.map((assignment) => {
-                        return (
-                            <div>
-                                <p> <span className="head">Due: </span> {assignment.dueDate.toString()}: {assignment.name}</p>
-                            </div>
-                        )
-                    })}
-                    <p> <span className="head">Grade: </span> {props.grade}</p>
-                </div>
-            </div>
-            )
+    useEffect(() => {
+        setProfessorMode(profMode)
+    }, [])
+
+    const deleteClass = () => {
+        post('/api/deleteCourse', {courseId: props.courseId})
+    }
+
+    if(professorMode){
+        return (
+            <ClassProfessor name={props.name} color={props.color}
+            classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
+            deleteClass={deleteClass} courseId={props.courseId}/> 
         )
+    }
+
+    else{
+        return (
+            <ClassStudent name={props.name} assignments={props.assignments} grade={props.grade} color={props.color}
+            staff={props.staff}/> 
+        )
+    }
 }
 
 export default Class

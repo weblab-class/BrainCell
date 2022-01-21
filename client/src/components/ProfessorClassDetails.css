@@ -1,0 +1,53 @@
+.class-container {
+    padding: var(--m) var(--m);
+}
+
+.upper-half {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    padding: var(--s) var(--m);
+}
+
+.bottom-half {
+    border-style: solid;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: var(--s) var(--m);
+}
+  
+.class-name {
+    display: flex;
+    color: white;
+    justify-content: space-between;
+}
+
+.top-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 8px;
+}
+
+.add-button {
+    background-color: green;
+    height: 30px;
+    color: white;
+    width: 15%;
+    border-radius: 10px;
+}
+
+.remove-button {
+    background-color: red;
+    height: 30px;
+    color: white;
+    width: 15%;
+    border-radius: 10px;
+}
+
+.edit-assignments {
+    background-color: #002A32;
+    color: white;
+    border-radius: 10px;
+}
+
+
+

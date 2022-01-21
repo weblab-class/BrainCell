@@ -6,8 +6,8 @@ const assignemntSchema = new mongoose.Schema({
     dueDate : Date,
 });
 
-const staffSchema = new mongoose.Schema({
-    staffId : String,
+const userSchema = new mongoose.Schema({
+    userId : String,
     name : String,
     email : String,
 })
@@ -20,9 +20,10 @@ const daySchema = new mongoose.Schema({
 //defines a class schema
 const courseSchema = new mongoose.Schema({
     courseNumber : String,
+    courseCode : String,
     name : String,
-    staff : [staffSchema],
-    students : [String],
+    staff : [userSchema], //CHANGE TO SCHEMA
+    students : [userSchema],
     assignments : [assignemntSchema],
     schedule : [daySchema],
     color : String,

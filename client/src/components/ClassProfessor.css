@@ -1,0 +1,44 @@
+.class-container {
+    padding: var(--m) var(--m);
+}
+
+.upper-half {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    padding: var(--s) var(--m);
+}
+
+.bottom-half {
+    border-style: solid;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: var(--s) var(--m);
+}
+  
+.class-name {
+    display: flex;
+    color: white;
+    justify-content: space-between;
+}
+
+.head {
+    font-weight: 600;
+    font-size: var(--m)
+}
+
+.body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deleteButton {
+    background-color: red;
+    padding: 15px;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    font-size: large;
+    height: 50%;
+    align-self: end;
+}
