@@ -30,7 +30,7 @@ const courseSchema = new mongoose.Schema({
     staff : [userSchema], //CHANGE TO SCHEMA
     students : [userSchema],
     assignments : [assignemntSchema],
-    schedule : [daySchema],
+    schedule : [Object],
     color : String,
 });
 

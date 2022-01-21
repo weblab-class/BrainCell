@@ -10,41 +10,42 @@ const Schedule = (props) => {
     const [thursHours, setThursHours] = useState('')
     const [friHours, setFriHours] = useState('')
 
-    const [schedule, setSchedule] = useState([])
+    // const [schedule, setSchedule] = useState([])
 
     const changeMonHours = (event) => {
         setMonHours(event.target.value)
-        setSchedule((prev) => {
-            return [...prev, {'Monday': monHours}]
-        })
+        // console.log(monHours)
+        // setSchedule((prev) => {
+        //     return [...prev, {'Monday': monHours}]
+        // })
     }
 
     const changeTuesHours = (event) => {
         setTuesHours(event.target.value)
-        setSchedule((prev) => {
-            return [...prev, {'Tuesday': tuesHours}]
-        })
+        // setSchedule((prev) => {
+        //     return [...prev, {'Tuesday': tuesHours}]
+        // })
     }
 
     const changeWedHours = (event) => {
         setWedHours(event.target.value)
-        setSchedule((prev) => {
-            return [...prev, {'Wednesday': wedHours}]
-        })
+        // setSchedule((prev) => {
+        //     return [...prev, {'Wednesday': wedHours}]
+        // })
     }
 
     const changeThursHours = (event) => {
         setThursHours(event.target.value)
-        setSchedule((prev) => {
-            return [...prev, {'Thursday': thursHours}]
-        })
+        // setSchedule((prev) => {
+        //     return [...prev, {'Thursday': thursHours}]
+        // })
     }
 
     const changeFriHours = (event) => {
         setFriHours(event.target.value)
-        setSchedule((prev) => {
-            return [...prev, {'Friday': friHours}]
-        })
+        // setSchedule((prev) => {
+        //     return [...prev, {'Friday': friHours}]
+        // })
     }
 
     const handleSubmit = () => {
@@ -55,6 +56,17 @@ const Schedule = (props) => {
         //         hours: string
         //     }
         // ]
+   
+        let schedule = [
+            {'Monday': monHours},
+            {'Tuesday': tuesHours},
+            {'Wednesday': wedHours},
+            {'Thursday': thursHours},
+            {'Friday': friHours}
+        ]
+
+        // console.log(schedule)
+
         post('/api/schedule', {courseId: props.courseId, schedule: schedule})
         setMonHours('')
         setTuesHours('')
