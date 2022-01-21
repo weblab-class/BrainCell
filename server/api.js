@@ -57,13 +57,6 @@ router.post("/courseCode", (req, res) =>{
       user.findOneAndUpdate({_id: req.user._id},
         {$push: {course: courseObj._id}}).then()
     }).then(() => res.send({}))
-  // user.findOneAndUpdate({_id: req.user},
-  //   {$push: {course: req.body.courseId}}).then((userFound) => {
-  //   
-
-  //   course.findByIdAndUpdate(req.body.courseId,
-  //     {$push : {students : newStudent}}).then(() => {res.send({})})
-  //   })
 })
   
 router.post("/course", (req,res) =>{
