@@ -177,19 +177,27 @@ router.post("/deleteStaff", (req,res) => {
 
 router.post("/assignment", (req,res) =>{
   temp = new Object (
-    {name : req.query.name,
-    dueDate : req.query.dueDate,}
+    {name : req.body.name,
+    dueDate : req.body.dueDate,}
   )
-  course.findByIdAndUpdate(req.query.id,
+
+  course.findByIdAndUpdate(req.body.id,
     {$push: {assignments : temp}}
-  ).then(() => res.send({}))
+  ).then((classy) => res.send({}))
 })
 
-router.post("/deleteAssignment", (req,res) =>{
-  course.findById(req.query.contentId).then((courseObj) => {
-    courseObj.assignments.id(req.query.assignmentId).remove()
-    courseObj.save()
-  }).then(() => res.send({}))
+router.post("/deleteAssignment", async (req,res) =>{
+  console.log(req.body.assignmentId)
+  let courseObj = await course.findOne({_id: req.body.courseId});
+  let updatedAssignments = [];
+  for (let i = 0; i < courseObj.assignments.length; i++) {
+    if (courseObj.assignments[i]._id.toString() != req.body.assignmentId) {
+      updatedAssignments.push(courseObj.assignments[i]);
+    }
+  }
+
+    await course.findOneAndUpdate({_id: req.body.courseId}, {assignments: updatedAssignments});
+    res.send({});
 })
 
 router.get("/allGrades", (req,res) => {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ProfessorButtons from './ProfessorButtons.js'
+import ProfessorAssignments from './ProfessorAssignments.js'
 
 import './ProfessorClassDetails.css'
 
@@ -134,26 +135,7 @@ const ProfessorClassDetails = (props) => {
                         (null)
                     )}
 
-                    <div>
-                        <h1 style={{display: 'flex', justifyContent: 'space-between'}}>
-                            Assignments
-                            <button className='edit-assignments'>Edit Assignments</button>
-                        </h1>
-                        <hr></hr>
-                        {props.assignments.map((assignment) => {
-                            if (assignment.graded){
-                                return (
-                                    <li style={{display: 'flex', justifyContent: 'space-between'}}>{assignment.name} <span>GRADED</span></li>
-                                )
-                            }
-                            else{
-                                return (
-                                    <li style={{display: 'flex', justifyContent: 'space-between'}}>{assignment.name} <span><button>GRADE</button></span></li>
-                                )
-                            }
-                        })}
-
-                    </div>
+                    <ProfessorAssignments courseId={props.courseId} assignments={props.assignments} />
                 </div>
         </div>
     )
