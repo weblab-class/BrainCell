@@ -58,11 +58,11 @@ const Schedule = (props) => {
         // ]
    
         let schedule = [
-            {'Monday': monHours},
-            {'Tuesday': tuesHours},
-            {'Wednesday': wedHours},
-            {'Thursday': thursHours},
-            {'Friday': friHours}
+            {day: 'Monday', hours: monHours},
+            {day: 'Tuesday', hours: tuesHours},
+            {day: 'Wednesday', hours: wedHours},
+            {day: 'Thursday', hours: thursHours},
+            {day: 'Friday', hours: friHours}
         ]
 
         // console.log(schedule)
