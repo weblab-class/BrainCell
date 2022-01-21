@@ -5,85 +5,111 @@ import './ProfessorClassDetails.css'
 
 const ProfessorClassDetails = (props) => {
 
-    // const [addingStaff, setAddingStaff] = useState(false)
-    // const [removingStaff, setRemovingStaff] = useState(false)
-    // const [addingStudent, setAddingStudent] = useState(false)
-    // const [removingStudent, setRemovingStudent] = useState(false)
+    const [addingStaff, setAddingStaff] = useState(false)
+    const [removingStaff, setRemovingStaff] = useState(false)
+    const [addingStudent, setAddingStudent] = useState(false)
+    const [removingStudent, setRemovingStudent] = useState(false)
     const [buttonClicked, setButtonClicked] = useState(false)
     const [buttonTitle, setButtonTitle] = useState('')
 
     const addStaff = () => {
-        // if (removingStaff) {
-        //     setRemovingStaff(false)
-        // }
-        // else if (addingStudent) {
-        //     setAddingStudent(false)
-        // }
-        // else if (removingStudent) {
-        //     setRemovingStudent(false)
-        // }
+        if (removingStaff) {
+            setRemovingStaff(false)
+        }
+        else if (addingStudent) {
+            setAddingStudent(false)
+        }
+        else if (removingStudent) {
+            setRemovingStudent(false)
+        }
 
+        if (addingStaff){
+            setAddingStaff(false)
+            setButtonClicked(false)
+        }
+        else{
+            setAddingStaff(true)
+            setButtonClicked(true)
+        }
         // addingStaff ? (
         //     setAddingStaff(false)
-        // ) : (setAddingStaff(true))
+        // ) : (
+        //     setAddingStaff(true)
+        //     setButtonClicked(true)
+        // )
 
-        buttonClicked ? (
-            setButtonClicked(false)
-        ) : (setButtonClicked(true))
+        // buttonClicked ? (
+        //     setButtonClicked(false)
+        // ) : (setButtonClicked(true))
 
         setButtonTitle('Add Staff Member')
     }
 
     const removeStaff = () => {
-        // if (addingStaff) {
-        //     setAddingStaff(false)
-        // }
-        // else if (addingStudent) {
-        //     setAddingStudent(false)
-        // }
-        // else if (removingStudent) {
-        //     setRemovingStudent(false)
-        // }
+        if (addingStaff) {
+            setAddingStaff(false)
+        }
+        else if (addingStudent) {
+            setAddingStudent(false)
+        }
+        else if (removingStudent) {
+            setRemovingStudent(false)
+        }
 
-        buttonClicked ? (
+        if (removingStaff){
+            setRemovingStaff(false)
             setButtonClicked(false)
-        ) : (setButtonClicked(true))
+        }
+        else{
+            setRemovingStaff(true)
+            setButtonClicked(true)
+        }
 
         setButtonTitle('Remove Staff Member')
     }
 
     const addStudent = () => {
-        // if (addingStaff) {
-        //     setAddingStaff(false)
-        // }
-        // else if (removingStaff) {
-        //     setRemovingStaff(false)
-        // }
-        // else if (removingStudent) {
-        //     setRemovingStudent(false)
-        // }
+        if (addingStaff) {
+            setAddingStaff(false)
+        }
+        else if (removingStaff) {
+            setRemovingStaff(false)
+        }
+        else if (removingStudent) {
+            setRemovingStudent(false)
+        }
 
-        buttonClicked ? (
+        if (addingStudent){
+            setAddingStudent(false)
             setButtonClicked(false)
-        ) : (setButtonClicked(true))
+        }
+        else{
+            setAddingStudent(true)
+            setButtonClicked(true)
+        }
 
         setButtonTitle('Add Student')
     }
 
     const removeStudent = () => {
-        // if (addingStaff) {
-        //     setAddingStaff(false)
-        // }
-        // else if (removingStaff) {
-        //     setRemovingStaff(false)
-        // }
-        // else if (addingStudent) {
-        //     setAddingStudent(false)
-        // }
+        if (addingStaff) {
+            setAddingStaff(false)
+        }
+        else if (removingStaff) {
+            setRemovingStaff(false)
+        }
+        else if (addingStudent) {
+            setAddingStudent(false)
+        }
 
-        buttonClicked ? (
+        if (removingStudent){
+            setRemovingStudent(false)
             setButtonClicked(false)
-        ) : (setButtonClicked(true))
+        }
+        else{
+            setRemovingStudent(true)
+            setButtonClicked(true)
+        }
 
         setButtonTitle('Remove Student')
     }
