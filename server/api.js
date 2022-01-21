@@ -99,7 +99,6 @@ router.post("/course", (req,res) =>{
 })
 
 router.post("/deleteCourse", (req,res) => {
-  // TODO: Find why it works on test, but not here
   course.findByIdAndDelete(req.body.courseId).then((courseObj) => {
     students=courseObj.students
     staff=courseObj.staff
@@ -124,8 +123,6 @@ router.get("/user", (req, res) =>{
   user.find({_id : req.query.id}).then((userFound) => res.send(userFound))
 });
 
-//assumes input is array
-// TODO: fix cross-check on students/staff
 router.post("/students", (req,res) => {
   user.findOneAndUpdate({email: req.body.email},
     {$push: {course: req.body.courseId}}).then((userFound) => {
@@ -175,6 +172,13 @@ router.post("/deleteStaff", (req,res) => {
   })
 })
 
+router.post("/schedule", (req, res) => {
+  course.findById(req.body.courseId).then((courseFound) =>{
+    courseFound.schedule = req.body.schedule
+    courseFound.save()
+  }).then(()=>{res.send({})})
+})
+
 router.post("/assignment", (req,res) =>{
   temp = new Object (
     {name : req.body.name,
@@ -201,7 +205,6 @@ router.post("/deleteAssignment", async (req,res) =>{
 })
 
 router.get("/allGrades", (req,res) => {
-  // TODO: get grades
   course.findById(req.query.courseId).then((courseObj) => {
     resultAssignmnets = courseObj.assignments
     resultGrades = []
