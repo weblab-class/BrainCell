@@ -93,15 +93,26 @@ router.post("/course", (req,res) =>{
 
 })
 
-router.delete("/course", (req,res) => {
-  // TODO: fix, and 
-  course.findById(req.query.id).then((courseObj) => {
-    students = courseObj.students
-    staff = courseObj.staff
+router.post("/deleteCourse", (req,res) => {
+  // TODO: Find why it works on test, but not here
+  course.findByIdAndDelete(req.body.courseId).then((courseObj) => {
+    students=courseObj.students
+    staff=courseObj.staff
 
-    console.log(students)
-    console.log(staff)
-  }).then(()=> res.send({}))
+    students.forEach((student) => {
+      console.log(student)
+      user.findByIdAndUpdate(student,
+        {$pull: {course: courseObj._id}}  
+      ).then((tempStudent) => tempStudent.save())
+    })
+
+    staff.forEach((staffMem) => {
+      console.log(staffMem)
+      user.findByIdAndUpdate(staffMem.staffId,
+        {$pull: {course: courseObj._id}}  
+      ).then((tempStaff) => tempStaff.save())
+    })
+  }).then(() => res.send({}))
 })
 
 router.get("/user", (req, res) =>{
@@ -241,21 +252,24 @@ router.get("/messages", (req,res) => {
 
 // Ignore
 router.get("/test", (req,res) =>{
-  temp= "61e989a1e2abe619a8371696"
-  course.findById(temp).then((courseObj) => {
-    allMembers = courseObj.students.concat(courseObj.staff)
-    console.log(allMembers)
+  course.findByIdAndDelete("61e9bc8d42ed39d24929cc94").then((courseObj) => {
+    students=courseObj.students
+    staff=courseObj.staff
 
-    async function memberRemove (aMem, cObj) {
-      aMem.forEach((member) =>{
-        console.log(member)
-        user.findByIdAndUpdate(member,
-          {$pull : {course: cObj._id}})
-      })
-    }
-    memberRemove(allMembers, courseObj).then(()=>res.send({}))
-  })
-})
+    students.forEach((student) => {
+      console.log(student)
+      user.findByIdAndUpdate(student,
+        {$pull: {course: courseObj._id}}  
+      ).then((tempStudent) => tempStudent.save())
+    })
+
+    staff.forEach((staffMem) => {
+      console.log(staffMem)
+      user.findByIdAndUpdate(staffMem.staffId,
+        {$pull: {course: courseObj._id}}  
+      ).then((tempStaff) => tempStaff.save())
+    })
+  }).then(() => res.send({}))})
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {

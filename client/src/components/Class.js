@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ClassProfessor from './ClassProfessor.js'
 import ClassStudent from './ClassStudent.js'
+import { post } from '../utilities'
 
 import './Class.css'
 
@@ -23,7 +24,7 @@ const Class = (props) => {
     }, [])
 
     const deleteClass = () => {
-        delete('/api/course', {id: props.courseId})
+        post('/api/deleteCourse', {courseId: props.courseId})
         profMode = false
         setProfessorMode(false)
         setDeleted(true)
