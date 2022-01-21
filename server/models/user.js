@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
   googleid: String,
   description: String,
   course: [String],
-  grades: [gradesSchema],
+  // grades: [gradesSchema],
 });
 
 // compile model from schema

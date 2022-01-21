@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 
+const gradesSchema = new mongoose.Schema({
+    userId: String,
+    grade: String,
+})
+
 const assignemntSchema = new mongoose.Schema({
     name : String,
-    instructions : String,
     dueDate : Date,
+    grades : [gradesSchema],
 });
 
 const userSchema = new mongoose.Schema({

@@ -175,23 +175,9 @@ router.post("/deleteStaff", (req,res) => {
   })
 })
 
-
-router.get("/allAssignments", (req, res) =>{
-  course.findById(newreq.query.id).then((courseObj) => {
-    res.send(courseObj.assignments)
-  })
-});
-
-router.get("/oneAssignment", (req, res) =>{
-  course.findById(req.query.courseId).then((courseObj) => {
-    courseObj.assignments.id(req.query.assignmentId).then((assigned) => res.send(assigned))
-  })
-});
-
 router.post("/assignment", (req,res) =>{
   temp = new Object (
     {name : req.query.name,
-    instructions : req.query.instructions,
     dueDate : req.query.dueDate,}
   )
   course.findByIdAndUpdate(req.query.id,
@@ -199,7 +185,7 @@ router.post("/assignment", (req,res) =>{
   ).then(() => res.send({}))
 })
 
-router.delete("/assignment", (req,res) =>{
+router.post("/deleteAssignment", (req,res) =>{
   course.findById(req.query.contentId).then((courseObj) => {
     courseObj.assignments.id(req.query.assignmentId).remove()
     courseObj.save()
@@ -208,16 +194,16 @@ router.delete("/assignment", (req,res) =>{
 
 router.get("/allGrades", (req,res) => {
   // TODO: get grades
-  user.findById(req.query.userId).then((userObj) => {
-    userObj.grades.find({courseId : req.query.courseId}).then((gradeArray) => res.send(gradeArray))
-  })
-})
+  course.findById(req.query.courseId).then((courseObj) => {
+    resultAssignmnets = courseObj.assignments
+    resultGrades = []
 
-router.get("/oneGrade", (req,res) => {
-  // TODO: get one grade
-  user.findById(req.query.userId).then((userObj) => {
-    res.send(userObj.grades.id(req.query.gradeId))
-  })
+    resultAssignmnets.forEach((job) => {
+      temp = job.filter((isGrade) => isGrade[0]===req.user._id)
+      resultGrades.push(temp)
+    })
+    return (resultGrades)
+  }).then((graded) => res.send({gradeds}))
 })
 
 router.post("/grades", (req, res) => {
