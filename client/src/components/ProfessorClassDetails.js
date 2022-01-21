@@ -31,16 +31,6 @@ const ProfessorClassDetails = (props) => {
             setAddingStaff(true)
             setButtonClicked(true)
         }
-        // addingStaff ? (
-        //     setAddingStaff(false)
-        // ) : (
-        //     setAddingStaff(true)
-        //     setButtonClicked(true)
-        // )
-
-        // buttonClicked ? (
-        //     setButtonClicked(false)
-        // ) : (setButtonClicked(true))
 
         setButtonTitle('Add Staff Member')
     }
@@ -138,7 +128,8 @@ const ProfessorClassDetails = (props) => {
                     </div>
 
                     {buttonClicked ? (
-                        <ProfessorButtons title={buttonTitle}/>
+                        <ProfessorButtons title={buttonTitle} courseId={props.courseId} addingStaff={addingStaff} removingStaff={removingStaff}
+                        addingStudent={addingStudent} removingStudent={removingStudent}/>
                     ) : (
                         (null)
                     )}

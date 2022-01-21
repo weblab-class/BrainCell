@@ -26,7 +26,7 @@ const ClassProfessor = (props) => {
     return (
         details ? (
             <div>
-                <ProfessorClassDetails onClick={handleClick} name={props.name} color={props.color}
+                <ProfessorClassDetails onClick={handleClick} name={props.name} courseId={props.courseId} color={props.color}
                 assignments={[{name: 'Pset0', graded: true}, {name: 'Lab1', graded: false}]}/>
             </div>
         ) : (

@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { get, post } from "../utilities";
+
 
 import './ProfessorButtons.css'
 
@@ -11,6 +13,18 @@ const ProfessorButtons = (props) => {
     }
 
     const handleSubmit = () => {
+        if (props.addingStaff){
+            post('/api/staff', {email: email, courseId: props.courseId})
+        }
+        else if(props.removingStaff){
+            post('/api/deleteStaff', {email: email, courseId: props.courseId})
+        }
+        else if(props.addingStudent){
+            console.log('Adding Student...')
+        }
+        else if(props.removingStudent){
+            console.log('Removing Student...')
+        }
         setEmail('')
     }
 

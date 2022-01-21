@@ -147,25 +147,26 @@ router.delete("/students", (req,res) => {
 
 router.post("/staff", (req,res) => {
   user.findOneAndUpdate({email: req.body.email},
-    {$push: {course: req.query.courseId}}).then((userFound) => {
+    {$push: {course: req.body.courseId}}).then((userFound) => {
     const newStaff = new Object ({
       staffId : userFound._id,
       name : userFound.name,
       email : userFound.email,
     })
 
-    course.findByIdAndUpdate(req.query.courseId,
+    course.findByIdAndUpdate(req.body.courseId,
       {$push : {staff : newStaff}}).then(() => {res.send({})})
   })
 
 })
 
 router.post("/deleteStaff", (req,res) => {
-  course.findById(req.query.courseId).then((courseObj) => {
-    courseObj.staff.find({email: req.body.email}).remove()
+  course.findById(req.body.courseId).then((courseObj) => {
+    courseObj.staff = courseObj.staff.filter((person) => person.email !== req.body.email)
+    courseObj.save()
   }).then(() => {
     user.findOneAndUpdate({email: req.body.email},
-      {$pull: req.query.courseId}).save().then(()=> res.send({}))
+      {$pull: {course: req.body.courseId}}).then(()=> res.send({}))
   })
 })
 

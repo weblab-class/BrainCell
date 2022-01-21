@@ -28,7 +28,7 @@ const Class = (props) => {
         return (
             <ClassProfessor name={props.name} color={props.color}
             classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
-            deleteClass={deleteClass}/> 
+            deleteClass={deleteClass} courseId={props.courseId}/> 
         )
     }
 
