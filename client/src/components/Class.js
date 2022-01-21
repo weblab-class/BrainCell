@@ -7,8 +7,6 @@ import './Class.css'
 
 const Class = (props) => {
     const [professorMode, setProfessorMode] = useState(undefined)
-    const [studentMode, setStudentMode] = useState(undefined)
-    const [deleted, setDeleted] = useState(false)
 
     let profMode = false    
     for (let i = 0; i < props.staff.length; i++){
@@ -20,34 +18,26 @@ const Class = (props) => {
 
     useEffect(() => {
         setProfessorMode(profMode)
-        setStudentMode(!profMode)
     }, [])
 
     const deleteClass = () => {
         post('/api/deleteCourse', {courseId: props.courseId})
-        profMode = false
-        setProfessorMode(false)
-        setDeleted(true)
     }
 
-    if(studentMode) {
+    if(professorMode){
+        return (
+            <ClassProfessor name={props.name} color={props.color}
+            classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
+            deleteClass={deleteClass}/> 
+        )
+    }
+
+    else{
         return (
             <ClassStudent name={props.name} assignments={props.assignments} grade={props.grade} color={props.color}
             staff={props.staff}/> 
         )
     }
-
-    if(professorMode) {
-        if(!deleted){
-            return (
-                <ClassProfessor name={props.name} color={props.color}
-                classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
-                deleteClass={deleteClass}/> 
-            )
-        }
-    }
-
-    return null
 }
 
 export default Class

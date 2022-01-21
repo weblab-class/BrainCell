@@ -43,7 +43,8 @@ router.post("/initsocket", (req, res) => {
 // Course and User API methods ---------------------------------------------------------------------|
 
 router.get("/course", (req, res) =>{
-  user.findById(req.query.id).then((userFound) => {course.find({_id : userFound.course}).then((classes) => res.send(classes))})})
+  user.findById(req.query.id).then((userFound) => {course.find({_id : userFound.course}).then((classes) => res.send(classes))}).catch((err)=>res.send(err))
+})
 
 router.post("/courseCode", (req, res) =>{
   course.findOneAndUpdate({courseCode: req.body.courseCode},

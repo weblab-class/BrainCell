@@ -1,8 +1,93 @@
-import React from 'react'
+import React, { useState } from 'react'
+import ProfessorButtons from './ProfessorButtons.js'
 
 import './ProfessorClassDetails.css'
 
 const ProfessorClassDetails = (props) => {
+
+    // const [addingStaff, setAddingStaff] = useState(false)
+    // const [removingStaff, setRemovingStaff] = useState(false)
+    // const [addingStudent, setAddingStudent] = useState(false)
+    // const [removingStudent, setRemovingStudent] = useState(false)
+    const [buttonClicked, setButtonClicked] = useState(false)
+    const [buttonTitle, setButtonTitle] = useState('')
+
+    const addStaff = () => {
+        // if (removingStaff) {
+        //     setRemovingStaff(false)
+        // }
+        // else if (addingStudent) {
+        //     setAddingStudent(false)
+        // }
+        // else if (removingStudent) {
+        //     setRemovingStudent(false)
+        // }
+
+        // addingStaff ? (
+        //     setAddingStaff(false)
+        // ) : (setAddingStaff(true))
+
+        buttonClicked ? (
+            setButtonClicked(false)
+        ) : (setButtonClicked(true))
+
+        setButtonTitle('Add Staff Member')
+    }
+
+    const removeStaff = () => {
+        // if (addingStaff) {
+        //     setAddingStaff(false)
+        // }
+        // else if (addingStudent) {
+        //     setAddingStudent(false)
+        // }
+        // else if (removingStudent) {
+        //     setRemovingStudent(false)
+        // }
+
+        buttonClicked ? (
+            setButtonClicked(false)
+        ) : (setButtonClicked(true))
+
+        setButtonTitle('Remove Staff Member')
+    }
+
+    const addStudent = () => {
+        // if (addingStaff) {
+        //     setAddingStaff(false)
+        // }
+        // else if (removingStaff) {
+        //     setRemovingStaff(false)
+        // }
+        // else if (removingStudent) {
+        //     setRemovingStudent(false)
+        // }
+
+        buttonClicked ? (
+            setButtonClicked(false)
+        ) : (setButtonClicked(true))
+
+        setButtonTitle('Add Student')
+    }
+
+    const removeStudent = () => {
+        // if (addingStaff) {
+        //     setAddingStaff(false)
+        // }
+        // else if (removingStaff) {
+        //     setRemovingStaff(false)
+        // }
+        // else if (addingStudent) {
+        //     setAddingStudent(false)
+        // }
+
+        buttonClicked ? (
+            setButtonClicked(false)
+        ) : (setButtonClicked(true))
+
+        setButtonTitle('Remove Student')
+    }
+
     return (
         <div className='class-container'>
                 <div className='upper-half' style={{backgroundColor: props.color}}>            
@@ -12,19 +97,26 @@ const ProfessorClassDetails = (props) => {
                 </div>
                 <div className='bottom-half' style={{borderColor: props.color}}>
                     <div className='top-buttons'>
-                        <button className='add-button'>
+                        <button className='add-button' onClick={addStaff}>
                             Add Staff
                         </button>
-                        <button className='remove-button'>
+                        <button className='remove-button' onClick={removeStaff}>
                             Remove Staff
                         </button>
-                        <button className='add-button'>
+                        <button className='add-button' onClick={addStudent}>
                             Add Student
                         </button>
-                        <button className='remove-button'>
+                        <button className='remove-button' onClick={removeStudent}>
                             Remove Student
                         </button>
                     </div>
+
+                    {buttonClicked ? (
+                        <ProfessorButtons title={buttonTitle}/>
+                    ) : (
+                        (null)
+                    )}
+
                     <div>
                         <h1 style={{display: 'flex', justifyContent: 'space-between'}}>
                             Assignments
@@ -51,4 +143,3 @@ const ProfessorClassDetails = (props) => {
 }
 
 export default ProfessorClassDetails
-// {props.grades.map((assignment) => <li style={{display: 'flex', justifyContent: 'space-between'}}>{assignment.name} <span>{assignment.grade}</span></li>)}

@@ -1,0 +1,18 @@
+.add-staff-card-container {
+    display: flex;
+    justify-content: center;
+}
+
+.add-staff-class-card {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: beige;
+    width: 50%;
+    height: 200px;
+    padding: 8px;
+}
+
+.card-title {
+    text-align: center;
+}
