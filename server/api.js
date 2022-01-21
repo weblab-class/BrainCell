@@ -12,7 +12,7 @@ const express = require("express");
 // import models so we can interact with the database
 const user = require("./models/user");
 const course = require("./models/course.js");
-const assignment = require("./models/assignment.js");
+const session = require("./models/session");
 
 // import authentication library
 const auth = require("./auth");
@@ -215,43 +215,56 @@ router.get("/allGrades", (req,res) => {
 })
 
 router.post("/grades", (req, res) => {
-  temp = req.body.content
-  async function addGrades(t){
-    t.forEach((student) => {
-      console.log(student)
-      user.findByIdAndUpdate(student.studentId,
-        {$push : {grades: new Object(
-          {courseId : student.courseId,
-          assignmentId : student.assignmentId,
-          grade : student.grade})}}
-      ).then()
-    })
-  }
-  addGrades(temp).then(() => res.send({}))
+  course.findById(req.body.courseId).then((courseObj) => {
+    temp = courseObj.assignments
+    temp = courseObj.assignments.filter((toFind) => toFind._id != req.body.assignmentId)
+    temp.grades = req.body.grades
+
+    courseObj.assignment.concat(temp).then(() => res.send({}))
+  })
 })
 
 // message API methods ----------------------------------------------------------------------------|
 
+router.get("/sessions", (req,res) => {
+  session.find({courseId: req.body.courseId}).then((sessionsFound) => res.send({sessionsFound}))
+})
+
+router.post("/makeSession", (req,res) => {
+  newSession = new session({
+    courseId: req.body.courseId,
+    slides: req.body.slides,
+  })
+
+  newSession.save().then(()=>res.send({}));
+})
+
+router.post("/deleteSession", (req,res) => {
+  session.findByIdAndDelete(req.body.sessionId)
+})
+
 router.post("/question", (req,res) => {
-  const newMessage = new message(
-    {content: req.body.content,}
+  const newMessage = new Object(
+    {content: req.body.content,
+    answerTo: null,}
   )
-  newMessage.save().then((newMess) => res.send(newMess))
   socketManager.getIo().emit("question", newMessage);
+  session.findByIdAndUpdate(req.body.sessionId, 
+    {$push: {messages: newMessage}}).then(() => res.send(newMessage))
 })
 
 router.post("/answer", auth.ensureLoggedIn, (req,res) => {
   const newMessage = new message(
     {content: req.body.content,
-    answerTo: req.query.answerTo,}
+    answerTo: req.body.answerTo,}
   )
-  newMessage.save();
-
   socketManager.getIo().emit("answer", newMessage);
+  session.findByIdAndUpdate(req.body.sessionId, 
+    {$push: {messages: newMessage}}).then(() => res.send(newMessage))
 })
 
 router.get("/messages", (req,res) => {
-  message.find().then((messagesFound) => res.send(messagesFound));
+  session.findById(req.body.sessionId).then((sessionFound) => res.send(sessionFound.messages))
 })
 
 // Ignore
