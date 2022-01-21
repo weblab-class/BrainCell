@@ -20,10 +20,10 @@ const ProfessorButtons = (props) => {
             post('/api/deleteStaff', {email: email, courseId: props.courseId})
         }
         else if(props.addingStudent){
-            console.log('Adding Student...')
+            post('/api/students', {email: email, courseId: props.courseId})
         }
         else if(props.removingStudent){
-            console.log('Removing Student...')
+            post('/api/deleteStudents', {email: email, courseId: props.courseId})
         }
         setEmail('')
     }

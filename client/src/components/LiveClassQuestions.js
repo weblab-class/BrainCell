@@ -1,4 +1,5 @@
 import React from 'react'
+import LiveChat from './LiveChat.js'
 
 import './LiveClassQuestions.css'
 
@@ -8,7 +9,7 @@ const ClassQuestions = () => {
             <div className='title'>
                 Class Questions
             </div>
-
+            <LiveChat />
         </div>
     )
 }
