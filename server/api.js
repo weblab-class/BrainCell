@@ -47,17 +47,16 @@ router.get("/course", (req, res) =>{
 })
 
 router.post("/courseCode", (req, res) =>{
-  user.findOneAndUpdate({email: req.body.email},
-    {$push: {course: req.body.courseId}}).then((userFound) => {
-    const newStudent = new Object ({
-      userId : userFound._id,
-      name : userFound.name,
-      email : userFound.email,
-    })
-
-    course.findByIdAndUpdate(req.body.courseId,
-      {$push : {students : newStudent}}).then(() => {res.send({})})
-    })
+  const newStudent = new Object ({
+        userId : req.user._id,
+        name : req.user.name,
+        email : req.user.email,
+      })
+  course.findOneAndUpdate({courseCode: req.body.courseCode},
+    {$push: {students: newStudent}}).then((courseObj)=> {
+      user.findOneAndUpdate({_id: req.user._id},
+        {$push: {course: courseObj._id}}).then()
+    }).then(() => res.send({}))
 })
   
 router.post("/course", (req,res) =>{
