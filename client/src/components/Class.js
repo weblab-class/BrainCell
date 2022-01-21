@@ -26,7 +26,7 @@ const Class = (props) => {
 
     if(professorMode){
         return (
-            <ClassProfessor name={props.name} color={props.color}
+            <ClassProfessor name={props.name} assignments={props.assignments} color={props.color}
             classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
             deleteClass={deleteClass} courseId={props.courseId}/> 
         )

@@ -27,7 +27,7 @@ const ClassProfessor = (props) => {
         details ? (
             <div>
                 <ProfessorClassDetails onClick={handleClick} name={props.name} courseId={props.courseId} color={props.color}
-                assignments={[{name: 'Pset0', graded: true}, {name: 'Lab1', graded: false}]}/>
+                assignments={props.assignments}/>
             </div>
         ) : (
             <div className='class-container'>
