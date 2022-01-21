@@ -27,15 +27,15 @@ const Class = (props) => {
     if(professorMode){
         return (
             <ClassProfessor name={props.name} assignments={props.assignments} color={props.color}
-            classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
-            deleteClass={deleteClass} courseId={props.courseId}/> 
+            classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents} students={props.students}
+            deleteClass={deleteClass} courseId={props.courseId} /> 
         )
     }
 
     else{
         return (
             <ClassStudent name={props.name} assignments={props.assignments} grade={props.grade} color={props.color}
-            staff={props.staff}/> 
+            staff={props.staff} schedule={props.schedule}/> 
         )
     }
 }

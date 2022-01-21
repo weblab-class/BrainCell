@@ -210,7 +210,7 @@ router.get("/allGrades", (req,res) => {
     resultGrades = []
 
     resultAssignmnets.forEach((job) => {
-      temp = job.filter((isGrade) => isGrade[0]===req.user._id)
+      temp = job.filter((isGrade) => isGrade===req.user._id)
       resultGrades.push(temp)
     })
     return (resultGrades)

@@ -55,7 +55,7 @@ const ClassDetails = (props) => {
                     </div> 
                 </div>
                 <div style={{display: 'flex', justifyContent: 'left'}}>
-                    <ClassSchedule schedule={schedule} />
+                    <ClassSchedule schedule={props.schedule} />
                 </div>
             </div>
         </div>

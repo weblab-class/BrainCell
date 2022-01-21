@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ProfessorButtons from './ProfessorButtons.js'
 import ProfessorAssignments from './ProfessorAssignments.js'
+import Schedule from './EditSchedule.js'
 
 import './ProfessorClassDetails.css'
 
@@ -10,6 +11,7 @@ const ProfessorClassDetails = (props) => {
     const [removingStaff, setRemovingStaff] = useState(false)
     const [addingStudent, setAddingStudent] = useState(false)
     const [removingStudent, setRemovingStudent] = useState(false)
+    const [editingSchedule, setEditingSchedule] = useState(false)
     const [buttonClicked, setButtonClicked] = useState(false)
     const [buttonTitle, setButtonTitle] = useState('')
 
@@ -22,6 +24,9 @@ const ProfessorClassDetails = (props) => {
         }
         else if (removingStudent) {
             setRemovingStudent(false)
+        }
+        else if (editingSchedule) {
+            setEditingSchedule(false)
         }
 
         if (addingStaff){
@@ -46,6 +51,9 @@ const ProfessorClassDetails = (props) => {
         else if (removingStudent) {
             setRemovingStudent(false)
         }
+        else if (editingSchedule) {
+            setEditingSchedule(false)
+        }
 
         if (removingStaff){
             setRemovingStaff(false)
@@ -68,6 +76,9 @@ const ProfessorClassDetails = (props) => {
         }
         else if (removingStudent) {
             setRemovingStudent(false)
+        }
+        else if (editingSchedule) {
+            setEditingSchedule(false)
         }
 
         if (addingStudent){
@@ -92,6 +103,9 @@ const ProfessorClassDetails = (props) => {
         else if (addingStudent) {
             setAddingStudent(false)
         }
+        else if (editingSchedule) {
+            setEditingSchedule(false)
+        }
 
         if (removingStudent){
             setRemovingStudent(false)
@@ -103,6 +117,32 @@ const ProfessorClassDetails = (props) => {
         }
 
         setButtonTitle('Remove Student')
+    }
+
+    const editSchedule = () => {
+        if (addingStaff) {
+            setAddingStaff(false)
+        }
+        else if (removingStaff) {
+            setRemovingStaff(false)
+        }
+        else if (addingStudent) {
+            setAddingStudent(false)
+        }
+        else if (removingStudent){
+            setRemovingStudent(false)
+        }
+        
+        if(editingSchedule){
+            setEditingSchedule(false)
+            setButtonClicked(false)
+        }
+        else{
+            setEditingSchedule(true)
+            setButtonClicked(true)
+        }
+
+        setButtonTitle('Schedule')
     }
 
     return (
@@ -126,16 +166,22 @@ const ProfessorClassDetails = (props) => {
                         <button className='remove-button' onClick={removeStudent}>
                             Remove Student
                         </button>
+                        <button className='schedule-button' onClick={editSchedule}>
+                            Edit Schedule
+                        </button>
                     </div>
 
                     {buttonClicked ? (
+                        editingSchedule ? (
+                            <Schedule title={buttonTitle} courseId={props.courseId}/>
+                        ) : (
                         <ProfessorButtons title={buttonTitle} courseId={props.courseId} addingStaff={addingStaff} removingStaff={removingStaff}
-                        addingStudent={addingStudent} removingStudent={removingStudent}/>
+                        addingStudent={addingStudent} removingStudent={removingStudent} />)
                     ) : (
                         (null)
                     )}
 
-                    <ProfessorAssignments courseId={props.courseId} assignments={props.assignments} />
+                    <ProfessorAssignments courseId={props.courseId} students={props.students} assignments={props.assignments} />
                 </div>
         </div>
     )

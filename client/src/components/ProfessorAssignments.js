@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
-import { post } from '../utilities'
 import Assignment from './ProfAssignmentsList.js'
+import AddAssignment from './AddAssignment.js'
 
 import './ProfessorAssignments.css'
 
 const ProfessorAssignments = (props) => {
 
+    const [addingAssignment, setAddingAssignment] = useState(false)
+
     const addAssignment = () => {
-        post('/api/assignment', {name: 'Pset0', dueDate: new Date(2022, 2, 8), id: props.courseId})
+        addingAssignment ? (
+            setAddingAssignment(false)
+        ) : (setAddingAssignment(true))
     }
 
     return (
@@ -17,9 +21,14 @@ const ProfessorAssignments = (props) => {
                 <button className='edit-assignments' onClick={addAssignment}>+</button>
             </h1>
             <hr></hr>
+
+            {addingAssignment ? (
+                <AddAssignment courseId={props.courseId}/>
+            ) : (null)}
+
             {props.assignments.map((assignment) => {
                 return (
-                    <Assignment name={assignment.name} assignmentId={assignment._id} courseId={props.courseId}/>
+                    <Assignment name={assignment.name} students={props.students} assignmentId={assignment._id} courseId={props.courseId}/>
                 )
        
             })}
