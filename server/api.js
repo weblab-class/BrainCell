@@ -47,12 +47,17 @@ router.get("/course", (req, res) =>{
 })
 
 router.post("/courseCode", (req, res) =>{
-  course.findOneAndUpdate({courseCode: req.body.courseCode},
-    {$push: {students: req.user}}).then((classFound) => {
-      // console.log(classFound._id)
-      // console.log(req.user)
-      user.findByIdAndUpdate(req.user,
-      {$push: {course: classFound._id}}).then(() => res.send({}))})
+  user.findOneAndUpdate({email: req.body.email},
+    {$push: {course: req.body.courseId}}).then((userFound) => {
+    const newStudent = new Object ({
+      userId : userFound._id,
+      name : userFound.name,
+      email : userFound.email,
+    })
+
+    course.findByIdAndUpdate(req.body.courseId,
+      {$push : {students : newStudent}}).then(() => {res.send({})})
+    })
 })
   
 router.post("/course", (req,res) =>{
@@ -73,7 +78,7 @@ router.post("/course", (req,res) =>{
 
   checkCode().then((newCode) => {
     const newStaff = new Object ({
-      staffId : req.user._id,
+      userId : req.user._id,
       name : req.user.name,
       email : req.user.email,
     })
@@ -102,14 +107,14 @@ router.post("/deleteCourse", (req,res) => {
 
     students.forEach((student) => {
       console.log(student)
-      user.findByIdAndUpdate(student,
+      user.findByIdAndUpdate(student.userId,
         {$pull: {course: courseObj._id}}  
       ).then((tempStudent) => tempStudent.save())
     })
 
     staff.forEach((staffMem) => {
       console.log(staffMem)
-      user.findByIdAndUpdate(staffMem.staffId,
+      user.findByIdAndUpdate(staffMem.userId,
         {$pull: {course: courseObj._id}}  
       ).then((tempStaff) => tempStaff.save())
     })
@@ -123,33 +128,34 @@ router.get("/user", (req, res) =>{
 //assumes input is array
 // TODO: fix cross-check on students/staff
 router.post("/students", (req,res) => {
+  user.findOneAndUpdate({email: req.body.email},
+    {$push: {course: req.body.courseId}}).then((userFound) => {
+    const newStudent = new Object ({
+      userId : userFound._id,
+      name : userFound.name,
+      email : userFound.email,
+    })
 
-  temp = req.query.students
-  temp.forEach((student) => user.findByIdAndUpdate((student),
-  {$push: {course : req.query.id}}
-  ))
-
-  course.findByIdAndUpdate(req.query.courseId,
-    {$push : {students : {$each: req.query.students}}}
-    ).then(() => {res.send({})})
+    course.findByIdAndUpdate(req.body.courseId,
+      {$push : {students : newStudent}}).then(() => {res.send({})})
+})
 })
 
-router.delete("/students", (req,res) => {
-  temp = req.query.students
-  temp.forEach((student) => user.findByIdAndUpdate((student),
-  {$pull: {course : req.query.id}}
-  ))
-
-  course.findByIdAndUpdate(req.query.courseId,
-    {$pull : {students : {$each: req.query.students}}}
-    ).then(() => {res.send({})})
+router.post("/deleteStudents", (req,res) => {
+  course.findById(req.body.courseId).then((courseObj) => {
+    courseObj.students = courseObj.students.filter((person) => person.email !== req.body.email)
+    courseObj.save()
+  }).then(() => {
+    user.findOneAndUpdate({email: req.body.email},
+      {$pull: {course: req.body.courseId}}).then(()=> res.send({}))
+  })
 })
 
 router.post("/staff", (req,res) => {
   user.findOneAndUpdate({email: req.body.email},
     {$push: {course: req.body.courseId}}).then((userFound) => {
     const newStaff = new Object ({
-      staffId : userFound._id,
+      userId : userFound._id,
       name : userFound.name,
       email : userFound.email,
     })
