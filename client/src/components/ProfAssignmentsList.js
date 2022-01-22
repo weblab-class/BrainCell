@@ -41,7 +41,7 @@ const Assignment = (props) => {
         grades.forEach((grade, userId, grades) => {
             toPost.push({userId, grade})
         })
-        post('/api/grades', {grades: toPost, courseId: props.courseId})
+        post('/api/grades', {grades: toPost, courseId: props.courseId, assignmentId: props.assignmentId})
         setIsGraded(true)
         setGrading(false)
         setGrades(new Map())

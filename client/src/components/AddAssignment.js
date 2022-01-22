@@ -4,7 +4,7 @@ import { post } from '../utilities'
 import './AddAssignment.css'
 
 const AddAssignment = (props) => {
-    const [name, setName] = useState(undefined)
+    const [name, setName] = useState("")
     const [dueDay, setDueDay] = useState(1)
     const [dueMonth, setDueMonth] = useState(1)
     // const [dueYear, setDueYear] = useState(undefined)

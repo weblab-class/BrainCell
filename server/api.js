@@ -223,16 +223,8 @@ router.get("/allGrades", (req,res) => {
 
 router.post("/grades", (req, res) => {
   course.findById(req.body.courseId).then((courseObj) => {
-    assignment = courseObj.assignments.filter((toFind) => toFind._id != req.body.assignmentId)
-    // courseObj.assignments = courseObj.assignments.filter((toFind) => toFind._id == req.body.assignmentId)
-    // temp.grades = req.body.grades
-    // console.log(temp)
-    // console.log(temp.grades)
-    // console.log(assignment[0].grades)
+    assignment = courseObj.assignments.filter((toFind) => toFind._id.toString() == req.body.assignmentId)
     assignment[0].grades = assignment[0].grades.concat(req.body.grades)
-    // courseObj.assignments.push(...temp)
-    // console.log(courseObj.assignments)
-    console.log(assignment)
     courseObj.save()
   }).then(() => res.send({}))
 })
