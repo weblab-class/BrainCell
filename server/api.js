@@ -206,31 +206,46 @@ router.post("/deleteAssignment", async (req,res) =>{
 
 router.get("/allGrades", (req,res) => {
   course.findById(req.query.courseId).then((courseObj) => {
-    resultAssignmnets = courseObj.assignments
+    resultAssignments = courseObj.assignments
     resultGrades = []
     // console.log(req.query.userId)
 
     //TODO: get grades
-    resultAssignmnets.forEach((job) => {
-      job.grades.forEach((assign)=>{
-        temp = assign.filter((isGrade) => isGrade!=req.query.userId)
-        resultGrades.push(temp)
-      })
-      // console.log(temp)
-    })
-    console.log(resultGrades)
+    // resultAssignmnets.forEach((job) => {
+    //   job.grades.forEach((assign)=>{
+    //     temp = assign.filter((isGrade) => isGrade!=req.query.userId)
+    //     resultGrades.push(temp)
+    //   })
+    //   // console.log(temp)
+    // })
+    // console.log(resultGrades)
+
+    for(let i = 0; i < resultAssignments.length; i++){
+      // console.log(resultAssignments[i])
+      // resultGrades.push(resultAssignments[i].grades.filter((isGrade) => {
+      //   isGrade.userId === req.query.userId}))
+      resultGrades.push(resultAssignments[i].grades[0])
+    }
+    // console.log(resultGrades)
+
     return (resultGrades)
   }).then((graded) => res.send({graded}))
 })
 
 router.post("/grades", (req, res) => {
   course.findById(req.body.courseId).then((courseObj) => {
-    temp = courseObj.assignments
-    temp = courseObj.assignments.filter((toFind) => toFind._id != req.body.assignmentId)
-    temp.grades = req.body.grades
-
-    courseObj.assignment.concat(temp).then(() => res.send({}))
-  })
+    assignment = courseObj.assignments.filter((toFind) => toFind._id != req.body.assignmentId)
+    // courseObj.assignments = courseObj.assignments.filter((toFind) => toFind._id == req.body.assignmentId)
+    // temp.grades = req.body.grades
+    // console.log(temp)
+    // console.log(temp.grades)
+    // console.log(assignment[0].grades)
+    assignment[0].grades = assignment[0].grades.concat(req.body.grades)
+    // courseObj.assignments.push(...temp)
+    // console.log(courseObj.assignments)
+    console.log(assignment)
+    courseObj.save()
+  }).then(() => res.send({}))
 })
 
 // message API methods ----------------------------------------------------------------------------|

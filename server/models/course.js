@@ -5,7 +5,7 @@ const gradesSchema = new mongoose.Schema({
     grade: String,
 })
 
-const assignemntSchema = new mongoose.Schema({
+const assignmentSchema = new mongoose.Schema({
     name : String,
     dueDate : Date,
     grades : [gradesSchema],
@@ -29,7 +29,7 @@ const courseSchema = new mongoose.Schema({
     name : String,
     staff : [userSchema], //CHANGE TO SCHEMA
     students : [userSchema],
-    assignments : [assignemntSchema],
+    assignments : [assignmentSchema],
     schedule : [Object],
     color : String,
 });

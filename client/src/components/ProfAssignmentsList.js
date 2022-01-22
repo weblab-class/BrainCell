@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { post } from '../utilities'
 import GradingStudent from './GradingStudent.js'
 
@@ -9,12 +9,27 @@ const Assignment = (props) => {
     const [isGraded, setIsGraded] = useState(false)
     const[grading, setGrading] = useState(false)
 
-    const [grades, setGrades] = useState([])
+    const [grades, setGrades] = useState(new Map())
 
-    const addGrade = (grade) => {
-        setGrades((prev) => [...prev, grade])
+    // for(let i = 0; i < props.students.length; i++){
+    //     setGrades((prev) => ({...prev, props.students[i].name: ''}))
+    // }
+
+    useEffect(() => {
+        const temp = new Map();
+        for(let i = 0; i < props.students.length; i++){
+            temp.set(props.students[i].userId, "");
+        }
+        setGrades(temp);
+    }, [])
+
+    const addGrade = ( {target} ) => {
+        // console.log(target)
+        const {name, value} = target
+        setGrades(grades.set(name, value));
+        // console.log(grades)
     }
-
+    // console.log(grades)
     const changeGrading = () => {
         grading ? (
             setGrading(false)
@@ -22,10 +37,14 @@ const Assignment = (props) => {
     }
 
     const handleSubmit = () => {
-        // setIsGraded(true)
-        // setGrading(false)
-        // setGrades()
-        console.log(grades)
+        let toPost = []
+        grades.forEach((grade, userId, grades) => {
+            toPost.push({userId, grade})
+        })
+        post('/api/grades', {grades: toPost, courseId: props.courseId})
+        setIsGraded(true)
+        setGrading(false)
+        setGrades(new Map())
     }
 
     const deleteAssignment = () => {
@@ -49,20 +68,20 @@ const Assignment = (props) => {
                 <div>
                     <h1 className='card-title'>Grading {props.name}</h1>
                     <div className="grading-card-container">
-                        <form className="grading-card" onSubmit={handleSubmit}>
+                        <div className="grading-card">
 
                             {props.students.map((student) => {
                                 return (
-                                    <GradingStudent name={student.name} addGrade={addGrade}/>
-                                    // <label>
-                                    //     {student.name}:
-                                    //     <input type='text' name={student.name} value={grades} onChange={addGrade} />
-                                    // </label>
+                                    // <GradingStudent id={student.name} name={student.name} addGrade={addGrade}/>
+                                    <label>
+                                        {student.name}:
+                                        <input type='text' name={student.userId} value={grades.studentName} onChange={addGrade} />
+                                    </label>
                                 )
                             })}
 
-                            <input type='submit' value='Submit' style={{height: '20px', alignSelf: 'end'}}/>
-                        </form>
+                            <button onClick={handleSubmit} style={{height: '20px', alignSelf: 'end'}}>Submit</button>
+                        </div>
                     </div>
                 </div>
             ) : (null)}

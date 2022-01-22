@@ -5,7 +5,7 @@ import './ClassGrades.css'
 
 const ClassGrades = (props) => {
 
-    console.log(props.grades)
+    console.log(props.grades.graded)
     return (
         <div>
             <h1>
