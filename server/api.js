@@ -220,16 +220,22 @@ router.get("/allGrades", (req,res) => {
     // })
     // console.log(resultGrades)
 
-    for(let i = 0; i < resultAssignments.length; i++){
+    // for(let i = 0; i < resultAssignments.length; i++){
       // console.log(resultAssignments[i])
       // resultGrades.push(resultAssignments[i].grades.filter((isGrade) => {
       //   isGrade.userId === req.query.userId}))
-      resultGrades.push(resultAssignments[i].grades[0])
-    }
+      // resultGrades.push(resultAssignments[i].grades[0])
+    // }
     // console.log(resultGrades)
 
+    resultAssignments.forEach((assigned) => {
+      temp = assigned.grades.filter((isUser) => isUser.userId === req.query.userId)
+      console.log(temp)
+      resultGrades.push(temp[0].grade)
+    })
+
     return (resultGrades)
-  }).then((graded) => res.send({graded}))
+  }).then((graded) => console.log(graded))
 })
 
 router.post("/grades", (req, res) => {
