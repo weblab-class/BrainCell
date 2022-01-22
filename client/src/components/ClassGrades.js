@@ -1,5 +1,5 @@
 import React from 'react'
-import { listen } from 'socket.io'
+
 
 import './ClassGrades.css'
 
@@ -16,8 +16,6 @@ const ClassGrades = (props) => {
             </h1>
             <hr></hr>
             {items}
-            {/* {props.assignments.map((assignment) => <li style={{display: 'flex', justifyContent: 'space-between'}}>{assignment.name} <span></span></li>)}
-            {props.grades.map((grade) => <span>{grade}</span>)} */}
         </div>
     )
 }
