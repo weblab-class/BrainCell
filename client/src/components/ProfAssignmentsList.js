@@ -56,7 +56,7 @@ const Assignment = (props) => {
             <li style={{display: 'flex', justifyContent: 'space-between'}}>{props.name} 
                 <span>
                     {isGraded ? (
-                        <p>GRADED</p>
+                        <span>GRADED</span>
                     ) : (
                         <button onClick={changeGrading}>GRADE</button>
                     )} 
