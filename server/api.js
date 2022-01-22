@@ -205,37 +205,20 @@ router.post("/deleteAssignment", async (req,res) =>{
 })
 
 router.get("/allGrades", (req,res) => {
+
   course.findById(req.query.courseId).then((courseObj) => {
     resultAssignments = courseObj.assignments
     resultGrades = []
-    // console.log(req.query.userId)
-
-    //TODO: get grades
-    // resultAssignmnets.forEach((job) => {
-    //   job.grades.forEach((assign)=>{
-    //     temp = assign.filter((isGrade) => isGrade!=req.query.userId)
-    //     resultGrades.push(temp)
-    //   })
-    //   // console.log(temp)
-    // })
-    // console.log(resultGrades)
-
-    // for(let i = 0; i < resultAssignments.length; i++){
-      // console.log(resultAssignments[i])
-      // resultGrades.push(resultAssignments[i].grades.filter((isGrade) => {
-      //   isGrade.userId === req.query.userId}))
-      // resultGrades.push(resultAssignments[i].grades[0])
-    // }
-    // console.log(resultGrades)
 
     resultAssignments.forEach((assigned) => {
       temp = assigned.grades.filter((isUser) => isUser.userId === req.query.userId)
-      console.log(temp)
-      resultGrades.push(temp[0].grade)
+      temp.forEach((assignment) => {
+        resultGrades.push(assignment.grade)
+      })
     })
 
     return (resultGrades)
-  }).then((graded) => console.log(graded))
+  }).then((graded) => res.send(graded))
 })
 
 router.post("/grades", (req, res) => {

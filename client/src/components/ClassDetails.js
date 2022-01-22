@@ -17,6 +17,7 @@ const ClassDetails = (props) => {
         // get('/api/allGrades', {courseId: props.courseId, userId: props.userId}).then((grade) => {
         //     setGrades((prev) => [...prev, grade])
         // })
+
         get('/api/allGrades', {courseId: props.courseId, userId: props.userId}).then((g) => {
             setGrades(g)
         })
