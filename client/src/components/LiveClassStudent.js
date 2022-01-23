@@ -23,9 +23,13 @@ const ClassQuestions = React.forwardRef((props, ref) => (
     </div>
 ))
 
-const LiveClassStudent = () => {
+const LiveClassStudent = (props) => {
     const componentRef = useRef();
     const questions = useRef()
+
+    // useEffect(() => {
+    //     get('/api/sessions', {courseId: props.courseId})
+    // })
 
     return (
         <div>

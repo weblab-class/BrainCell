@@ -1,9 +1,18 @@
 import React from 'react'
 import LiveChat from './LiveChat.js'
+import { get, post } from "../utilities";
+import EndSession from './EndSession.js'
+
 
 import './LiveClassProf.css'
 
-const LiveClassProf = () => {
+const LiveClassProf = (props) => {
+
+    const endSession = () => {
+        post('/api/endSession', {courseId: props.courseId})
+        props.profClick()
+    }
+
     return (
         <div>
             <div className='slides-questions-container'>
@@ -26,7 +35,7 @@ const LiveClassProf = () => {
                         Next
                     </button>
                 </div>
-                <button className='end-session-button'>
+                <button className='end-session-button' onClick={endSession}>
                     END SESSION
                 </button>
             </div>

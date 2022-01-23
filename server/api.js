@@ -245,16 +245,15 @@ router.post("/newSession", (req,res) => {
   // const bucket = new mongodb.GridFSBucket(db, {bucketName: "Bucket: ".concat(req.body.courseId)});
 
   // fs.createReadStram
-
   newSession = new session({
     courseId: req.body.courseId,
     // slides: req.body.slides,
   })
-  newSession.save().then(()=> res.send());
+  newSession.save().then(()=> res.send()).catch();
 })
 
 router.post("/endSession", (req,res) => {
-  session.findOneAndDelete({courseId: req.body.courseId})
+  session.findOneAndDelete({courseId: req.body.courseId}).then(()=>res.send())
 })
 
 router.post("/question", (req,res) => {

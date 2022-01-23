@@ -1,4 +1,6 @@
 import React from 'react'
+import ProfClass from './LiveClassIntroProfClass.js'
+import StudentClass from './LiveClassIntroStudentClass.js'
 
 import './LiveClassIntroScreen.css'
 
@@ -7,30 +9,14 @@ const IntroScreen = (props) => {
         <div style={{height: '500px', display: 'flex', justifyContent: 'center', 
         alignItems: 'center'}}>
             <div className='classes-box'>
-                {props.professorClasses.map((course) => {
-                    return (
-                        <div className='class-circle-container'>
-                            <div className='class-circle' style={{backgroundColor: course.color}}>
-                                {course.courseNumber}: {course.name}
-                            </div>
-                            <button className='start-join-button' onClick={props.professorMode}>
-                                START
-                            </button>
-                        </div>
-                    )
-                })}
-                {props.studentClasses.map((course) => {
-                    return (
-                        <div className='class-circle-container'>
-                            <div className='class-circle' style={{backgroundColor: course.color}}>
-                                {course.courseNumber}: {course.name}
-                            </div>
-                            <button className='start-join-button' onClick={props.studentMode}>
-                                JOIN
-                            </button>
-                        </div>
-                    )
-                })}
+                {props.professorClasses.map((course) => 
+                    <ProfClass color={course.color} courseNumber={course.courseNumber} name={course.name}
+                    courseId={course._id} professorMode={props.professorMode} setClassInSession={props.setClassInSession}/>
+                )}
+                {props.studentClasses.map((course) => 
+                    <StudentClass color={course.color} courseNumber={course.courseNumber} name={course.name}
+                    courseId={course._id} studentMode={props.studentMode} />
+                )}
             </div>
         </div>
     )

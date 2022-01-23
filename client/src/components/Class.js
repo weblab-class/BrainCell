@@ -18,7 +18,7 @@ const Class = (props) => {
 
     useEffect(() => {
         setProfessorMode(profMode)
-    }, [])
+    }, [props.staff])
 
     const deleteClass = () => {
         post('/api/deleteCourse', {courseId: props.courseId})

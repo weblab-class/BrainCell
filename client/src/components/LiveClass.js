@@ -15,6 +15,7 @@ const LiveClass = (props) => {
     const [renderProf, setRenderProf] = useState(false)
     const [renderStudent, setRenderStudent] = useState(false)
     const [renderIntro, setRenderIntro] = useState(true)
+    const [courseInSession, setCourseInSession] = useState()
 
     useEffect(() => {
         get('/api/course', {id: props.userId}).then((courses) => {
@@ -47,11 +48,20 @@ const LiveClass = (props) => {
         setRenderIntro(false)
         setRenderStudent(true)
     }
+
+    const profClick = () => {
+        setRenderIntro(true)
+        setRenderProf(false)
+    }
+
+    const classInSession = (courseId) => {
+        setCourseInSession(courseId)
+    }
     
     if(renderIntro) {
         return (
             <IntroScreen professorClasses={professorClasses} professorMode={professorMode} studentClasses={studentClasses}
-                studentMode={studentMode}/>
+                studentMode={studentMode} setClassInSession={classInSession}/>
         )
     }
 
@@ -61,7 +71,7 @@ const LiveClass = (props) => {
                 <LiveClassStudent />
             )
         }
-        return <LiveClassProf />
+        return <LiveClassProf courseId={courseInSession} profClick={profClick}/>
     }
 }
 
