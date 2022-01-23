@@ -86,7 +86,7 @@ const App = () => {
         <Router>
           <Overview path='/' userId={userId}/>
           <Calendar path='/calendar' />
-          <LiveClass path='/liveclass' />
+          <LiveClass path='/liveclass' userId={userId}/>
           <NotFound default />
         </Router>
       </div>

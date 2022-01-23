@@ -1,0 +1,28 @@
+.classes-box{
+    border: solid;
+    border-color: black;
+    width: 30%;
+    height: 50%;
+}
+
+.class-circle-container {
+    display: flex; 
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.class-circle {
+    text-align: center;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    width: 40%;
+    height: 20%;
+}
+
+.start-join-button {
+    background-color: green;
+    border-radius: 20px;
+    color: white;
+    height: 20%
+}

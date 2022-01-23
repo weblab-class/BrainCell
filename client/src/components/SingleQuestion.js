@@ -1,11 +1,9 @@
 import React from 'react'
 
-const LiveChat = () => {
+const SingleQuestion = () => {
     return (
         <div>
             
         </div>
     )
 }
-
-export default LiveChat
