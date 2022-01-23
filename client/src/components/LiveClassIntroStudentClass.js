@@ -11,7 +11,6 @@ const StudentClass = (props) => {
         })
   
         props.studentMode()
-        // props.setClassInSession(props.courseId)
     }
 
     return (

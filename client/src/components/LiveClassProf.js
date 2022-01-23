@@ -1,8 +1,6 @@
 import React from 'react'
 import LiveChat from './LiveChat.js'
 import { get, post } from "../utilities";
-import EndSession from './EndSession.js'
-
 
 import './LiveClassProf.css'
 
@@ -19,11 +17,11 @@ const LiveClassProf = (props) => {
                 <div className='slides'>
                     Lecture Slides
                 </div>                
-                <div className='live-questions-container'>
+                <div className='live-questions-container' style={{overflowY: 'scroll'}}>
                     <div className='title'>
                         Class Questions
                     </div>
-                    <LiveChat />
+                    <LiveChat courseId={props.courseId}/>
                 </div>
             </div>
             <div className='buttons-container'>

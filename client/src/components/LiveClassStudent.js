@@ -15,7 +15,7 @@ const LectureSlides = React.forwardRef((props, ref) => (
 ));
 
 const ClassQuestions = React.forwardRef((props, ref) => (
-    <div ref={ref} className='live-questions-container'>
+    <div ref={ref} className='live-questions-container' style={{overflowY: 'scroll'}}>
         <div className='title'>
             Class Questions
         </div>
@@ -26,10 +26,6 @@ const ClassQuestions = React.forwardRef((props, ref) => (
 const LiveClassStudent = (props) => {
     const componentRef = useRef();
     const questions = useRef()
-
-    // useEffect(() => {
-    //     get('/api/sessions', {courseId: props.courseId})
-    // })
 
     return (
         <div>
