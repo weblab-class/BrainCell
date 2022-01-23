@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { post } from '../utilities'
 
-const NewAnswer = () => {
+const NewAnswer = (props) => {
     const [answer, setAnswer] = useState('')
 
     const updateAnswer = (event) => {
@@ -9,7 +9,7 @@ const NewAnswer = () => {
     }
 
     const submitAnswer = () => {
-        post('/api/answer', {answerTo: props.questionId, content: answer})
+        post('/api/answer', {courseId: props.courseId, answerTo: props.questionId, content: answer})
         setAnswer('')
     }
 

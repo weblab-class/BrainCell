@@ -7,7 +7,7 @@ const SingleAnswer = (props) => {
     return (
         <div>
             <div style={{display: 'flex', padding: '8px'}}>
-                A: {props.content}
+                A: {props.answer}
             </div>
             <hr></hr>
         </div>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SingleAnswer from './SingleAnswer'
 import NewAnswer from './NewAnswer.js'
+import { get, post } from "../utilities";
 
 const SingleQuestion = (props) => {
     const [showAnswers, setShowAnswers] = useState(false)
@@ -8,7 +9,7 @@ const SingleQuestion = (props) => {
 
     useEffect(() => {
         get('/api/answers', {courseId: props.courseId, answerTo: props.questionId}).then((answers) => {
-            setAnswers(answers)
+            setAnswersList(answers)
         })
     }, [answersList])
 
@@ -32,7 +33,7 @@ const SingleQuestion = (props) => {
             </div>
             {showAnswers ? (
                 <div>
-                    <NewAnswer questionId={props.questionId}/>
+                    <NewAnswer courseId={props.courseId} questionId={props.questionId}/>
                     {answersList.map((answer) => <SingleAnswer answer={answer.content} courseId={props.courseId} questionId={props.questionId}/>)}
                 </div>
             ) : (null)}

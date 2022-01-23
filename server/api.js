@@ -288,10 +288,11 @@ router.get("/answers", (req,res) =>{
 })
 
 router.post("/answer", auth.ensureLoggedIn, (req,res) => {
-  const newMessage = new message(
+  const newMessage = new Object(
     {content: req.body.content,
     answerTo: req.body.answerTo,}
   )
+  console.log(newMessage)
   session.findOneAndUpdate({courseId: req.body.courseId},
     {$push: {messages: newMessage}}).then((finAnswer) => {
       socketManager.getIo().emit("answer", finAnswer);
