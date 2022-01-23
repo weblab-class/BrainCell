@@ -280,6 +280,13 @@ router.post("/question", (req,res) => {
     })
 })
 
+router.get("/answers", (req,res) =>{
+  session.findOne({courseId: req.query.courseId}).then((liveSession)=>{
+    temp = liveSession.messages.filter((current)=> current.answerTo == req.query.answerTo)
+    return temp
+  }).then((toSend)=>res.send(toSend))
+})
+
 router.post("/answer", auth.ensureLoggedIn, (req,res) => {
   const newMessage = new message(
     {content: req.body.content,
