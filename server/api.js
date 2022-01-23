@@ -262,7 +262,7 @@ router.post("/question", (req,res) => {
     answerTo: null,}
   )
   socketManager.getIo().emit("question", newMessage);
-  session.findByIdAndUpdate(req.body.sessionId, 
+  session.findOneAndUpdate({courseId: req.body.courseId}, 
     {$push: {messages: newMessage}}).then(() => res.send(newMessage))
 })
 
@@ -272,7 +272,7 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
     answerTo: req.body.answerTo,}
   )
   socketManager.getIo().emit("answer", newMessage);
-  session.findByIdAndUpdate(req.body.sessionId, 
+  session.findOneAndUpdate({courseId: req.body.courseId},
     {$push: {messages: newMessage}}).then(() => res.send(newMessage))
 })
 
