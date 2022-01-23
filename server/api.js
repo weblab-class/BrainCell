@@ -258,7 +258,7 @@ router.post("/endSession", (req,res) => {
 })
 
 router.get("/questions", (req,res) =>{
-  session.findOne({courseId: req.body.courseId}).then((liveSession)=>{
+  session.findOne({courseId: req.query.courseId}).then((liveSession)=>{
     temp = liveSession.messages.filter((current)=> current.answerTo == null)
     return temp
   }).then((toSend)=>res.send(toSend))
