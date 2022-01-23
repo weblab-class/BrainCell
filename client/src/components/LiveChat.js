@@ -8,17 +8,19 @@ const LiveChat = (props) => {
     const [questionsList, setQuestionsList] = useState([])
 
     useEffect(() => {
-        get('/api/getQuestions', {courseId: props.courseId}).then((questions) => {
+        get('/api/questions', {courseId: props.courseId}).then((questions) => {
             setQuestionsList(questions)
         })
-    }, [questions])
-    console.log(questionsList)
+    }, [questionsList])
+
     return (
         <div>
             <div style={{display: 'flex', justifyContent: 'center', padding: '8px'}}>
                 <NewQuestion courseId={props.courseId}/>
             </div>
             <div>
+                {questionsList.map(question => <SingleQuestion question={question.content}/>)}
+                {/* <SingleQuestion />
                 <SingleQuestion />
                 <SingleQuestion />
                 <SingleQuestion />
@@ -28,8 +30,7 @@ const LiveChat = (props) => {
                 <SingleQuestion />
                 <SingleQuestion />
                 <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
+                <SingleQuestion /> */}
             </div>
         </div>
     )

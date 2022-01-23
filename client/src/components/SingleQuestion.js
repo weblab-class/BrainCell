@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import SingleAnswer from './SingleAnswer'
 import NewAnswer from './NewAnswer.js'
 
-const SingleQuestion = () => {
+const SingleQuestion = (props) => {
     const [showAnswers, setShowAnswers] = useState(false)
 
     const revealAnswers = () => {
@@ -15,7 +15,7 @@ const SingleQuestion = () => {
         <div>
             <div style={{backgroundColor: '#7a9cc6'}}>
                 <div style={{display: 'flex', color: 'white', padding: '8px'}}>
-                    Q: Can you go over if-else statements again?
+                    Q: {props.question}
                     
                     <button style={{justifySelf: 'right', alignSelf: 'end'}} onClick={revealAnswers}>
                         V
