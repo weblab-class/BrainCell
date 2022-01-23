@@ -237,7 +237,7 @@ router.post("/grades", (req, res) => {
 // message API methods ----------------------------------------------------------------------------|
 
 router.get("/sessions", (req,res) => {
-  session.findOne({courseId: req.body.courseId}).then((sessionsFound) => res.send({sessionsFound}))
+  session.findOne({courseId: req.query.courseId}).then((sessionsFound) => res.send(sessionsFound))
 })
 
 router.post("/newSession", (req,res) => {
