@@ -4,6 +4,13 @@ import NewAnswer from './NewAnswer.js'
 
 const SingleQuestion = (props) => {
     const [showAnswers, setShowAnswers] = useState(false)
+    const [answersList, setAnswersList] = useState([])
+
+    useEffect(() => {
+        get('/api/answers', {courseId: props.courseId, answerTo: props.questionId}).then((answers) => {
+            setAnswers(answers)
+        })
+    }, [answersList])
 
     const revealAnswers = () => {
         showAnswers ? (
@@ -25,8 +32,8 @@ const SingleQuestion = (props) => {
             </div>
             {showAnswers ? (
                 <div>
-                    <NewAnswer />
-                    <SingleAnswer />
+                    <NewAnswer questionId={props.questionId}/>
+                    {answersList.map((answer) => <SingleAnswer answer={answer.content} courseId={props.courseId} questionId={props.questionId}/>)}
                 </div>
             ) : (null)}
         </div>

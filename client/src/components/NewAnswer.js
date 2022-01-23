@@ -9,7 +9,7 @@ const NewAnswer = () => {
     }
 
     const submitAnswer = () => {
-        // post('/api/answer', {courseId: props.courseId, content: answer})
+        post('/api/answer', {answerTo: props.questionId, content: answer})
         setAnswer('')
     }
 

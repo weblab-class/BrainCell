@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-const SingleAnswer = () => {
+import { get, post } from "../utilities";
+
+const SingleAnswer = (props) => {
+
     return (
         <div>
             <div style={{display: 'flex', padding: '8px'}}>
-                A: Answer...
+                A: {props.content}
             </div>
             <hr></hr>
         </div>
