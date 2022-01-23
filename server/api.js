@@ -8,6 +8,7 @@
 */
 
 const express = require("express");
+const crypto = require("crypto"); //TODO
 
 // import models so we can interact with the database
 const user = require("./models/user");
@@ -256,14 +257,23 @@ router.post("/endSession", (req,res) => {
   session.findOneAndDelete({courseId: req.body.courseId}).then(()=>res.send())
 })
 
+router.get("/questions", (req,res) =>{
+  session.findOne({courseId: req.body.courseId}).then((liveSession)=>{
+    temp = liveSession.messages.filter((current)=> current.answerTo == null)
+    return temp
+  }).then((toSend)=>res.send(toSend))
+})
+
 router.post("/question", (req,res) => {
   const newMessage = new Object(
     {content: req.body.content,
     answerTo: null,}
   )
-  socketManager.getIo().emit("question", newMessage);
   session.findOneAndUpdate({courseId: req.body.courseId}, 
-    {$push: {messages: newMessage}}).then(() => res.send(newMessage))
+    {$push: {messages: newMessage}}).then((finQuestion) => {
+      socketManager.getIo().emit("question", finQuestion);
+      res.send(finQuestion)
+    })
 })
 
 router.post("/answer", auth.ensureLoggedIn, (req,res) => {
@@ -271,9 +281,10 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
     {content: req.body.content,
     answerTo: req.body.answerTo,}
   )
-  socketManager.getIo().emit("answer", newMessage);
   session.findOneAndUpdate({courseId: req.body.courseId},
-    {$push: {messages: newMessage}}).then(() => res.send(newMessage))
+    {$push: {messages: newMessage}}).then((finAnswer) => {
+      socketManager.getIo().emit("answer", finAnswer);
+      res.send(finAnswer)})
 })
 
 // Ignore
