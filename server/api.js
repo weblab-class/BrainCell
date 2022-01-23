@@ -104,14 +104,12 @@ router.post("/deleteCourse", (req,res) => {
     staff=courseObj.staff
 
     students.forEach((student) => {
-      console.log(student)
       user.findByIdAndUpdate(student.userId,
         {$pull: {course: courseObj._id}}  
       ).then((tempStudent) => tempStudent.save())
     })
 
     staff.forEach((staffMem) => {
-      console.log(staffMem)
       user.findByIdAndUpdate(staffMem.userId,
         {$pull: {course: courseObj._id}}  
       ).then((tempStaff) => tempStaff.save())
@@ -213,18 +211,25 @@ router.get("/allGrades", (req,res) => {
     resultAssignments.forEach((assigned) => {
       temp = assigned.grades.filter((isUser) => isUser.userId === req.query.userId)
       temp.forEach((assignment) => {
+        console.log(assignment)
         resultGrades.push(assignment.grade)
       })
     })
 
     return (resultGrades)
-  }).then((graded) => res.send(graded))
+  }).then((graded) => res.send(graded)).catch()
 })
 
 router.post("/grades", (req, res) => {
   course.findById(req.body.courseId).then((courseObj) => {
     assignment = courseObj.assignments.filter((toFind) => toFind._id.toString() == req.body.assignmentId)
-    assignment[0].grades = assignment[0].grades.concat(req.body.grades)
+    gradesPost = req.body.grades.filter((Grade) => Grade.grade != '')
+
+    gradesPost.forEach((toPost) =>{
+      assignment[0].grades = assignment[0].grades.filter((Grade) => Grade.userId != toPost.userId)
+      assignment[0].grades = assignment[0].grades.concat(toPost)
+    })
+
     courseObj.save()
   }).then(() => res.send({}))
 })
@@ -232,20 +237,24 @@ router.post("/grades", (req, res) => {
 // message API methods ----------------------------------------------------------------------------|
 
 router.get("/sessions", (req,res) => {
-  session.find({courseId: req.body.courseId}).then((sessionsFound) => res.send({sessionsFound}))
+  session.findOne({courseId: req.body.courseId}).then((sessionsFound) => res.send({sessionsFound}))
 })
 
-router.post("/makeSession", (req,res) => {
+router.post("/newSession", (req,res) => {
+  // const db = client.db(Database);
+  // const bucket = new mongodb.GridFSBucket(db, {bucketName: "Bucket: ".concat(req.body.courseId)});
+
+  // fs.createReadStram
+
   newSession = new session({
     courseId: req.body.courseId,
-    slides: req.body.slides,
+    // slides: req.body.slides,
   })
-
-  newSession.save().then(()=>res.send({}));
+  newSession.save().then(()=> res.send());
 })
 
-router.post("/deleteSession", (req,res) => {
-  session.findByIdAndDelete(req.body.sessionId)
+router.post("/endSession", (req,res) => {
+  session.findOneAndDelete({courseId: req.body.courseId})
 })
 
 router.post("/question", (req,res) => {
@@ -266,10 +275,6 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
   socketManager.getIo().emit("answer", newMessage);
   session.findByIdAndUpdate(req.body.sessionId, 
     {$push: {messages: newMessage}}).then(() => res.send(newMessage))
-})
-
-router.get("/messages", (req,res) => {
-  session.findById(req.body.sessionId).then((sessionFound) => res.send(sessionFound.messages))
 })
 
 // Ignore

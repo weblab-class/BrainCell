@@ -17,11 +17,6 @@ const userSchema = new mongoose.Schema({
     email : String,
 })
 
-const daySchema = new mongoose.Schema({
-    day : String,
-    hours : String,
-})
-
 //defines a class schema
 const courseSchema = new mongoose.Schema({
     courseNumber : String,

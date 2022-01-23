@@ -11,6 +11,7 @@ const sessionSchema = new mongoose.Schema({
     slides: [],
     courseId: String,
     messages: [MessageSchema],
+    //slides : TODO,
 })
 // compile model from schema
 module.exports = mongoose.model("session", sessionSchema);
