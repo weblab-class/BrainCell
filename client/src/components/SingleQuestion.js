@@ -14,7 +14,7 @@ const SingleQuestion = (props) => {
     return (
         <div>
             <div style={{backgroundColor: '#7a9cc6'}}>
-                <div style={{display: 'flex', color: 'white', padding: '8px'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between', color: 'white', padding: '8px'}}>
                     Q: {props.question}
                     
                     <button style={{justifySelf: 'right', alignSelf: 'end'}} onClick={revealAnswers}>

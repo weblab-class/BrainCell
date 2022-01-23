@@ -249,12 +249,15 @@ router.post("/newSession", (req,res) => {
   newSession = new session({
     courseId: req.body.courseId,
     // slides: req.body.slides,
+    messages: [],
   })
   newSession.save().then(()=> res.send()).catch();
 })
 
 router.post("/endSession", (req,res) => {
-  session.findOneAndDelete({courseId: req.body.courseId}).then(()=>res.send())
+  session.find({courseId: req.body.courseId}).then((sessionEnd) => {
+    sessionEnd.forEach((toDel) => toDel.remove())
+  }).then(()=>res.send())
 })
 
 router.get("/questions", (req,res) =>{
@@ -269,6 +272,7 @@ router.post("/question", (req,res) => {
     {content: req.body.content,
     answerTo: null,}
   )
+  console.log(req.body.courseId)
   session.findOneAndUpdate({courseId: req.body.courseId}, 
     {$push: {messages: newMessage}}).then((finQuestion) => {
       socketManager.getIo().emit("question", finQuestion);

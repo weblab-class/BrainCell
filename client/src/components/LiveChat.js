@@ -19,7 +19,7 @@ const LiveChat = (props) => {
                 <NewQuestion courseId={props.courseId}/>
             </div>
             <div>
-                {questionsList.map(question => <SingleQuestion question={question.content}/>)}
+                {questionsList.map((question) => <SingleQuestion question={question.content}/>)}
                 {/* <SingleQuestion />
                 <SingleQuestion />
                 <SingleQuestion />
