@@ -190,7 +190,6 @@ router.post("/assignment", (req,res) =>{
 })
 
 router.post("/deleteAssignment", async (req,res) =>{
-  console.log(req.body.assignmentId)
   let courseObj = await course.findOne({_id: req.body.courseId});
   let updatedAssignments = [];
   for (let i = 0; i < courseObj.assignments.length; i++) {
@@ -212,7 +211,6 @@ router.get("/allGrades", (req,res) => {
     resultAssignments.forEach((assigned) => {
       temp = assigned.grades.filter((isUser) => isUser.userId === req.query.userId)
       temp.forEach((assignment) => {
-        console.log(assignment)
         resultGrades.push(assignment.grade)
       })
     })
@@ -262,9 +260,9 @@ router.post("/endSession", (req,res) => {
 
 router.get("/questions", (req,res) =>{
   session.findOne({courseId: req.query.courseId}).then((liveSession)=>{
-    temp = liveSession.messages.filter((current)=> current.answerTo == null)
+    temp = liveSession.messages.filter((current) => current.answerTo == null)
     return temp
-  }).then((toSend)=>res.send(toSend))
+  }).then((toSend)=>res.send(toSend)).catch((err) => console.log(err))
 })
 
 router.post("/question", (req,res) => {
@@ -272,7 +270,6 @@ router.post("/question", (req,res) => {
     {content: req.body.content,
     answerTo: null,}
   )
-  console.log(req.body.courseId)
   session.findOneAndUpdate({courseId: req.body.courseId}, 
     {$push: {messages: newMessage}}).then((finQuestion) => {
       socketManager.getIo().emit("question", finQuestion);
@@ -292,7 +289,6 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
     {content: req.body.content,
     answerTo: req.body.answerTo,}
   )
-  console.log(newMessage)
   session.findOneAndUpdate({courseId: req.body.courseId},
     {$push: {messages: newMessage}}).then((finAnswer) => {
       socketManager.getIo().emit("answer", finAnswer);

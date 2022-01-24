@@ -6,9 +6,9 @@ import './LiveClassIntroScreen.css'
 const StudentClass = (props) => {
 
     const handleClick = () => {
-        get('/api/sessions', {courseId: props.courseId}).then((session) => {
-            console.log(session)
-        })
+        // get('/api/sessions', {courseId: props.courseId}).then((session) => {
+        //     console.log('session', session)
+        // })
   
         props.studentMode()
     }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import LiveChat from './LiveChat.js';
 import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
 
@@ -19,19 +19,21 @@ const ClassQuestions = React.forwardRef((props, ref) => (
         <div className='title'>
             Class Questions
         </div>
-        <LiveChat />
+        <LiveChat courseId={props.courseId}/>
     </div>
 ))
 
 const LiveClassStudent = (props) => {
     const componentRef = useRef();
     const questions = useRef()
-
+    
+    
     return (
         <div>
             <div className='slides-questions-container'>
                 <LectureSlides ref={componentRef} />
-                <ClassQuestions ref={questions}/>
+                <ClassQuestions ref={questions} courseId={props.courseId}/>
+
                 {/* <ClassQuestions saveQuestions={clickedSaveQs}/> */}
             </div>
             <div className='buttons-container'>
