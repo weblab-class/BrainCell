@@ -8,6 +8,7 @@ import Calendar from "./Calendar.js";
 import LiveClass from './LiveClass.js'
 import LoginPage from './LoginPage.js'
 import Profile from './Profile.js'
+import FileUploadPage from "./Testing.js";
 
 // import GoogleLogin from "react-google-login";
 // const GOOGLE_CLIENT_ID = "40738148267-lmp4m2pr4rbedjcvu0au6qqhvva01g7p.apps.googleusercontent.com";
@@ -74,7 +75,7 @@ const App = () => {
     return (
       <div onClick={hideProfile}>
         <NavBar viewProfile={viewProfile} />
-
+        <FileUploadPage />
         {profileVisible ? (
           <div className="profile-container">
             <div className="profile">

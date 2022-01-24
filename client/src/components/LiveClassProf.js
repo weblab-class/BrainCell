@@ -25,12 +25,17 @@ const LiveClassProf = (props) => {
                 </div>
             </div>
             <div className='buttons-container'>
-                <div>
-                    <button className='slides-button'>
-                        Back
-                    </button>
-                    <button className='slides-button'>
-                        Next
+                <div style={{width: '70%', display: 'flex', justifyContent: 'space-between'}}>
+                    <div>
+                        <button className='slides-button'>
+                            Back
+                        </button>
+                        <button className='slides-button'>
+                            Next
+                        </button>
+                    </div>
+                    <button>
+                        Upload Slides
                     </button>
                 </div>
                 <button className='end-session-button' onClick={endSession}>

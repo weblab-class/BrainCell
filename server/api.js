@@ -297,7 +297,7 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
 })
 
 // File Uploads
-router.post("/upload", upoad.singe("slides"), (req,res) =>{
+router.post("/upload", upload.single("slides"), (req,res) =>{
   res.send()
 })
 
