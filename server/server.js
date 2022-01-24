@@ -29,11 +29,17 @@ const session = require("express-session"); // library that stores info about ea
 const mongoose = require("mongoose"); // library to connect to MongoDB
 const path = require("path"); // provide utilities for working with file and directory paths
 
+// Added file upload functionality
+const crypto = require("crypto");
+const multer = require("multer");
+const GridFsStorage = require("multer-gridfs-storage");
+
 const api = require("./api");
 const auth = require("./auth");
 
 // socket stuff
 const socketManager = require("./server-socket");
+const { connect } = require("http2");
 
 // Server configuration below
 const mongoConnectionURL = process.env.ATLAS_SRV;
@@ -96,6 +102,16 @@ app.use((err, req, res, next) => {
     message: err.message,
   });
 });
+
+// Storage
+let gfs;
+mongoose.connection.once("open", () =>{
+  gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName: "uploads"
+  });
+});
+
+const storage = new GridFsStorage({url: mongoConnectionURL})
 
 // hardcode port to 3000 for now
 const port = process.env.PORT || 3000;

@@ -8,7 +8,8 @@
 */
 
 const express = require("express");
-const crypto = require("crypto"); //TODO
+const multer = require('multer');
+const upload = multer({ dest: "uploads/"})
 
 // import models so we can interact with the database
 const user = require("./models/user");
@@ -293,6 +294,11 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
   session.findOneAndUpdate({courseId: req.body.courseId},
     {$push: {messages: newMessage}}).then((finAnswer) => {
       res.send(finAnswer)})
+})
+
+// File Uploads
+router.post("/upload", upoad.singe("slides"), (req,res) =>{
+  res.send()
 })
 
 // Ignore
