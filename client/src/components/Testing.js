@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { post } from '../utilities';
 
-const FileUploadPage = () => {
+const FileUploadPage = (props) => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isSelected, setIsSelected] = useState(false);
 
@@ -11,7 +11,9 @@ const FileUploadPage = () => {
 	};
 
 	const handleSubmission = () => {
-        post('/api/upload')
+        // post('/api/upload')
+        // console.log(selectedFile)
+        props.setFile(selectedFile)
 	};
 
 	return(

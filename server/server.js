@@ -111,7 +111,7 @@ mongoose.connection.once("open", () =>{
   });
 });
 
-const storage = new GridFsStorage({url: mongoConnectionURL})
+// const storage = new GridFsStorage({url: mongoConnectionURL})
 
 // hardcode port to 3000 for now
 const port = process.env.PORT || 3000;

@@ -45,8 +45,8 @@
 }
 
 .live-questions-container {
-    border: solid;
-    border-color: blue;
+    /* border: solid; */
+    border-color: #dd7f3e;
     width: 25%;
     height: 500px;
     margin: 30px;
