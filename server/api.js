@@ -260,8 +260,10 @@ router.post("/endSession", (req,res) => {
 
 router.get("/questions", (req,res) =>{
   session.findOne({courseId: req.query.courseId}).then((liveSession)=>{
-    temp = liveSession.messages.filter((current) => current.answerTo == null)
-    return temp
+    if (liveSession != null){
+      temp = liveSession.messages.filter((current) => current.answerTo == null)
+      return temp
+    }
   }).then((toSend)=>res.send(toSend)).catch((err) => console.log(err))
 })
 
@@ -272,15 +274,14 @@ router.post("/question", (req,res) => {
   )
   session.findOneAndUpdate({courseId: req.body.courseId}, 
     {$push: {messages: newMessage}}).then((finQuestion) => {
-      socketManager.getIo().emit("question", finQuestion);
       res.send(finQuestion)
     })
 })
 
 router.get("/answers", (req,res) =>{
   session.findOne({courseId: req.query.courseId}).then((liveSession)=>{
-    temp = liveSession.messages.filter((current)=> current.answerTo == req.query.answerTo)
-    return temp
+    if (liveSession != null) {temp = liveSession.messages.filter((current)=> current.answerTo == req.query.answerTo)
+    return temp}
   }).then((toSend)=>res.send(toSend))
 })
 
@@ -291,7 +292,6 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
   )
   session.findOneAndUpdate({courseId: req.body.courseId},
     {$push: {messages: newMessage}}).then((finAnswer) => {
-      socketManager.getIo().emit("answer", finAnswer);
       res.send(finAnswer)})
 })
 
