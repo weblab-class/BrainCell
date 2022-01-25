@@ -252,8 +252,8 @@ router.post("/newSession", (req,res) => {
 router.post("/endSession", (req,res) => {
   session.find({courseId: req.body.courseId}).then((sessionEnd) => {
     sessionEnd.forEach((toDel) => {
-      slides.find({_id: toDel.slides}).then((sl)=>{
-        sl[0].remove();
+      slides.findOne({_id: toDel.slides}).then((sl)=>{
+        sl.remove();
       }).catch()
       toDel.remove()
     })
@@ -318,8 +318,9 @@ router.get("/slides", (req,res) =>{
 })
 
 router.post("/slideNum", (req,res)=>{
+  temp = req.body.page
   session.findOneAndUpdate({courseId: req.body.courseId},
-    {page: req.body.page}).then(()=>res.send())
+    {page: temp.toString()}).then(()=>res.send())
 })
 
 router.get("/slideNum", (req,res)=>{
@@ -329,7 +330,7 @@ router.get("/slideNum", (req,res)=>{
     } else {
       res.send()
     }
-  })
+  }).catch((err)=>res.send(err))
 })
 // Ignore
 router.post("/test", (req,res)=> {

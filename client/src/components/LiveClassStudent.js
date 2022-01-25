@@ -39,12 +39,13 @@ const LiveClassStudent = (props) => {
 
         get("/api/slides", {courseId: props.courseId}).then((rawPDF) => {
 			setSlides(rawPDF.data)
+            console.log(rawPDF.name)
 		})
-    }, [slides])
+    }, [])
 
     useEffect(() => {
         get('/api/slideNum', {courseId: props.courseId}).then((curSlide) => {
-            setCurrentSlidePage(curSlide)
+            setCurrentSlidePage(parseInt(curSlide))
         })
     }, [currentSlidePage])
     
