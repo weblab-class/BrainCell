@@ -254,7 +254,7 @@ router.post("/endSession", (req,res) => {
     sessionEnd.forEach((toDel) => {
       slides.find({_id: toDel.slides}).then((sl)=>{
         sl[0].remove();
-      })
+      }).catch()
       toDel.remove()
     })
   }).then(()=>res.send())

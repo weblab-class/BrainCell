@@ -14,6 +14,10 @@ const LiveClassProf = (props) => {
 	const [x, setX] = useState(false)
     const [pageNumber, setPageNumber] = useState(1)
 
+    if (pageNumber === 1) {
+        post('/api/slideNum', {courseId: props.courseId, page: pageNumber})
+    }
+    
     useEffect(() => {
         post('/api/slideNum', {courseId: props.courseId, page: pageNumber})
     }, [pageNumber])

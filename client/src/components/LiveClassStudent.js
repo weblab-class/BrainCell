@@ -29,7 +29,6 @@ const ClassQuestions = React.forwardRef((props, ref) => (
 ))
 
 const LiveClassStudent = (props) => {        
-    console.log(props.courseId)
     const componentRef = useRef();
     const questions = useRef()
 
