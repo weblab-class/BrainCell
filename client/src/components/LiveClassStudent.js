@@ -36,10 +36,8 @@ const LiveClassStudent = (props) => {
     const [slides, setSlides] = useState()
 
     useEffect(() => {
-
         get("/api/slides", {courseId: props.courseId}).then((rawPDF) => {
 			setSlides(rawPDF.data)
-            console.log(rawPDF.name)
 		})
     }, [])
 
@@ -47,13 +45,15 @@ const LiveClassStudent = (props) => {
         get('/api/slideNum', {courseId: props.courseId}).then((curSlide) => {
             setCurrentSlidePage(parseInt(curSlide))
         })
-    }, [currentSlidePage])
+    })
     
     
     return (
         <div>
             <div className='slides-questions-container'>
-                <LectureSlides ref={componentRef} slidePage={currentSlidePage} slides={slides}/>
+                <div className='slides'>
+                    <LectureSlides ref={componentRef} slidePage={currentSlidePage} slides={slides}/>
+                </div>
                 <ClassQuestions ref={questions} courseId={props.courseId}/>
             </div>
             <div className='buttons-container'>
