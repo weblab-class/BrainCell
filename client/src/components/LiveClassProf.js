@@ -17,7 +17,7 @@ const LiveClassProf = (props) => {
     if (pageNumber === 1) {
         post('/api/slideNum', {courseId: props.courseId, page: pageNumber})
     }
-    
+
     useEffect(() => {
         post('/api/slideNum', {courseId: props.courseId, page: pageNumber})
     }, [pageNumber])
@@ -25,6 +25,7 @@ const LiveClassProf = (props) => {
     const endSession = () => {
         post('/api/endSession', {courseId: props.courseId})
         props.profClick()
+        props.setClassInSession(null)
     }
 
     const backSlide = () => {

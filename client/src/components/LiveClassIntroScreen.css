@@ -44,3 +44,13 @@
     border-radius: 20px;
     color: white;
 }
+
+.no-session {
+    background-color: red;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import './LiveClassIntroScreen.css'
 
@@ -15,7 +15,7 @@ const StudentClass = (props) => {
             </div>
             <button className='start-join-button' onClick={handleClick}>
                 JOIN
-            </button>
+            </button>           
         </div>
     )
 }

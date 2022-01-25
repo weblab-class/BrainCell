@@ -72,7 +72,7 @@ const LiveClass = (props) => {
     if(renderIntro) {
         return (
             <IntroScreen professorClasses={professorClasses} professorMode={professorMode} studentClasses={studentClasses}
-                studentMode={studentMode} setClassInSession={classInSession}/>
+                studentMode={studentMode} setClassInSession={classInSession} />
         )
     }
 
@@ -82,7 +82,7 @@ const LiveClass = (props) => {
                 <LiveClassStudent courseId={courseInSession}/>
             )
         }
-        return <LiveClassProf courseId={courseInSession} profClick={profClick}/>
+        return <LiveClassProf courseId={courseInSession} profClick={profClick} setClassInSession={classInSession}/>
     }
 }
 

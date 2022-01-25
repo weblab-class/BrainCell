@@ -238,7 +238,12 @@ router.post("/grades", (req, res) => {
 // message API methods ----------------------------------------------------------------------------|
 
 router.get("/sessions", (req,res) => {
-  session.findOne({courseId: req.query.courseId}).then((sessionsFound) => res.send(sessionsFound))
+  session.findOne({courseId: req.query.courseId}).then((sessionsFound) => {
+    // console.log(sessionsFound)
+    if(sessionsFound != null){
+      res.send(sessionsFound)
+    }
+  })
 })
 
 router.post("/newSession", (req,res) => {
@@ -252,9 +257,11 @@ router.post("/newSession", (req,res) => {
 router.post("/endSession", (req,res) => {
   session.find({courseId: req.body.courseId}).then((sessionEnd) => {
     sessionEnd.forEach((toDel) => {
-      slides.findOne({_id: toDel.slides}).then((sl)=>{
-        sl.remove();
-      }).catch()
+      if(toDel.slides != null){
+        slides.findOne({_id: toDel.slides}).then((sl)=>{
+          sl.remove();
+        }).catch()
+      }
       toDel.remove()
     })
   }).then(()=>res.send())
