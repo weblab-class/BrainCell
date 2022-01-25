@@ -1,19 +1,40 @@
 import React, {useState} from 'react';
-import { post } from '../utilities';
+import  {Document, Page} from 'react-pdf/dist/umd/entry.webpack';
+import { get, post } from "../utilities";
+
 
 const FileUploadPage = () => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isSelected, setIsSelected] = useState(false);
+	const [retrievedFile, setRetrievedFile] = useState()
+	const [x, setX] = useState(false)
 
 	const changeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
 		setIsSelected(true);
 	};
 
-	const handleSubmission = () => {
-        post('/api/upload')
+	const showFile = () => {
+		get("/api/test").then((rawPDF) => {
+			console.log(rawPDF.name)
+			setRetrievedFile(rawPDF.data)
+			setX(true)
+		})
 	};
 
+	const handleSubmission = () => {
+		const formData = new FormData()
+		formData.append("toUpload", selectedFile)
+		//custom post
+        fetch("/api/test", {
+			method: "post",
+			body: formData
+		}).then(() => {
+			showFile()
+		})
+	};
+
+	
 	return(
    <div>
 			<input type="file" name="file" onChange={changeHandler} />
@@ -33,6 +54,12 @@ const FileUploadPage = () => {
 			<div>
 				<button onClick={handleSubmission}>Submit</button>
 			</div>
+			{x ? (
+				<Document file ={`data:application/pdf;base64,${retrievedFile}`}>
+					<Page pageNumber={1} />
+				</Document>
+			) : (null)}
+			
 		</div>
 	)
 }

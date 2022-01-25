@@ -8,13 +8,13 @@
 */
 
 const express = require("express");
-const multer = require('multer');
-const upload = multer({ dest: "uploads/"})
 
 // import models so we can interact with the database
 const user = require("./models/user");
 const course = require("./models/course.js");
 const session = require("./models/session");
+
+// import pdf to picture functionality
 
 // import authentication library
 const auth = require("./auth");
@@ -241,13 +241,8 @@ router.get("/sessions", (req,res) => {
 })
 
 router.post("/newSession", (req,res) => {
-  // const db = client.db(Database);
-  // const bucket = new mongodb.GridFSBucket(db, {bucketName: "Bucket: ".concat(req.body.courseId)});
-
-  // fs.createReadStram
   newSession = new session({
     courseId: req.body.courseId,
-    // slides: req.body.slides,
     messages: [],
   })
   newSession.save().then(()=> res.send()).catch();
@@ -296,14 +291,31 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
       res.send(finAnswer)})
 })
 
-// File Uploads
-router.post("/upload", upload.single("slides"), (req,res) =>{
-  res.send()
+// File Handaling
+router.post("/slides", async (req, res) =>{
+  const file = req.files.toUpload;
+  session.findOneAndUpdate({courseId: req.body.courseId},
+      {slides: file}).then(()=>{res.send()})
+})
+
+router.get("/slides", (req,res) =>{
+  session.findOne({courseId: req.body.courseId}).then((sessionSlides) =>{
+    res.send(sessionSlides)
+  })
 })
 
 // Ignore
+router.post("/test", (req,res)=> {
+  const file = req.files.toUpload;
+  session.findOneAndUpdate({courseId: "61ef89e690f472a8acdd0191"},
+      {slides: file}).then(()=>{res.send()})
+
+})
+
 router.get("/test", (req,res) =>{
-  res.send({})
+  session.findOne({courseId: "61ef89e690f472a8acdd0191"}).then((sessionSlides) =>{
+    res.send(sessionSlides.slides)
+  })
 })
 
 // anything else falls to this "not found" case
