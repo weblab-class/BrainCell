@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import LiveChat from './LiveChat.js';
 import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
 import  {Document, Page} from 'react-pdf/dist/umd/entry.webpack';
+import { get, post } from "../utilities";
+
 
 
 import './LiveClassStudent.css'
@@ -26,7 +28,8 @@ const ClassQuestions = React.forwardRef((props, ref) => (
     </div>
 ))
 
-const LiveClassStudent = (props) => {
+const LiveClassStudent = (props) => {        
+    console.log(props.courseId)
     const componentRef = useRef();
     const questions = useRef()
 
@@ -34,16 +37,17 @@ const LiveClassStudent = (props) => {
     const [slides, setSlides] = useState()
 
     useEffect(() => {
+
         get("/api/slides", {courseId: props.courseId}).then((rawPDF) => {
 			setSlides(rawPDF.data)
 		})
-    }, [])
+    }, [slides])
 
     useEffect(() => {
         get('/api/slideNum', {courseId: props.courseId}).then((curSlide) => {
             setCurrentSlidePage(curSlide)
         })
-    }, [currentSlide])
+    }, [currentSlidePage])
     
     
     return (

@@ -8,7 +8,7 @@ const MessageSchema = new mongoose.Schema({
 });
 
 const sessionSchema = new mongoose.Schema({
-    slides: Object,
+    slides: String,
     courseId: String,
     messages: [MessageSchema],
     page: Number,

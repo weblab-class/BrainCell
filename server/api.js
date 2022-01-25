@@ -13,6 +13,7 @@ const express = require("express");
 const user = require("./models/user");
 const course = require("./models/course.js");
 const session = require("./models/session");
+const slides = require("./models/slides")
 
 // import pdf to picture functionality
 
@@ -250,7 +251,12 @@ router.post("/newSession", (req,res) => {
 
 router.post("/endSession", (req,res) => {
   session.find({courseId: req.body.courseId}).then((sessionEnd) => {
-    sessionEnd.forEach((toDel) => toDel.remove())
+    sessionEnd.forEach((toDel) => {
+      slides.find({_id: toDel.slides}).then((sl)=>{
+        sl[0].remove();
+      })
+      toDel.remove()
+    })
   }).then(()=>res.send())
 })
 
@@ -293,14 +299,21 @@ router.post("/answer", auth.ensureLoggedIn, (req,res) => {
 
 // File Handaling
 router.post("/slides", async (req, res) =>{
-  const file = req.files.toUpload;
-  session.findOneAndUpdate({courseId: req.body.courseId},
-      {slides: file}).then(()=>{res.send()})
+  const file = new slides({file: req.files.toUpload});
+  file.save().then((slideFile)=>{
+    session.findOneAndUpdate({courseId: req.body.courseId},
+      {slides: slideFile._id}).then(()=>{res.send()})
+
+  })
 })
 
 router.get("/slides", (req,res) =>{
   session.findOne({courseId: req.query.courseId}).then((sessionSlides) =>{
-    res.send(sessionSlides.slides)
+    if (sessionSlides.slides != null) {
+      slides.findById(sessionSlides.slides).then((slidesFound)=>res.send(slidesFound.file))
+    } else {
+      res.send()
+    }
   })
 })
 
@@ -310,7 +323,13 @@ router.post("/slideNum", (req,res)=>{
 })
 
 router.get("/slideNum", (req,res)=>{
-  session.findOne({courseId: req.query.courseId}).then((activeSession)=>res.send(activeSession.page))
+  session.findOne({courseId: req.query.courseId}).then((activeSession)=>{
+    if (activeSession.slides != null) {
+      res.send(activeSession.page)
+    } else {
+      res.send()
+    }
+  })
 })
 // Ignore
 router.post("/test", (req,res)=> {

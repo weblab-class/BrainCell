@@ -58,6 +58,8 @@ const LiveClassProf = (props) => {
 		}).then(() => {
 			showFile()
 		})
+
+        setRetrievedFile()
     }
 
     return (
