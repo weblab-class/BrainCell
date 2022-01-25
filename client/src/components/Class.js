@@ -34,7 +34,7 @@ const Class = (props) => {
 
     else{
         return (
-            <ClassStudent name={props.name} assignments={props.assignments} grade={props.grade} color={props.color}
+            <ClassStudent name={props.name} assignments={props.assignments} color={props.color}
             staff={props.staff} schedule={props.schedule} courseId={props.courseId} userId={props.userId}/> 
         )
     }

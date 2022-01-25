@@ -7,7 +7,6 @@ const AddAssignment = (props) => {
     const [name, setName] = useState("")
     const [dueDay, setDueDay] = useState(1)
     const [dueMonth, setDueMonth] = useState(1)
-    // const [dueYear, setDueYear] = useState(undefined)
     const [dueHour, setDueHour] = useState(1)
     const [dueMinute, setDueMinute] = useState(1)
 
@@ -40,10 +39,6 @@ const AddAssignment = (props) => {
         setDueMonth(event.target.value)
     }
 
-    // const yearChange = (event) => {
-    //     setDueYear(event.target.value)
-    // }
-
     const hourChange = (event) => {
         setDueHour(event.target.value)
     }
@@ -57,7 +52,6 @@ const AddAssignment = (props) => {
         setName('')
         setDueDay(1)
         setDueMonth(1)
-        // setDueYear('')
         setDueHour(1)
         setDueMinute(1)
     }
@@ -66,11 +60,11 @@ const AddAssignment = (props) => {
         <div>
             <h1 className='card-title'>Add Assignment</h1>
             <div className="card-container">
-                <div className="card">
-                    <div>
+                <div className="cards">
+                    <div className='input-column'>
                         Assignment Name: 
                         <input style={{height: '20px'}} value={name} onChange={nameChange}/>
-                        Due Date:
+                        <p>Due Date:</p>
                         Day:
                         <select onChange={dayChange}>
                             {days.map((day) => {
@@ -84,9 +78,6 @@ const AddAssignment = (props) => {
                                 return (<option>{month}</option>)
                             })}
                         </select>
-
-                        {/* Year:
-                        <input style={{height: '20px'}} value={dueYear} onChange={yearChange}/> */}
 
                         Hour:
                         <select onChange={hourChange}>

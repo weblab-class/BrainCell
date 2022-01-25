@@ -1,8 +1,27 @@
+.box-container {
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .classes-box{
+    border: solid;
+    border-color: black;
+    width: 40%;
+    height: 50%;
+}
+
+.no-classes-box {
     border: solid;
     border-color: black;
     width: 30%;
     height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    color: red;
 }
 
 .class-circle-container {
@@ -24,5 +43,4 @@
     background-color: green;
     border-radius: 20px;
     color: white;
-    height: 20%
 }

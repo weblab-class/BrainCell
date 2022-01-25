@@ -15,8 +15,8 @@ const FileUploadPage = (props) => {
 	};
 
 	const showFile = () => {
-		get("/api/test").then((rawPDF) => {
-			console.log(rawPDF.name)
+		get("/api/slides", {courseId: props.courseId}).then((rawPDF) => {
+			console.log(rawPDF)
 			setRetrievedFile(rawPDF.data)
 			setX(true)
 		})
@@ -24,14 +24,19 @@ const FileUploadPage = (props) => {
 
 	const handleSubmission = () => {
 		const formData = new FormData()
+		formData.append("courseId", props.courseId)
 		formData.append("toUpload", selectedFile)
+		// console.log(formData)
+		// post("/api/slides", {courseId: props.courseId})
+
 		//custom post
-        fetch("/api/test", {
+        fetch("/api/slides", {
 			method: "post",
-			body: formData
+			body: formData,
 		}).then(() => {
 			showFile()
 		})
+
 	};
 
 	

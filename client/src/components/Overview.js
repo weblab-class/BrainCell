@@ -2,11 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import Class from './Class.js'
 
-import { get, post } from "../utilities";
+import { get } from "../utilities";
 import MakeJoinClass from "./MakeJoinClass.js";
-
-// assignment = {name: String, instructions: String, dueDate: Date}
-// Date --> year, month, day, hour, mingute, second, millisecond
 
 const Overview = (props) => {
     const [classes, setClasses] = useState([])
@@ -16,7 +13,7 @@ const Overview = (props) => {
             setClasses(courses.map((course) => 
             <Class 
             name={`${course.courseNumber}: ${course.name}`} assignments={course.assignments} 
-            color={course.color} staff={course.staff} grade='A' userId={props.userId} courseCode={course.courseCode}
+            color={course.color} staff={course.staff} userId={props.userId} courseCode={course.courseCode}
             numStudents={course.students.length} courseId={course._id} students={course.students} schedule={course.schedule}/>
             ))
         })

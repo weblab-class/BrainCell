@@ -154,16 +154,16 @@ const ProfessorClassDetails = (props) => {
                 </div>
                 <div className='bottom-half' style={{borderColor: props.color}}>
                     <div className='top-buttons'>
-                        <button className='add-button' onClick={addStaff}>
+                        <button className='staff-button' onClick={addStaff}>
                             Add Staff
                         </button>
-                        <button className='remove-button' onClick={removeStaff}>
+                        <button className='staff-button' onClick={removeStaff}>
                             Remove Staff
                         </button>
-                        <button className='add-button' onClick={addStudent}>
+                        <button className='student-button' onClick={addStudent}>
                             Add Student
                         </button>
-                        <button className='remove-button' onClick={removeStudent}>
+                        <button className='student-button' onClick={removeStudent}>
                             Remove Student
                         </button>
                         <button className='schedule-button' onClick={editSchedule}>

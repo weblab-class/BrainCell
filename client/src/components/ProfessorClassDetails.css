@@ -27,16 +27,16 @@
     padding: 8px;
 }
 
-.add-button {
-    background-color: green;
+.staff-button {
+    background-color: #E77725;
     height: 30px;
     color: white;
     width: 15%;
     border-radius: 10px;
 }
 
-.remove-button {
-    background-color: red;
+.student-button {
+    background-color: #006487;
     height: 30px;
     color: white;
     width: 15%;

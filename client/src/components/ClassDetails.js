@@ -6,18 +6,13 @@ import ClassSchedule from './ClassSchedule.js'
 import './Class.css'
 import './ClassDetails.css'
 
-import { get, post } from "../utilities";
+import { get } from "../utilities";
 
 const ClassDetails = (props) => {
 
     const [grades, setGrades] = useState([])
 
     useEffect(() => {
-        // console.log(props.userId)
-        // get('/api/allGrades', {courseId: props.courseId, userId: props.userId}).then((grade) => {
-        //     setGrades((prev) => [...prev, grade])
-        // })
-
         get('/api/allGrades', {courseId: props.courseId, userId: props.userId}).then((g) => {
             setGrades(g)
         })
@@ -25,7 +20,6 @@ const ClassDetails = (props) => {
 
     return (
         <div className='class-container'>
-            {/* {console.log(grades)} */}
             <div className='upper-half' style={{backgroundColor: props.color}}>            
                 <h1 className='class-name'>
                     {props.name} <span style={{color: 'white'}} onClick={props.onClick}>X</span>

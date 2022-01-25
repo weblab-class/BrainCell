@@ -7,14 +7,6 @@ import ClassCode from './ClassProfessorClassCode.js'
 import ProfessorClassDetails from './ProfessorClassDetails.js'
 
 const ClassProfessor = (props) => {
-    let style = [{backgroundColor: props.color}, {borderColor: props.color}]
-    // let staff = [
-    //     {name: 'Adam Hartz',
-    //      email: 'ahartz@mit.edu'},
-    //     {name: 'John Goodman',
-    //      email: 'jgoodmann@mit.edu'}
-    // ]
-
     const [details, setDetails] = useState(false)
 
     const handleClick = () => {

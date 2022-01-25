@@ -299,11 +299,19 @@ router.post("/slides", async (req, res) =>{
 })
 
 router.get("/slides", (req,res) =>{
-  session.findOne({courseId: req.body.courseId}).then((sessionSlides) =>{
-    res.send(sessionSlides)
+  session.findOne({courseId: req.query.courseId}).then((sessionSlides) =>{
+    res.send(sessionSlides.slides)
   })
 })
 
+router.post("/slideNum", (req,res)=>{
+  session.findOneAndUpdate({courseId: req.body.courseId},
+    {page: req.body.page}).then(()=>res.send())
+})
+
+router.get("/slideNum", (req,res)=>{
+  session.findOne({courseId: req.query.courseId}).then((activeSession)=>res.send(activeSession.page))
+})
 // Ignore
 router.post("/test", (req,res)=> {
   const file = req.files.toUpload;

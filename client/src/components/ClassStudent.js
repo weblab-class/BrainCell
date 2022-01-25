@@ -34,7 +34,6 @@ const ClassStudent = (props) => {
                             </div>
                         )
                     })}
-                    <p> <span className="head">Grade: </span> {props.grade}</p>
                 </div>
             </div>
             )

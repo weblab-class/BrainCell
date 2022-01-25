@@ -3,7 +3,7 @@
     justify-content: space-between;
 }
 
-.slides {
+.prof-slides {
     border: solid;
     border-color: black;
     width: 75%;
@@ -12,7 +12,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 100px;
+    font-size: 50px;
     margin: 30px;
 }
 
@@ -45,11 +45,11 @@
 }
 
 .live-questions-container {
-    /* border: solid; */
     border-color: #dd7f3e;
     width: 25%;
     height: 500px;
     margin: 30px;
+    overflow-y: scroll;
 }
 
 .title {

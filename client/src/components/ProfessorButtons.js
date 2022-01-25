@@ -28,18 +28,26 @@ const ProfessorButtons = (props) => {
         setEmail('')
     }
 
+    const enterSubmit = (event) => {
+        if(event.key === 'Enter'){
+            handleSubmit()
+        }
+    }
+
     return (
         <div>
             <h1 className='card-title'>{props.title}</h1>
             <div className="add-staff-card-container">
                 <div className="add-staff-class-card">
-                    <div>
-                        Email: 
-                        <input style={{height: '20px'}} value={email} onChange={emailChange}/>
+                    <div className='input-column'>
+                        <div>
+                             Email: 
+                            <input style={{height: '20px'}} value={email} onChange={emailChange} onKeyPress={enterSubmit}/>
+                        </div>
+                        <button onClick={handleSubmit} style={{width: '75px', alignSelf: 'center'}}>
+                            Submit
+                        </button>
                     </div>
-                    <button onClick={handleSubmit}>
-                        Submit
-                    </button>
                 </div>
             </div>
         </div>

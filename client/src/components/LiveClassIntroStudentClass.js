@@ -1,15 +1,10 @@
-import React, { useState } from 'react'
-import { get } from '../utilities'
+import React from 'react'
 
 import './LiveClassIntroScreen.css'
 
 const StudentClass = (props) => {
 
-    const handleClick = () => {
-        // get('/api/sessions', {courseId: props.courseId}).then((session) => {
-        //     console.log('session', session)
-        // })
-  
+    const handleClick = () => {  
         props.studentMode()
     }
 

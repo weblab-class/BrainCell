@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './EditSchedule.css'
 
-import { get, post } from "../utilities";
+import { post } from "../utilities";
 
 const Schedule = (props) => {
     const [monHours, setMonHours] = useState('')
@@ -53,7 +53,7 @@ const Schedule = (props) => {
             <h1 className='card-title'>{props.title}</h1>
             <div className="card-container">
                 <div className="card">
-                    <div>
+                    <div className='input-column'>
                         Monday: 
                         <input style={{height: '20px'}} value={monHours} onChange={changeMonHours}/>
                         Tuesday:

@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from 'react'
-import { get, post } from "../utilities";
+import React, { useState } from 'react'
+import { post } from "../utilities";
 
 import './MakeJoinClass.css'
 
@@ -48,6 +48,12 @@ const MakeJoinClass = (props) => {
         })
     }
 
+    const enterSubmitMakeClass = (event) => {
+        if (event.key === 'Enter'){
+            handleSubmitMakeClass()
+        }
+    }
+
     const classCodeChange = (event) => {
         setClassCode(event.target.value)
     }
@@ -55,6 +61,12 @@ const MakeJoinClass = (props) => {
     const handleSubmitJoinClass = () => {
         post('/api/courseCode', {courseCode: classCode})
         setClassCode('')
+    }
+
+    const enterSubmitJoinClass = (event) => {
+        if (event.key === 'Enter'){
+            handleSubmitJoinClass()
+        }
     }
 
     return (
@@ -70,17 +82,19 @@ const MakeJoinClass = (props) => {
             {makeClass ? (
                 <div className="make-join-class-card-container">
                     <div className="make-join-class-card">
-                        <div>
-                            Course Number: 
-                            <input style={{height: '20px'}} value={courseNumber} onChange={courseNumberChange}/>
+                        <div className='input-column'>
+                            <div>
+                                Course Number: 
+                                <input style={{height: '20px'}} value={courseNumber} onChange={courseNumberChange} onKeyPress={enterSubmitMakeClass}/>
+                            </div>
+                            <div>
+                                Course Name: 
+                                <input style={{height: '20px'}} value={courseName} onChange={courseNameChange} onKeyPress={enterSubmitMakeClass}/>
+                            </div>
+                            <button onClick={handleSubmitMakeClass} className='submit-button'>
+                                Submit
+                            </button>
                         </div>
-                        <div>
-                            Course Name: 
-                            <input style={{height: '20px'}} value={courseName} onChange={courseNameChange} />
-                        </div>
-                        <button onClick={handleSubmitMakeClass}>
-                            Submit
-                        </button>
                     </div>
                 </div>
             ) : (null)}
@@ -88,13 +102,15 @@ const MakeJoinClass = (props) => {
             {joinClass ? (
                 <div className="make-join-class-card-container">
                     <div className="make-join-class-card">
-                        <div>
-                            Class Code: 
-                            <input style={{height: '20px'}} value={classCode} onChange={classCodeChange} />
+                        <div className='input-column'>
+                            <div>
+                                Class Code: 
+                                <input style={{height: '20px'}} value={classCode} onChange={classCodeChange} onKeyPress={enterSubmitJoinClass}/>
+                            </div>
+                            <button onClick={handleSubmitJoinClass} className='submit-button'>
+                                Submit
+                            </button>
                         </div>
-                        <button onClick={handleSubmitJoinClass}>
-                            Submit
-                        </button>
                     </div>
                 </div>
             ) : (null)}

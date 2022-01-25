@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { get, post } from "../utilities";
+import { get } from "../utilities";
 
 import LiveClassStudent from './LiveClassStudent.js';
 import LiveClassProf from './LiveClassProf.js';
@@ -68,7 +68,6 @@ const LiveClass = (props) => {
     const classInSession = (courseId) => {
         setCourseInSession(courseId)
     }
-    // console.log('here', courseInSession)
 
     if(renderIntro) {
         return (

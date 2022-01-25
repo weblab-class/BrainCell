@@ -16,3 +16,10 @@
 .card-title {
     text-align: center;
 }
+
+.input-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 200px
+}
