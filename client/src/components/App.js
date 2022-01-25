@@ -8,7 +8,9 @@ import Calendar from "./Calendar.js";
 import LiveClass from './LiveClass.js'
 import LoginPage from './LoginPage.js'
 import Profile from './Profile.js'
-import FileUploadPage from "./Testing.js";
+// import FileUploadPage from "./Testing.js";
+// import ViewPdf from "./PDFview.js";
+// import Resume from './Resume.pdf'
 
 // import GoogleLogin from "react-google-login";
 // const GOOGLE_CLIENT_ID = "40738148267-lmp4m2pr4rbedjcvu0au6qqhvva01g7p.apps.googleusercontent.com";
@@ -29,6 +31,11 @@ const App = () => {
   const [userId, setUserId] = useState(undefined);
   const [user, setUser] = useState(undefined)
   const [profileVisible, setProfileVisible] = useState(false)
+
+  // const [currentFile, setCurrentFile] = useState()
+  // const setFile = (x) => {
+  //   setCurrentFile(x.name)
+  // }
 
   const viewProfile = () => {
 
@@ -75,7 +82,8 @@ const App = () => {
     return (
       <div onClick={hideProfile}>
         <NavBar viewProfile={viewProfile} />
-        <FileUploadPage />
+        {/* <FileUploadPage setFile={setFile}/> */}
+        {/* <ViewPdf pdf='Resume.pdf'/> */}
         {profileVisible ? (
           <div className="profile-container">
             <div className="profile">

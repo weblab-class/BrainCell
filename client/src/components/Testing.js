@@ -3,7 +3,7 @@ import  {Document, Page} from 'react-pdf/dist/umd/entry.webpack';
 import { get, post } from "../utilities";
 
 
-const FileUploadPage = () => {
+const FileUploadPage = (props) => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isSelected, setIsSelected] = useState(false);
 	const [retrievedFile, setRetrievedFile] = useState()

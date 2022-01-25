@@ -14,23 +14,12 @@ const LiveChat = (props) => {
     }, [questionsList])
 
     return (
-        <div>
+        <div style={{border: 'solid', borderColor: '#dd7f3e', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px'}}>
             <div style={{display: 'flex', justifyContent: 'center', padding: '8px'}}>
                 <NewQuestion courseId={props.courseId}/>
             </div>
             <div>
                 {questionsList.map((question) => <SingleQuestion courseId={props.courseId} question={question.content} questionId={question._id}/>)}
-                {/* <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion /> */}
             </div>
         </div>
     )
