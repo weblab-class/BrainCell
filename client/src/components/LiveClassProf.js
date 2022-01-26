@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import LiveChat from './LiveChat.js'
-import FileUploadPage from './Testing.js'
 import  {Document, Page} from 'react-pdf/dist/umd/entry.webpack';
 import { get, post } from "../utilities";
 

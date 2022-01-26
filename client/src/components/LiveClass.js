@@ -47,8 +47,7 @@ const LiveClass = (props) => {
                 }
             })
         }
-    }, [studentClasses])
-
+    })
 
     const professorMode = () => {
         setRenderIntro(false)

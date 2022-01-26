@@ -5,7 +5,6 @@ import StudentClass from './LiveClassIntroStudentClass.js'
 import './LiveClassIntroScreen.css'
 
 const IntroScreen = (props) => {
-
     if(props.studentClasses.length === 0 && props.professorClasses.length === 0){
         return (
             <div className='box-container'>
