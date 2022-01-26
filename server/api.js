@@ -242,6 +242,8 @@ router.get("/sessions", (req,res) => {
     // console.log(sessionsFound)
     if(sessionsFound != null){
       res.send(sessionsFound)
+    } else {
+      res.send(false)
     }
   })
 })
