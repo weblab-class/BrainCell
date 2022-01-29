@@ -1,9 +1,9 @@
-.add-staff-card-container {
+.card-container {
     display: flex;
     justify-content: center;
 }
 
-.add-staff-class-card {
+.card {
     display: flex;
     justify-content: space-evenly;
     align-items: center;

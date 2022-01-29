@@ -16,7 +16,8 @@ const ClassStudent = (props) => {
     return (
         details ? (
             <div>
-                <ClassDetails name={props.name} staff={props.staff} color={props.color} onClick={handleClick} />
+                <ClassDetails name={props.name} staff={props.staff} color={props.color} onClick={handleClick} 
+                schedule={props.schedule} assignments={props.assignments} courseId={props.courseId} userId={props.userId}/>
             </div> 
             ) : (
             <div className="class-container">
@@ -29,11 +30,10 @@ const ClassStudent = (props) => {
                     {props.assignments.map((assignment) => {
                         return (
                             <div>
-                                <p> <span className="head">Due: </span> {assignment.dueDate.toString()}: {assignment.name}</p>
+                                <p> <span className="head">Due: </span> {assignment.dueDate}: {assignment.name}</p>
                             </div>
                         )
                     })}
-                    <p> <span className="head">Grade: </span> {props.grade}</p>
                 </div>
             </div>
             )

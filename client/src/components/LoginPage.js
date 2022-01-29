@@ -13,7 +13,7 @@ const LoginPage = (props) => {
     return (
     <div className='bckg' style={{backgroundImage: `url(${bckgImg})`}}>
         <div className='login-box'>
-            <img src={logo} style={{width: '200px', borderRadius: '15px'}}/>
+            <img src={logo} className='logo'/>
             <div>
                 <GoogleLogin
                 clientId={GOOGLE_CLIENT_ID}

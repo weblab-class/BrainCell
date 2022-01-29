@@ -1,0 +1,67 @@
+.slides-questions-container {
+    display: flex; 
+    justify-content: space-between;
+}
+
+.prof-slides {
+    border: solid;
+    border-color: black;
+    width: 75%;
+    height: 500;
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    margin: 30px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.slides-button {
+    background-color: #002A32;
+    border-radius: 15px;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    font-size: large;
+    margin-left: 30px;
+}
+
+.end-session-button {
+    background-color: red;
+    border-radius: 15px;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    font-size: large;
+    width: 15%;
+    margin-right: 30px;
+}
+
+.live-questions-container {
+    border-color: #dd7f3e;
+    width: 25%;
+    height: 500px;
+    margin: 30px;
+    overflow-y: scroll;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #dd7f3e;
+    color: white;
+    font-weight: 600;
+    font-size: 25px;
+    width: 100%;
+    height: 10%;
+}

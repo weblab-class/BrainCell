@@ -1,7 +1,6 @@
 import React from 'react'
 
 import ProfileName from './ProfileName.js';
-import ProfileLogout from './ProfileLogout.js';
 
 import './Profile.css'
 
@@ -17,7 +16,6 @@ const Profile = (props) => {
     return (
         <div>
             <ProfileName name={props.name} email={props.email}/>
-            {/* <ProfileLogout logout={handleLogout}/> */}
             <div style={{textAlign: 'center'}}>
                 <GoogleLogout 
                     clientId={GOOGLE_CLIENT_ID}

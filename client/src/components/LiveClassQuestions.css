@@ -1,10 +1,9 @@
 .live-questions-container {
-    border: solid;
-    border-color: blue;
+    /* border: solid; */
+    border-color: #dd7f3e;
     width: 25%;
     height: 500px;
     margin: 30px;
-    display: flex;
 }
 
 .title {
@@ -13,7 +12,7 @@
     align-items: center;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    background-color: red;
+    background-color: #dd7f3e;
     color: white;
     font-weight: 600;
     font-size: 25px;

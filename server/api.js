@@ -12,7 +12,10 @@ const express = require("express");
 // import models so we can interact with the database
 const user = require("./models/user");
 const course = require("./models/course.js");
-const assignment = require("./models/assignment.js");
+const session = require("./models/session");
+const slides = require("./models/slides")
+
+// import pdf to picture functionality
 
 // import authentication library
 const auth = require("./auth");
@@ -99,20 +102,17 @@ router.post("/course", (req,res) =>{
 })
 
 router.post("/deleteCourse", (req,res) => {
-  // TODO: Find why it works on test, but not here
   course.findByIdAndDelete(req.body.courseId).then((courseObj) => {
     students=courseObj.students
     staff=courseObj.staff
 
     students.forEach((student) => {
-      console.log(student)
       user.findByIdAndUpdate(student.userId,
         {$pull: {course: courseObj._id}}  
       ).then((tempStudent) => tempStudent.save())
     })
 
     staff.forEach((staffMem) => {
-      console.log(staffMem)
       user.findByIdAndUpdate(staffMem.userId,
         {$pull: {course: courseObj._id}}  
       ).then((tempStaff) => tempStaff.save())
@@ -124,8 +124,6 @@ router.get("/user", (req, res) =>{
   user.find({_id : req.query.id}).then((userFound) => res.send(userFound))
 });
 
-//assumes input is array
-// TODO: fix cross-check on students/staff
 router.post("/students", (req,res) => {
   user.findOneAndUpdate({email: req.body.email},
     {$push: {course: req.body.courseId}}).then((userFound) => {
@@ -175,94 +173,184 @@ router.post("/deleteStaff", (req,res) => {
   })
 })
 
-
-router.get("/allAssignments", (req, res) =>{
-  course.findById(newreq.query.id).then((courseObj) => {
-    res.send(courseObj.assignments)
-  })
-});
-
-router.get("/oneAssignment", (req, res) =>{
-  course.findById(req.query.courseId).then((courseObj) => {
-    courseObj.assignments.id(req.query.assignmentId).then((assigned) => res.send(assigned))
-  })
-});
+router.post("/schedule", (req, res) => {
+  course.findById(req.body.courseId).then((courseFound) =>{
+    courseFound.schedule = req.body.schedule
+    courseFound.save()
+  }).then(()=>{res.send({})})
+})
 
 router.post("/assignment", (req,res) =>{
   temp = new Object (
-    {name : req.query.name,
-    instructions : req.query.instructions,
-    dueDate : req.query.dueDate,}
+    {name : req.body.name,
+    dueDate : req.body.dueDate,}
   )
-  course.findByIdAndUpdate(req.query.id,
+
+  course.findByIdAndUpdate(req.body.id,
     {$push: {assignments : temp}}
-  ).then(() => res.send({}))
+  ).then((classy) => res.send({}))
 })
 
-router.delete("/assignment", (req,res) =>{
-  course.findById(req.query.contentId).then((courseObj) => {
-    courseObj.assignments.id(req.query.assignmentId).remove()
+router.post("/deleteAssignment", async (req,res) =>{
+  let courseObj = await course.findOne({_id: req.body.courseId});
+  let updatedAssignments = [];
+  for (let i = 0; i < courseObj.assignments.length; i++) {
+    if (courseObj.assignments[i]._id.toString() != req.body.assignmentId) {
+      updatedAssignments.push(courseObj.assignments[i]);
+    }
+  }
+
+    await course.findOneAndUpdate({_id: req.body.courseId}, {assignments: updatedAssignments});
+    res.send({});
+})
+
+router.get("/allGrades", (req,res) => {
+
+  course.findById(req.query.courseId).then((courseObj) => {
+    resultAssignments = courseObj.assignments
+    resultGrades = []
+
+    resultAssignments.forEach((assigned) => {
+      temp = assigned.grades.filter((isUser) => isUser.userId === req.query.userId)
+      temp.forEach((assignment) => {
+        resultGrades.push(assignment.grade)
+      })
+    })
+
+    return (resultGrades)
+  }).then((graded) => res.send(graded)).catch()
+})
+
+router.post("/grades", (req, res) => {
+  course.findById(req.body.courseId).then((courseObj) => {
+    assignment = courseObj.assignments.filter((toFind) => toFind._id.toString() == req.body.assignmentId)
+    gradesPost = req.body.grades.filter((Grade) => Grade.grade != '')
+
+    gradesPost.forEach((toPost) =>{
+      assignment[0].grades = assignment[0].grades.filter((Grade) => Grade.userId != toPost.userId)
+      assignment[0].grades = assignment[0].grades.concat(toPost)
+    })
+
     courseObj.save()
   }).then(() => res.send({}))
 })
 
-router.get("/allGrades", (req,res) => {
-  // TODO: get grades
-  user.findById(req.query.userId).then((userObj) => {
-    userObj.grades.find({courseId : req.query.courseId}).then((gradeArray) => res.send(gradeArray))
-  })
-})
-
-router.get("/oneGrade", (req,res) => {
-  // TODO: get one grade
-  user.findById(req.query.userId).then((userObj) => {
-    res.send(userObj.grades.id(req.query.gradeId))
-  })
-})
-
-router.post("/grades", (req, res) => {
-  temp = req.body.content
-  async function addGrades(t){
-    t.forEach((student) => {
-      console.log(student)
-      user.findByIdAndUpdate(student.studentId,
-        {$push : {grades: new Object(
-          {courseId : student.courseId,
-          assignmentId : student.assignmentId,
-          grade : student.grade})}}
-      ).then()
-    })
-  }
-  addGrades(temp).then(() => res.send({}))
-})
-
 // message API methods ----------------------------------------------------------------------------|
 
+router.get("/sessions", (req,res) => {
+  session.findOne({courseId: req.query.courseId}).then((sessionsFound) => {
+    // console.log(sessionsFound)
+    if(sessionsFound != null){
+      res.send(sessionsFound)
+    }
+  })
+})
+
+router.post("/newSession", (req,res) => {
+  newSession = new session({
+    courseId: req.body.courseId,
+    messages: [],
+  })
+  newSession.save().then(()=> res.send()).catch();
+})
+
+router.post("/endSession", (req,res) => {
+  session.find({courseId: req.body.courseId}).then((sessionEnd) => {
+    sessionEnd.forEach((toDel) => {
+      if(toDel.slides != null){
+        slides.findOne({_id: toDel.slides}).then((sl)=>{
+          sl.remove();
+        }).catch()
+      }
+      toDel.remove()
+    })
+  }).then(()=>res.send())
+})
+
+router.get("/questions", (req,res) =>{
+  session.findOne({courseId: req.query.courseId}).then((liveSession)=>{
+    if (liveSession != null){
+      temp = liveSession.messages.filter((current) => current.answerTo == null)
+      return temp
+    }
+  }).then((toSend)=>res.send(toSend)).catch((err) => console.log(err))
+})
+
 router.post("/question", (req,res) => {
-  const newMessage = new message(
-    {content: req.body.content,}
+  const newMessage = new Object(
+    {content: req.body.content,
+    answerTo: null,}
   )
-  newMessage.save().then((newMess) => res.send(newMess))
-  socketManager.getIo().emit("question", newMessage);
+  session.findOneAndUpdate({courseId: req.body.courseId}, 
+    {$push: {messages: newMessage}}).then((finQuestion) => {
+      res.send(finQuestion)
+    })
+})
+
+router.get("/answers", (req,res) =>{
+  session.findOne({courseId: req.query.courseId}).then((liveSession)=>{
+    if (liveSession != null) {temp = liveSession.messages.filter((current)=> current.answerTo == req.query.answerTo)
+    return temp}
+  }).then((toSend)=>res.send(toSend))
 })
 
 router.post("/answer", auth.ensureLoggedIn, (req,res) => {
-  const newMessage = new message(
+  const newMessage = new Object(
     {content: req.body.content,
-    answerTo: req.query.answerTo,}
+    answerTo: req.body.answerTo,}
   )
-  newMessage.save();
-
-  socketManager.getIo().emit("answer", newMessage);
+  session.findOneAndUpdate({courseId: req.body.courseId},
+    {$push: {messages: newMessage}}).then((finAnswer) => {
+      res.send(finAnswer)})
 })
 
-router.get("/messages", (req,res) => {
-  message.find().then((messagesFound) => res.send(messagesFound));
+// File Handaling
+router.post("/slides", async (req, res) =>{
+  const file = new slides({file: req.files.toUpload});
+  file.save().then((slideFile)=>{
+    session.findOneAndUpdate({courseId: req.body.courseId},
+      {slides: slideFile._id}).then(()=>{res.send()})
+
+  })
 })
 
+router.get("/slides", (req,res) =>{
+  session.findOne({courseId: req.query.courseId}).then((sessionSlides) =>{
+    if (sessionSlides.slides != null) {
+      slides.findById(sessionSlides.slides).then((slidesFound)=>res.send(slidesFound.file))
+    } else {
+      res.send()
+    }
+  })
+})
+
+router.post("/slideNum", (req,res)=>{
+  temp = req.body.page
+  session.findOneAndUpdate({courseId: req.body.courseId},
+    {page: temp.toString()}).then(()=>res.send())
+})
+
+router.get("/slideNum", (req,res)=>{
+  session.findOne({courseId: req.query.courseId}).then((activeSession)=>{
+    if (activeSession.slides != null) {
+      res.send(activeSession.page)
+    } else {
+      res.send()
+    }
+  }).catch((err)=>res.send(err))
+})
 // Ignore
+router.post("/test", (req,res)=> {
+  const file = req.files.toUpload;
+  session.findOneAndUpdate({courseId: "61ef89e690f472a8acdd0191"},
+      {slides: file}).then(()=>{res.send()})
+
+})
+
 router.get("/test", (req,res) =>{
-  res.send({})
+  session.findOne({courseId: "61ef89e690f472a8acdd0191"}).then((sessionSlides) =>{
+    res.send(sessionSlides.slides)
+  })
 })
 
 // anything else falls to this "not found" case

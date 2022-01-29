@@ -6,12 +6,8 @@
 }
 
 .NavBar-logo {
-    text-align: start;
-    color: red
-}
-
-.NavBar-loginButton {
-    align-self: center;
+    width: 100px;
+    border-radius: 15px;
 }
 
 .NavBar-linkContainer {
@@ -38,6 +34,7 @@
     text-align: center;
     font-weight: 600;
     color: white;
+    align-self: center;
 }
 
 .NavBar-profile:hover {

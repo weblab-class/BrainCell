@@ -18,7 +18,7 @@ const Class = (props) => {
 
     useEffect(() => {
         setProfessorMode(profMode)
-    }, [])
+    }, [props.staff])
 
     const deleteClass = () => {
         post('/api/deleteCourse', {courseId: props.courseId})
@@ -26,16 +26,16 @@ const Class = (props) => {
 
     if(professorMode){
         return (
-            <ClassProfessor name={props.name} color={props.color}
-            classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents}
-            deleteClass={deleteClass} courseId={props.courseId}/> 
+            <ClassProfessor name={props.name} assignments={props.assignments} color={props.color}
+            classCode={props.courseCode} staff={props.staff} numStudents={props.numStudents} students={props.students}
+            deleteClass={deleteClass} courseId={props.courseId} /> 
         )
     }
 
     else{
         return (
-            <ClassStudent name={props.name} assignments={props.assignments} grade={props.grade} color={props.color}
-            staff={props.staff}/> 
+            <ClassStudent name={props.name} assignments={props.assignments} color={props.color}
+            staff={props.staff} schedule={props.schedule} courseId={props.courseId} userId={props.userId}/> 
         )
     }
 }

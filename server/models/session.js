@@ -4,8 +4,14 @@ const mongoose = require("mongoose");
 const MessageSchema = new mongoose.Schema({
     timestamp: { type: Date, default: Date.now },
     content: String,
-    answerTo: String,
+    answerTo: "mixed",
 });
 
+const sessionSchema = new mongoose.Schema({
+    slides: String,
+    courseId: String,
+    messages: [MessageSchema],
+    page: String,
+})
 // compile model from schema
-module.exports = mongoose.model("message", MessageSchema);
+module.exports = mongoose.model("session", sessionSchema);

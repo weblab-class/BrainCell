@@ -16,6 +16,8 @@
 // dotenv
 require("dotenv").config();
 
+// fileupload middleware
+const fileupload = require("express-fileupload");
 
 // validator runs some basic checks to make sure you've set everything up correctly
 // this is a tool provided by staff, so you don't need to worry about it
@@ -28,12 +30,12 @@ const express = require("express"); // backend framework for our node server.
 const session = require("express-session"); // library that stores info about each connected user
 const mongoose = require("mongoose"); // library to connect to MongoDB
 const path = require("path"); // provide utilities for working with file and directory paths
-
 const api = require("./api");
 const auth = require("./auth");
 
 // socket stuff
 const socketManager = require("./server-socket");
+const { connect } = require("http2");
 
 // Server configuration below
 const mongoConnectionURL = process.env.ATLAS_SRV;
@@ -65,6 +67,9 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+//adds upload middleware
+app.use(fileupload());
 
 // this checks if the user is logged in, and populates "req.user"
 app.use(auth.populateCurrentUser);

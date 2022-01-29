@@ -1,16 +1,21 @@
 import React from 'react'
 
+
 import './ClassGrades.css'
 
-const ClassGrades = (props) => {
 
+const ClassGrades = (props) => {
+    let items = []
+    for(let i = 0; i < props.assignments.length; i++){
+        items.push(<li style={{display: 'flex', justifyContent: 'space-between'}}>{props.assignments[i].name} <span>{props.grades[i]}</span></li>)
+    }
     return (
         <div>
             <h1>
                 Grades
             </h1>
             <hr></hr>
-            {props.grades.map((assignment) => <li style={{display: 'flex', justifyContent: 'space-between'}}>{assignment.name} <span>{assignment.grade}</span></li>)}
+            {items}
         </div>
     )
 }

@@ -7,14 +7,6 @@ import ClassCode from './ClassProfessorClassCode.js'
 import ProfessorClassDetails from './ProfessorClassDetails.js'
 
 const ClassProfessor = (props) => {
-    let style = [{backgroundColor: props.color}, {borderColor: props.color}]
-    // let staff = [
-    //     {name: 'Adam Hartz',
-    //      email: 'ahartz@mit.edu'},
-    //     {name: 'John Goodman',
-    //      email: 'jgoodmann@mit.edu'}
-    // ]
-
     const [details, setDetails] = useState(false)
 
     const handleClick = () => {
@@ -27,7 +19,7 @@ const ClassProfessor = (props) => {
         details ? (
             <div>
                 <ProfessorClassDetails onClick={handleClick} name={props.name} courseId={props.courseId} color={props.color}
-                assignments={[{name: 'Pset0', graded: true}, {name: 'Lab1', graded: false}]}/>
+                assignments={props.assignments} students={props.students} />
             </div>
         ) : (
             <div className='class-container'>

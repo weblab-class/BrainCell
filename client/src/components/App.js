@@ -1,28 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
-// import Skeleton from "./pages/Skeleton.js";
 import NavBar from './NavBar.js'
 import Overview from './Overview.js'
-import Calendar from "./Calendar.js";
 import LiveClass from './LiveClass.js'
 import LoginPage from './LoginPage.js'
 import Profile from './Profile.js'
 
-// import GoogleLogin from "react-google-login";
-// const GOOGLE_CLIENT_ID = "40738148267-lmp4m2pr4rbedjcvu0au6qqhvva01g7p.apps.googleusercontent.com";
-
 import "../utilities.css";
-import './pages/Skeleton.css'
 import './App.css'
 
 import { socket } from "../client-socket.js";
 
 import { get, post } from "../utilities";
 
-/**
- * Define the "App" component
- */
+
 const App = () => {
 
   const [userId, setUserId] = useState(undefined);
@@ -30,7 +22,6 @@ const App = () => {
   const [profileVisible, setProfileVisible] = useState(false)
 
   const viewProfile = () => {
-
     profileVisible ? (
       setProfileVisible(false)
     ) : (
@@ -74,7 +65,6 @@ const App = () => {
     return (
       <div onClick={hideProfile}>
         <NavBar viewProfile={viewProfile} />
-
         {profileVisible ? (
           <div className="profile-container">
             <div className="profile">
@@ -85,8 +75,7 @@ const App = () => {
 
         <Router>
           <Overview path='/' userId={userId}/>
-          <Calendar path='/calendar' />
-          <LiveClass path='/liveclass' />
+          <LiveClass path='/liveclass' userId={userId}/>
           <NotFound default />
         </Router>
       </div>

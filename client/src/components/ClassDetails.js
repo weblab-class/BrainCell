@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ClassGrades from './ClassGrades.js'
 import ClassStaff from './ClassStaff.js'
 import ClassSchedule from './ClassSchedule.js'
@@ -6,37 +6,17 @@ import ClassSchedule from './ClassSchedule.js'
 import './Class.css'
 import './ClassDetails.css'
 
+import { get } from "../utilities";
+
 const ClassDetails = (props) => {
-    let grades = [
-        {name: 'Pset1',
-         grade: 95},
-        {name: 'Pset2',
-         grade: 70},
-        {name: 'Exam1',
-         grade: 69}
-    ]
 
-    // let staff = [
-    //     {name: 'Prof. Guth',
-    //      email: 'lguth@mit.edu'},
-    //     {name: 'Brian Chen',
-    //      email: 'bchen@mit.edu'},
-    //     {name: 'Max 1',
-    //      email: 'realm1@mit.edu'},
-    // ]
+    const [grades, setGrades] = useState([])
 
-    let schedule = [
-        {day: 'Monday',
-         hours: '9 am - 11 am'},
-        {day: 'Tuesday',
-         hours: '2 pm - 3 pm'},
-        {day: 'Wednesday',
-         hours: '9 am - 11 am'},
-        {day: 'Thursday',
-         hours: '2 pm - 3 pm'},
-        {day: 'Friday',
-         hours: 'None'},
-    ]
+    useEffect(() => {
+        get('/api/allGrades', {courseId: props.courseId, userId: props.userId}).then((g) => {
+            setGrades(g)
+        })
+    }, [grades])
 
     return (
         <div className='class-container'>
@@ -48,14 +28,14 @@ const ClassDetails = (props) => {
             <div className='bottom-half' style={{borderColor: props.color}}>
                 <div className='body'>
                     <div style={{width: '16%'}}>
-                        <ClassGrades grades={grades} />
+                        <ClassGrades assignments={props.assignments} grades={grades}/>
                     </div>
                     <div style={{width: '30%'}}>
                         <ClassStaff staff={props.staff}/>
                     </div> 
                 </div>
                 <div style={{display: 'flex', justifyContent: 'left'}}>
-                    <ClassSchedule schedule={schedule} />
+                    <ClassSchedule schedule={props.schedule} />
                 </div>
             </div>
         </div>
